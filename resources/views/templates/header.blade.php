@@ -5,25 +5,65 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
-            </button>
-            <a href="/" class="navbar-brand">PUP New College</a>
+            </button> 
+            <ul class="nav navbar-nav"
+        <li>     
+      <div class="a" > <img src="{{ asset('images/mini-logo.png') }}" width="40px" height="40px" class="img-responsive"></div>
+      </li>
+      <li>
+  <a href="/" class="navbar-brand">PUP New College</a>
+  </li>
+  </ul>
+  
+ 
+    <script type="text/javascript">
+
+
+    $('div.a').hide();
+$(window).scroll(function() {
+    if ($(window).scrollTop() > 500) {
+        $('div.a').show();
+    }
+    else if ($('div.a').is(':visible')) {
+        $('div.a').hide();
+    }
+});
+//         var $toTop.fadeOut() = $('div.a');
+// $(window).scroll(function() {
+ 
+    
+     
+//         if ($(window).scrollTop() > 50) {
+//           $toTop.fadeIn();
+//         } else if ($toTop.is(':visible')) {
+//           $toTop.fadeOut();
+//         }
+
+   
+
+// });
+
+
+
+    </script>
+
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li><a href="/"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+                <li><a href="{{ route('home') }}"><span class="glyphicon glyphicon-home"></span> Home</a></li>
                 <li class="dropdown nav"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Application Form <b class="caret"></b></a>
                     <ul class="dropdown-menu" >
-                        <li><a href="inspectionform.php"><span class="glyphicon glyphicon-plus-sign"></span> Inspection Request</a></li>
-                        <li><a href="5000.php"><span class="glyphicon glyphicon-plus-sign"></span> New College</a></li>
-                        <li><a href="descrepencies.php"><span class="glyphicon glyphicon-plus-sign"></span>Descrepencies</a></li>
-                        <li><a href="teamselection.php"><span class="glyphicon glyphicon-plus-sign"></span>Team Selection</a></li>
-                        <li><a href="headselection.php"><span class="glyphicon glyphicon-plus-sign"></span>Head Selection</a></li>
+                        <li><a href="{{ route('inspectionform') }}"><span class="glyphicon glyphicon-plus-sign"></span> Inspection Request</a></li>
+                        <li><a href="{{ route('5000') }}"><span class="glyphicon glyphicon-plus-sign"></span> New College</a></li>
+                        <li><a href="{{ route('descrepencies') }}"><span class="glyphicon glyphicon-plus-sign"></span>Descrepencies</a></li>
+                        <li><a href="{{ route('teamselection') }}"><span class="glyphicon glyphicon-plus-sign"></span>Team Selection</a></li>
+                        <li><a href="{{ route('headselection') }}"><span class="glyphicon glyphicon-plus-sign"></span>Head Selection</a></li>
                     </ul>
                 </li>
-                <li><a href="aboutus.php" >About Us</a></li>
-                <li><a href="contactus.php" >Contact Us</a></li>
+                <li><a href="{{ route('aboutus') }}" >About Us</a></li>
+                <li><a href="{{ route('contactus') }}" >Contact Us</a></li>
             </ul>
-            <button class="btn btn-danger navbar-btn"><a href="adminsignup.php" style="color:#FFF; text-decoration:none;">Admin Signup</a></button>
+            <button class="btn btn-danger navbar-btn"><a href="{{ route('adminsignup') }}" style="color:#FFF; text-decoration:none;">Admin Signup</a></button>
 
 
 

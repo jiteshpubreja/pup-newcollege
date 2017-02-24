@@ -39,8 +39,10 @@
                         </strong>
                     </div>
                     <div class="panel-body text-info">
-                        <div class="container">
-                            @yield('content')
+                        <div class="container ">
+                           
+                                        @yield('content')    
+                                    
                         </div>
                     </div>
                 </div>
@@ -54,4 +56,24 @@
     </div>
    
 </body>
+<script type="text/javascript">
+        var $toTop = $('div.a');
+$(window).scroll(function() {
+
+    clearTimeout($.data(this, 'waitASecond'));
+    $toTop.stop();
+
+    $.data(this, 'waitASecond', setTimeout(function() {
+
+     
+        if ($(window).scrollTop() > 50) {
+          $toTop.fadeIn();
+        } else if ($toTop.is(':visible')) {
+          $toTop.fadeOut();
+        }
+
+    }, 100));
+
+});
+    </script>
 </html>

@@ -1,8 +1,11 @@
 @extends('templates.main')
 
 @section('heading')
-New Hello
+Contact us
 @endsection
+
 @section('content')
-<b>Vehle Bande</b>
+
+Contact us
+
 @endsection
