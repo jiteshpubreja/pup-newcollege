@@ -1,4 +1,4 @@
-@extends('templates.main')
+@extends('templates.main',['title' => 'Contact-us'])
 
 @section('heading')
 Contact us

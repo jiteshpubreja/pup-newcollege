@@ -1,7 +1,5 @@
-@extends('templates.main')
-@section('title')
-about
-@endsection
+@extends('templates.main',['title' => 'About'])
+
 
 @section('heading')
 about heading

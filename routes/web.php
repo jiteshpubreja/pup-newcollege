@@ -20,6 +20,10 @@ Route::Group(['middleware' => ['web']],function(){
 		return view('index');
 	})->name('home');
 
+	Route::get('/controller', function () {
+		return view('administration.clerk');
+	})->name('clerk');
+
 	Route::get('/aboutus', function () {
 		return view('about');
 	})->name('aboutus');
@@ -39,7 +43,7 @@ Route::Group(['middleware' => ['auth']],function(){
 Route::get('/5000', function () {
 		return view('forms.5000');
 	})->name('5000');
-	
+
 
 Route::get('/AdminSignup', function () {
 		return view('auth.admin');
@@ -63,5 +67,3 @@ Route::get('/teamselection', function () {
 
 
 });
-
-

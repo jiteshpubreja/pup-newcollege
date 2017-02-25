@@ -1,4 +1,4 @@
-@extends('templates.main')
+@extends('templates.main',['title' => 'Register'])
 
 
 @section('heading')
@@ -6,11 +6,11 @@ Signup
 @endsection
 @section('content')
 <style>
-                   
+
   .btn-primary {
-      box-shadow: 1px 2px 5px #000000;   
+      box-shadow: 1px 2px 5px #000000;
   }</style>
-   
+
 <form class="form-horizontal" role="form" method="POST" action="{{ route('register') }}">
                         {{ csrf_field() }}
 
@@ -76,6 +76,6 @@ Signup
                             </div>
                         </div>
                     </form>
-                    
+
 
 @endsection

@@ -1,4 +1,4 @@
-@extends('templates.main')
+@extends('templates.main',['title' => 'Home'])
 
 @section('heading')
 New Hello

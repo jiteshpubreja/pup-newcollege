@@ -1,4 +1,4 @@
-@extends('templates.main')
+@extends('templates.main',['title' => 'First Registration Form'])
 @section('heading')
 First Ragistration Form
 @endsection
@@ -9,27 +9,27 @@ First Ragistration Form
   <br>
   <div><strong>• 9:00 am - 5:00 pm&nbsp; Monday through Friday</strong>
   </div>
-  <br> 
+  <br>
   <div class="container">
          <form class="form-horizontal" action="database.php?method=insert" method="GET">
-         
+
     <div class="form-group">
     <label class="control-label col-sm-2" for="Refid">Ref Id:</label>
       <div class="col-sm-10">
          <input type="Text" class="form-control" required id="Refid" placeholder="Enter Reference Id">
          </div>
          </div>
-         
-  
-        
+
+
+
         <div class="form-group">
     <label class="control-label col-sm-2" for="clgadrs">College Address:</label>
-    
+
       <div class="col-sm-10">
          <input type="Text" class="form-control" required id="clgadrs" placeholder="Enter College Address">
          </div>
          </div>
-         
+
          <div class="form-group">
     <label class="control-label col-sm-2" for="insptype">Type Of Inspection:</label>
     <div class="col-sm-10">
@@ -38,10 +38,10 @@ First Ragistration Form
          </div>
          <div class="form-group">
     <label class="control-label col-sm-2" >Date OF Inspection:</label>
-          
-         
+
+
           <div class="col-sm-10">
-        
+
           <select class="control-label col-sm-2" name="day" required id="day">
             <option value="1">1</option>
             <option value="2">2</option>
@@ -101,12 +101,12 @@ First Ragistration Form
          </div>
           <div class="form-group">
     <label class="control-label col-sm-2" >Time Preference:</label>
-          
-         
+
+
           <div class="col-sm-10">
-        
+
           <select class="control-label col-sm-2" name="time" required id="time">
-        
+
             <option value="0" selected="selected">No Preference</option>
             <option value="1">Morning</option>
             <option value="2">Evening</option>
@@ -119,23 +119,23 @@ First Ragistration Form
           <textarea class="form-control"  id="addinfo"></textarea>
          </div>
          </div>
-        
-        
+
+
             <div class="form-group">
           <label  class="control-label col-sm-2" for="contactname">Contact Name:</label>
           <div class="col-sm-10">
           <input class="form-control" name="contactname" type="text" required id="contactname">
           </div>
           </div>
-          
-        
+
+
           <div class="form-group">
           <label  class="control-label col-sm-2" for="contactemail">Contect Email:</label>
           <div class="col-sm-10">
           <input class="form-control" name="contactemail" type="text" required id="contactemail">
           </div>
           </div>
-          <div class="form-group">        
+          <div class="form-group">
       <div class="col-sm-offset-2 col-sm-10">
           <button type="submit" class="btn btn-primary">Submit</button>
       </div>

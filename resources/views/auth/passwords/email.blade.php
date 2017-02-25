@@ -1,13 +1,13 @@
-@extends('templates.main')
+@extends('templates.main',['title' => 'Reset Password'])
 
 @section('heading')
 Reset Password
 @endsection
 @section('content')
 <style>
-                   
+
   .btn-primary {
-      box-shadow: 1px 2px 5px #000000;   
+      box-shadow: 1px 2px 5px #000000;
   }</style>
   <h4 class=" text-center">
                                     <strong>

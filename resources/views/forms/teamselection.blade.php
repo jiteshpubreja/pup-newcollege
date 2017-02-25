@@ -1,4 +1,4 @@
-@extends('templates.main')
+@extends('templates.main',['title' => 'Team selection'])
 @section('heading')
 Team Selection Form
 @endsection
@@ -8,15 +8,15 @@ Team Selection Form
 
                    <!-- InstanceBeginEditable name="content_body" -->
                    <style>
-				
-				
-				   
+
+
+
   .btn-success {
       box-shadow: 1px 2px 5px #000000;
-	     
-  }</style> 
-                   
-  <div class="container">                 
+
+  }</style>
+
+  <div class="container">
 <form class="form-horizontal" action='' method='post' id="myForm">
 <div class="form-group">
     <label class="control-label col-sm-2" for="refid1">Ref Id:</label>
@@ -26,17 +26,17 @@ Team Selection Form
   </div>
   <div class="form-group">
     <label class="control-label col-sm-2" for="inspno1">Inspection No:</label>
-    <div class="col-sm-10"> 
+    <div class="col-sm-10">
       <input type="text" class="form-control" name='inspno' id='inspno1' >
     </div>
   </div>
   <div class="row">
-   <div class=" col-sm-offset-2 col-sm-2"> 
+   <div class=" col-sm-offset-2 col-sm-2">
     <label >
             <input type="checkbox" name="Subject1" value="Sub1" id="Subject1_0">
             Subject 1</label>
             </div>
-            <div class="col-sm-2"> 
+            <div class="col-sm-2">
             <label >
             <input type="checkbox" name="Subject1" value="Sub1" id="Subject1_0">
             Subject 2</label>
@@ -52,7 +52,7 @@ Team Selection Form
           </select>
           	<label for="select2">Fecuality2:</label>
             <select name="select2" id="select2">
-            </select>	
+            </select>
             <label for="select3">Fecuality3:</label>
             <select name="select3" id="select3">
             </select>
@@ -64,14 +64,14 @@ Team Selection Form
             </select>
     </div>
     </div>
-    
-            
-   <div class="form-group"> 
+
+
+   <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">
       <button type="submit" class="btn btn-success" value="Registration">Submit</button>
     </div>
   </div>
-  
+
   </form></div><!-- InstanceEndEditable -->
               </div>
 

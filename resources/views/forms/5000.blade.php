@@ -1,12 +1,12 @@
-@extends('templates.main')
+@extends('templates.main',['title' => '5000'])
 @section('heading')
-First Ragistration Form
+First Registration Form
 @endsection
 @section('content')
 <style>
 				   .btn{ width:160px;}
   .btn-primary {
-      box-shadow: 1px 2px 5px #000000;   
+      box-shadow: 1px 2px 5px #000000;
   }
   </style><div class="container"><form class="form-horizontal">
     <div class="row">
@@ -18,32 +18,32 @@ First Ragistration Form
 	  <input type="Text" class="form-control" required id="clgname" name="clgname" >
        </div>
          </div>
-     <br> 
-     <hr> 
+     <br>
+     <hr>
     <div class="row">
         <div class="col-sm-1" ><label>2</label></div>
         <div class="col-sm-6" ><label>Session(From which year to start)</label></div>
         <div class="col-sm-4" ><input type="Text" class="form-control" required name="sess" id="sess" ></div></div>
-        <br> 
+        <br>
         <hr>
     <div class="row">
       <div class="col-sm-1" ><label>3</label></div>
         <div class="col-sm-6" ><label>Detail of classes to be started</label></div>
         <div class="col-sm-4" ><input type="Text" class="form-control" name="class" id="class" ></div>
 	</div>
-    <br> 
-		<hr> 
-         
+    <br>
+		<hr>
+
          <div class="row">
         <div class="col-sm-1" ><label>4</label></div>
         <div class="col-sm-6" ><label>Will it be a Co-Education or Girls</label></div>
         <div class="col-sm-4" ><input type="Text" class="form-control"  name="coedu" id="coedu" ></div>
   	</div>
-    <br> 
+    <br>
     <hr>
-	
-		 
-         
+
+
+
          <div class="row">
         <div class="col-sm-1" ><label>5</label></div>
         <div class="col-sm-6" ><label>Give details of following facilities:</label><ul ><li> Railway Station </li>
@@ -54,18 +54,18 @@ First Ragistration Form
 				</ul></div>
         <div class="col-sm-4" ><input type="Text" class="form-control" name="facil" id="facil" ></div>
   	</div>
-    <br> 
-     <hr> 
-    
-		      
-		 
+    <br>
+     <hr>
+
+
+
          <div class="row">
         <div class="col-sm-1" ><label>6</label></div>
         <div class="col-sm-6" ><label>Detail of available building</label><ul><li> Principal office</li>
 				<li> Classes/Rooms (Counting and size)(According to UGC norms their should be space equal to 10sqft per student) </li>
 				<li> Staff room </li>
 				<li> Common Rooms for girls and boys </li>
-				<li> Library (Size of Rooms) 
+				<li> Library (Size of Rooms)
 				      According to UGC Norms:<br>
 					  1 Reading Room: 50" x30" <br>
 					  1 Periodical Room: 30" x20" <br>
@@ -80,13 +80,13 @@ First Ragistration Form
 			</ul></div>
         <div class="col-sm-4" ><input type="Text" class="form-control" name="building" id="building" ></div>
   	</div>
-    
-    <br> 
-     <hr> 
-	
-	
-		 
-	
+
+    <br>
+     <hr>
+
+
+
+
 	<div class="row">
         <div class="col-sm-1" ><label>7</label></div>
         <div class="col-sm-6" ><label>Residence for principal OR
@@ -94,22 +94,22 @@ First Ragistration Form
 		Or they will promised to do the same?</label></div>
         <div class="col-sm-4" ><input type="Text" class="form-control"  name="residence" id="residence" ></div>
   	</div>
-    <br> 
-     <hr> 
-    
-	
-	
-	
+    <br>
+     <hr>
+
+
+
+
 	<div class="row">
         <div class="col-sm-1" ><label>8</label></div>
         <div class="col-sm-6" ><label>Does college have required furniture?</label></div>
         <div class="col-sm-4" ><input type="Text" class="form-control"  name="furniture" id="furniture" ></div>
   	</div>
-	
-	<br> 
-     <hr> 
-	
-    
+
+	<br>
+     <hr>
+
+
     <div class="row">
         <div class="col-sm-1" ><label>9</label></div>
         <div class="col-sm-6" ><label>Details of Land Required for college</label><ol><li>Land required for education 2500sq.mt.</li>
@@ -129,12 +129,12 @@ First Ragistration Form
 		</ol></div>
         <div class="col-sm-4" ><input type="Text" class="form-control"  name="land" id="land"></div>
   	</div>
-    <br> 
-     <hr> 
-	
-	
-	
-    
+    <br>
+     <hr>
+
+
+
+
     <div class="row">
         <div class="col-sm-1" ><label>10</label></div>
         <div class="col-sm-6" ><label>Does college had submitted or will submit the amount of endorsement fund
@@ -142,33 +142,33 @@ First Ragistration Form
 		(Details of Endorsement Fund decided by University is in Appendix-1)</label></div>
         <div class="col-sm-4" ><input type="Text" class="form-control"  name="endorsement" id="endorsement" ></div>
   	</div>
-    <br> 
-     <hr> 
-	
-	
+    <br>
+     <hr>
+
+
     <div class="row">
         <div class="col-sm-1" ><label>11</label></div>
         <div class="col-sm-6" ><label>Does college has enough resources to maintain their working position?
 		    Explain with summary.</label></div>
         <div class="col-sm-4" ><input type="Text" class="form-control"  name="resources" id="resources" ></div>
   	</div>
-	<br> 
-     <hr> 
-	
+	<br>
+     <hr>
 
-	
+
+
     <div class="row">
         <div class="col-sm-1" ><label>12</label></div>
         <div class="col-sm-6" ><label>Does bank have any other amount on the name of college?
 		    Attach proofs.</label></div>
         <div class="col-sm-4" ><input type="Text" class="form-control"  name="bankamt" id="bankamt"></div>
   	</div>
-    <br> 
-     <hr> 
-    
-	
-	
-	
+    <br>
+     <hr>
+
+
+
+
     <div class="row">
         <div class="col-sm-1" ><label>13</label></div>
         <div class="col-sm-6" ><label>Does college have provision of Rs. 25,000/- for Library Books for first year or
@@ -176,11 +176,11 @@ First Ragistration Form
 		    1) Does college had spent any amount on books earlier ? </label></div>
         <div class="col-sm-4" ><input type="Text" class="form-control"  name="liaamt" id="liaamt" ></div>
   	</div>
-    <br> 
-     <hr> 
-    
-	
-	
+    <br>
+     <hr>
+
+
+
     <div class="row">
         <div class="col-sm-1" ><label>14</label></div>
         <div class="col-sm-6" ><label>Does college has any Registered Managing Comittee? If yes then send the list of members.
@@ -188,23 +188,23 @@ First Ragistration Form
 		    Send the copy of Registration.</label></div>
         <div class="col-sm-4" ><input type="Text" class="form-control"  name="liaamt" id="liaamt"  ></div>
   	</div>
-    <br> 
-     <hr> 
-	
-	
-	
-    
+    <br>
+     <hr>
+
+
+
+
     <div class="row">
         <div class="col-sm-1" ><label>15</label></div>
         <div class="col-sm-6" ><label>Does college has any members earlier? Does college Managing Comittee is ready to appointee
    		    Qualified faculity and give salary scale according to UGC and University?</label></div>
         <div class="col-sm-4" ><input type="Text" class="form-control"  name="salary" id="salary" ></div>
   	</div>
-    <br> 
-     <hr> 
-    
-	
-	
+    <br>
+     <hr>
+
+
+
     <div class="row">
         <div class="col-sm-1" ><label>16</label></div>
         <div class="col-sm-6" ><label>Is college has any other college within 5mile? If yes then write the name If no then give
@@ -216,12 +216,12 @@ First Ragistration Form
     <div class="col-sm-1" >&nbsp;</div>
     <div class="col-sm-6" >&nbsp;</div>
     <div class="col-sm-4 text-justify" >
-    
+
     <button type="button" class="btn btn-primary btn-sm glyphicon glyphicon-send " > SEND</button>
     </div></div>
-	
+
 	</form></div>
-	
+
 
 
 
