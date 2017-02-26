@@ -5,7 +5,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>@yield('heading') - {{ config('app.name', '') }}</title>
+<title>{{ $title}} - {{ config('app.name', '') }}</title>
 
 <link href="{{ asset('favicon.ico') }}" rel="shortcut icon" type="image/x-icon" />
 
@@ -26,7 +26,7 @@
 <body>
 
 @include('templates.header')
-        
+
 
     <h3 class="alert alert-info text-center text-capitalize timestext"><strong>Welcome to Punjabi University Patiala New college Registration Year 2017-18</strong>  </h3>
     <div class="row text-center">
@@ -39,8 +39,10 @@
                         </strong>
                     </div>
                     <div class="panel-body text-info">
-                        <div class="container">
-                            @yield('content')
+                        <div class="container ">
+
+                                        @yield('content')
+
                         </div>
                     </div>
                 </div>
@@ -52,6 +54,26 @@
             <p>&copy; 2017 - Punjabi University, Patiala</p>
         </footer>
     </div>
-   
+
 </body>
+<script type="text/javascript">
+        var $toTop = $('div.a');
+$(window).scroll(function() {
+
+    clearTimeout($.data(this, 'waitASecond'));
+    $toTop.stop();
+
+    $.data(this, 'waitASecond', setTimeout(function() {
+
+
+        if ($(window).scrollTop() > 50) {
+          $toTop.fadeIn();
+        } else if ($toTop.is(':visible')) {
+          $toTop.fadeOut();
+        }
+
+    }, 100));
+
+});
+    </script>
 </html>
