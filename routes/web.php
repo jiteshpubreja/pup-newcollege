@@ -16,6 +16,7 @@
 
 Route::Group(['middleware' => ['web']],function(){
 
+
 	Route::get('/', function () {
 		return view('index');
 	})->name('home');
@@ -35,6 +36,9 @@ Route::Group(['middleware' => ['web']],function(){
 	Auth::routes();
 
 	Route::get('/home', 'HomeController@index');
+
+	
+	Route::get('/user/activation/{token}', 'Auth\RegisterController@userActivation');
 
 });
 

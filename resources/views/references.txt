@@ -1,2 +1,22 @@
 404 not found  ===>http://bootsnipp.com/snippets/kWDQ
 email and password   ===>   https://laracasts.com/discuss/channels/guides/laravel-53-authentication-error-message
+
+Phone validation ===>  http://stackoverflow.com/questions/36777840/how-to-validate-phone-number-in-laravel-5-2
+
+
+email confirmation  ===> http://www.hc-kr.com/2016/11/laravel-5-tutorial-email-verification.html
+
+
+refid hidden
+fname
+lname
+email
+phone
+landline
+extra mobile
+password
+confirm password
+
+status 0 hidden
+
+captcha????????????????????????????????

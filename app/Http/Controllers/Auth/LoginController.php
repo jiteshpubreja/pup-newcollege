@@ -8,19 +8,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Lang;
+use DB;
 
 class LoginController extends Controller
 {
-
-
-
-
-
-
-
-
-
-
 
     /*
     |--------------------------------------------------------------------------
@@ -51,6 +42,27 @@ class LoginController extends Controller
     {
         $this->middleware('guest', ['except' => 'logout']);
     }
+
+
+protected function authenticated(Request $request, $user)
+{
+    
+
+
+        if (! $user->is_activated){
+            auth()->logout();
+          return back()->with('warning', 'You need to confirm your account. We have sent you an activation code, please check your email.');
+        }
+        return redirect()->intended($this->redirectPath());
+      
+}
+
+
+
+
+
+
+
 
     protected function sendFailedLoginResponse(Request $request)
     {

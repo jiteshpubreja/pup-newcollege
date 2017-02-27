@@ -1,33 +1,17 @@
 @extends('templates.main',['title' => 'Login'])
 
-
 @section('heading')
 Login
 @endsection
 @section('content')
 <style>
-                   
+
   .btn-primary {
-      box-shadow: 1px 2px 5px #000000;   
-  }</style> 
-                   
+      box-shadow: 1px 2px 5px #000000;
+  }</style>
+
                     <form class="form-horizontal" role="form" method="POST" action="{{ route('login') }}">
                         {{ csrf_field() }}
-
-                        @if ($message = Session::get('success'))
-                          <div class="alert alert-success">
-                            <p>
-                              {{ $message }}
-                            </p>
-                          </div>
-                        @endif
-                        @if ($message = Session::get('warning'))
-                          <div class="alert alert-warning">
-                            <p>
-                              {{ $message }}
-                            </p>
-                          </div>
-                        @endif
 
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
                            <h4 >
@@ -63,7 +47,7 @@ Login
                             <div class="col-md-6 col-md-offset-4">
                                 <div class="checkbox">
                                <strong><input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}>
-                                    <label> 
+                                    <label>
                                          Remember Me
                                     </label></strong>
                                 </div>
@@ -82,8 +66,8 @@ Login
                             </div>
                         </div>
                     </form>
-                    
-                    
 
-                   
+
+
+
 @endsection

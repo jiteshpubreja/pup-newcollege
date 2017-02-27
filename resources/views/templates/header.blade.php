@@ -73,7 +73,7 @@ $(window).scroll(function() {
                 <li><a href="{{ route('login') }}"><span class="glyphicon glyphicon-log-in"></span>Login</a></li>
             @else
                 
-                   <li><p class="navbar-text">Signed in as {{ Auth::user()->name }}</p></li>
+                   <li><p class="navbar-text">Signed in as {{ Auth::user()->fname }} {{ Auth::user()->lname }}</p></li>
                    <li>
                         <a href="{{ route('logout') }}"
                         onclick="event.preventDefault();
