@@ -14,16 +14,31 @@ Signup
 <form class="form-horizontal" role="form" method="POST" action="{{ route('register') }}">
                         {{ csrf_field() }}
 
-                        <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
+                        <div class="form-group{{ $errors->has('fname') ? ' has-error' : '' }}">
                             <h4 >
-                                    <strong><label for="name" class="col-md-4 control-label">Name</label></strong></h4>
+                                    <strong><label for="fname" class="col-md-4 control-label">First Name</label></strong></h4>
 
                             <div class="col-md-6">
-                                <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" required autofocus>
+                                <input id="fname" type="text" class="form-control" name="fname" value="{{ old('fname') }}" required autofocus>
 
-                                @if ($errors->has('name'))
+                                @if ($errors->has('fname'))
                                     <span class="help-block">
-                                        <strong>{{ $errors->first('name') }}</strong>
+                                        <strong>{{ $errors->first('fname') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group{{ $errors->has('lname') ? ' has-error' : '' }}">
+                            <h4 >
+                                    <strong><label for="lname" class="col-md-4 control-label">Last Name</label></strong></h4>
+
+                            <div class="col-md-6">
+                                <input id="lname" type="text" class="form-control" name="lname" value="{{ old('lname') }}" required autofocus>
+
+                                @if ($errors->has('lname'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('lname') }}</strong>
                                     </span>
                                 @endif
                             </div>
@@ -39,6 +54,36 @@ Signup
                                 @if ($errors->has('email'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('email') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group{{ $errors->has('mobile') ? ' has-error' : '' }}">
+                           <h4 >
+                                    <strong> <label for="mobile" class="col-md-4 control-label">Mobile Number</label></strong></h4>
+
+                            <div class="col-md-6">
+                                <input id="mobile" type="text" class="form-control" name="mobile" value="{{ old('mobile') }}" required>
+
+                                @if ($errors->has('mobile'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('mobile') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group{{ $errors->has('landline') ? ' has-error' : '' }}">
+                           <h4 >
+                                    <strong> <label for="landline" class="col-md-4 control-label">Landline Number</label></strong></h4>
+
+                            <div class="col-md-6">
+                                <input id="landline" type="text" class="form-control" name="landline" value="{{ old('landline') }}" required>
+
+                                @if ($errors->has('landline'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('landline') }}</strong>
                                     </span>
                                 @endif
                             </div>

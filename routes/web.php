@@ -33,8 +33,10 @@ Route::Group(['middleware' => ['web']],function(){
 	})->name('contactus');
 
 	Auth::routes();
+	Route::get('/user/activation/{token}', 'Auth\RegisterController@userActivation')->name('activation');
 
 	Route::get('/home', 'HomeController@index');
+	Route::get('/pdf', 'PDFController@index');
 
 });
 

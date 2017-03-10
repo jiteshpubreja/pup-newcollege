@@ -12,16 +12,6 @@ use Illuminate\Support\Facades\Lang;
 class LoginController extends Controller
 {
 
-
-
-
-
-
-
-
-
-
-
     /*
     |--------------------------------------------------------------------------
     | Login Controller
@@ -71,6 +61,16 @@ class LoginController extends Controller
                 ]);
         }
 
+    }
+
+
+    protected function authenticated(Request $request, $user)
+    {
+        if (! $user->is_activated){
+            auth()->logout();
+          return back()->with('warning',Lang::get('auth.inactiveuser'));
+        }
+        return redirect()->intended($this->redirectPath());  
     }
 
 }
