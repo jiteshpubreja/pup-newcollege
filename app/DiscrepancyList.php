@@ -9,8 +9,13 @@ class DiscrepancyList extends Model
     protected $table = 'discrepancy_list';
 
 	protected $fillable = [
-        'name', 'description',
+        'name', 'id_discrepancy_category',
     ];
+
+    public function category(){
+
+		return $this->belongsTo('App\DiscrepancyCategory','id_discrepancy_category');
+	}
 
 
 

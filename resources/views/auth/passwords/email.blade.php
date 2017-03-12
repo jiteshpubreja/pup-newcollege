@@ -4,20 +4,13 @@
 Reset Password
 @endsection
 @section('content')
-<style>
-
-  .btn-primary {
-      box-shadow: 1px 2px 5px #000000;
-  }</style>
-  <h4 class=" text-center">
-                                    <strong>
-    @if (session('status'))
+                    @if (session('status'))
                         <div class="alert alert-success">
-                            {{ session('status') }}
-                        </div>
+                            <p>
+                              {{ session('status') }}
+                            </p>
+                          </div>
                     @endif
-                    </strong>
-                    </h4>
 
                     <form class="form-horizontal" role="form" method="POST" action="{{ route('password.email') }}">
                         {{ csrf_field() }}

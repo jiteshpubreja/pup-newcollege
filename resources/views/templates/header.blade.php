@@ -6,47 +6,11 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button> 
-            <ul class="nav navbar-nav"
-        <li>     
-      <div class="a" > <img src="{{ asset('images/mini-logo.png') }}" width="40px" height="40px" class="img-responsive"></div>
-      </li>
+            <ul class="nav navbar-nav">
       <li>
   <a href="/" class="navbar-brand">PUP New College</a>
   </li>
   </ul>
-  
- 
-    <script type="text/javascript">
-
-
-    $('div.a').hide();
-$(window).scroll(function() {
-    if ($(window).scrollTop() > 500) {
-        $('div.a').show();
-    }
-    else if ($('div.a').is(':visible')) {
-        $('div.a').hide();
-    }
-});
-//         var $toTop.fadeOut() = $('div.a');
-// $(window).scroll(function() {
- 
-    
-     
-//         if ($(window).scrollTop() > 50) {
-//           $toTop.fadeIn();
-//         } else if ($toTop.is(':visible')) {
-//           $toTop.fadeOut();
-//         }
-
-   
-
-// });
-
-
-
-    </script>
-
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
@@ -63,10 +27,6 @@ $(window).scroll(function() {
                 <li><a href="{{ route('aboutus') }}" >About Us</a></li>
                 <li><a href="{{ route('contactus') }}" >Contact Us</a></li>
             </ul>
-            <button class="btn btn-danger navbar-btn"><a href="{{ route('adminsignup') }}" style="color:#FFF; text-decoration:none;">Admin Signup</a></button>
-
-
-
             <ul class="nav navbar-nav navbar-right">
             @if (Auth::guest())    
                 <li><a href="{{ route('register') }}"><span class="glyphicon glyphicon-user"></span>Sign Up</a></li>
@@ -99,7 +59,7 @@ $(window).scroll(function() {
 
       <div class="row" style="background-color: #4b6c9e;">
         <div class="col-sm-6 text-left">
-            <img src="{{ asset('images/logo.png') }}" class="img-responsive">
+            <img src="{{ asset('images/logo.png') }}" alt="{{ config('app.name', '') }}" class="img-responsive">
         </div>
         <div class="col-sm-6 text-right top-right" style="color:white; padding-top:5px; padding-right:15px;" >Helpline (Mon to Sat - 09:30 AM to 06:00 PM)<br />
         </div>
@@ -108,19 +68,5 @@ $(window).scroll(function() {
 
 </div>
 
-<div class="container table-bordered .hidden-print" style="color: #317eac">
 
-    <style type="text/css">
-        div:empty {
-            display: none;
-        }
-    </style>
-    <script type="text/javascript">
-        $("li").each(function () {
-
-            if (!$.trim($(this).html())) {
-                $(this).hide();
-            }
-
-        });
-    </script>
+    

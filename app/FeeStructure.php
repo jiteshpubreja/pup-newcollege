@@ -9,6 +9,6 @@ class FeeStructure extends Model
     protected $table = 'account_fee_structure';
 
 	protected $fillable = [
-        'name', 'timespan', 'description',
+        'name', 'timespan',
     ];
 }

@@ -16,21 +16,15 @@
 
 Route::Group(['middleware' => ['web']],function(){
 
-	Route::get('/', function () {
-		return view('index');
-	})->name('home');
+	Route::get('/', 'RedirectController@redirect')->name('home');
 
 	Route::get('/controller', function () {
 		return view('administration.clerk');
 	})->name('clerk');
 
-	Route::get('/aboutus', function () {
-		return view('about');
-	})->name('aboutus');
+	Route::get('/aboutus', 'PagesController@aboutUs')->name('aboutus');
 
-	Route::get('/contactus', function () {
-		return view('contact');
-	})->name('contactus');
+	Route::get('/contactus', 'PagesController@contactUs')->name('contactus');
 
 	Auth::routes();
 	Route::get('/user/activation/{token}', 'Auth\RegisterController@userActivation')->name('activation');
@@ -39,7 +33,37 @@ Route::Group(['middleware' => ['web']],function(){
 	Route::get('/pdf', 'PDFController@index');
 
 });
-
+Route::Group(['prefix' => 'admin'],function(){
+	Route::get('/', 'AdminController@index')->name('adminhome');
+	
+	Route::Group(['prefix' => 'discrepancies'],function(){
+		Route::get('/', 'AdminController@index')->name('adminhomediscrepancies');
+	});
+	
+	Route::Group(['prefix' => 'users'],function(){
+		Route::get('/', 'AdminController@index')->name('adminhomeusers');
+		Route::get('/addadmin', 'AdminController@addadmin');
+		Route::post('/addadmin', 'AdminController@addadminpost')->name('addadmin');
+		Route::get('/addclerk', 'AdminController@addclerk');
+		Route::post('/addclerk', 'AdminController@addclerkpost')->name('addclerk');
+		Route::get('/adddean', 'AdminController@adddean');
+		Route::post('/adddean', 'AdminController@adddeanpost')->name('adddean');
+		Route::get('/addteacher', 'AdminController@addteacher');
+		Route::post('/addteacher', 'AdminController@addteacherpost')->name('addteacher');
+	});
+});
+Route::Group(['prefix' => 'clerk'],function(){
+	Route::get('/', 'ClerkController@index')->name('clerkhome');
+});
+Route::Group(['prefix' => 'college'],function(){
+	Route::get('/', 'CollegeController@index')->name('collegehome');
+});
+Route::Group(['prefix' => 'dean'],function(){
+	Route::get('/', 'DeanController@index')->name('deanhome');
+});
+Route::Group(['prefix' => 'teacher'],function(){
+	Route::get('/', 'TeacherController@index')->name('teacherhome');
+});
 
 Route::Group(['middleware' => ['auth']],function(){
 Route::get('/5000', function () {

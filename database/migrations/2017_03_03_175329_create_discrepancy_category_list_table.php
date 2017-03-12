@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateDiscrepancyListTable extends Migration
+class CreateDiscrepancyCategoryListTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,10 @@ class CreateDiscrepancyListTable extends Migration
      */
     public function up()
     {
-        Schema::create('discrepancy_list', function (Blueprint $table) {
+        Schema::create('discrepancy_category_list', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->integer('id_discrepancy_category')->unsigned();
             $table->timestamps();
-
-            $table->foreign('id_discrepancy_category')->references('id')->on('discrepancy_category_list')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 
@@ -30,6 +27,6 @@ class CreateDiscrepancyListTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('discrepancy_list');
+        Schema::dropIfExists('discrepancy_category_list');
     }
 }

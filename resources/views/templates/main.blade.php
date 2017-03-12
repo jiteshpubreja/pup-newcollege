@@ -20,13 +20,24 @@
 <script type="text/javascript" src="{{ asset('js/WebFormsJs.JS') }}"></script>
 <script type="text/javascript" src="{{ asset('js/bootstrap-select.min.js') }}"></script>
 
+<style type="text/css">
+        div:empty {
+            display: none;
+        }
+        .btn-primary {
+      box-shadow: 1px 2px 5px #000000;
 
+  }
+    </style>
 
 </head>
 <body>
+    
 
 @include('templates.header')
 
+
+    <div class="container table-bordered .hidden-print" style="color: #317eac">
 
     <h3 class="alert alert-info text-center text-capitalize timestext"><strong>Welcome to Punjabi University Patiala New college Registration Year 2017-18</strong>  </h3>
     <div class="row text-center">
@@ -39,11 +50,9 @@
                         </strong>
                     </div>
                     <div class="panel-body text-info">
-                        <div class="container ">
 
                                         @yield('content')
 
-                        </div>
                     </div>
                 </div>
             </div>
@@ -56,24 +65,4 @@
     </div>
 
 </body>
-<script type="text/javascript">
-        var $toTop = $('div.a');
-$(window).scroll(function() {
-
-    clearTimeout($.data(this, 'waitASecond'));
-    $toTop.stop();
-
-    $.data(this, 'waitASecond', setTimeout(function() {
-
-
-        if ($(window).scrollTop() > 50) {
-          $toTop.fadeIn();
-        } else if ($toTop.is(':visible')) {
-          $toTop.fadeOut();
-        }
-
-    }, 100));
-
-});
-    </script>
 </html>

@@ -16,7 +16,6 @@ class CreateListOfDepartmentsDeanTable extends Migration
         Schema::create('list_of_departments_dean', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('description');
             $table->timestamps();
         });
     }

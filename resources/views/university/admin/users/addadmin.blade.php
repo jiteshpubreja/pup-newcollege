@@ -1,13 +1,20 @@
-@extends('templates.main',['title' => 'Register'])
-
+@extends('templates.main',['title' => 'Add Admin'])
 
 @section('heading')
-Signup
+Add Admin
 @endsection
 @section('content')
 
-<form class="form-horizontal" role="form" method="POST" action="{{ route('register') }}">
+<form class="form-horizontal" role="form" method="POST" action="{{ route('addadmin') }}">
                         {{ csrf_field() }}
+
+						@if ($message = Session::get('success'))
+                          <div class="alert alert-success">
+                            <p>
+                              {{ $message }}
+                            </p>
+                          </div>
+                        @endif
 
                         <div class="form-group{{ $errors->has('fname') ? ' has-error' : '' }}">
                             <h4 >

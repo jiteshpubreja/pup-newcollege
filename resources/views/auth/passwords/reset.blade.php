@@ -4,15 +4,12 @@
 Set New Password
 @endsection
 @section('content')
-<style>
-
-  .btn-primary {
-      box-shadow: 1px 2px 5px #000000;
-  }</style>
 
     @if (session('status'))
                         <div class="offset4 alert alert-success">
-                            {{ session('status') }}
+                            <p>
+                              {{ session('status') }}
+                            </p>
                         </div>
                     @endif
 

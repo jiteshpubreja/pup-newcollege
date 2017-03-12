@@ -16,7 +16,6 @@ class CreateListOfDepartmentsClerkTable extends Migration
         Schema::create('list_of_departments_clerk', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('description');
             $table->timestamps();
         });
     }

@@ -3,11 +3,7 @@
 Admin Sign Up
 @endsection
 @section('content')
-<style>
-.btn-primary {
-      box-shadow: 1px 2px 5px #000000;
 
-  }</style>
 
 
 <form class="form-horizontal" action='' method='post' id="myForm">
