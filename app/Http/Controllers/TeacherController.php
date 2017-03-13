@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\College;
+use App\Discrepancy;
 use App\DiscrepancyCategory;
+use App\Inspection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Validator;
 
 class TeacherController extends Controller
 {
@@ -31,7 +34,7 @@ class TeacherController extends Controller
     {
         return Validator::make($data, [
             'finalremarks' => 'required',
-        ]);
+            ]);
     }
 
 
@@ -59,25 +62,27 @@ class TeacherController extends Controller
         if($this->isNotTeacher()) {
             return Redirect::route('home');
         }
-
-
-        dd($request->all());
-
-        $categories = DiscrepancyCategory::get();
         $input = $request->all();
         $validator = $this->validatorinspection($input);
         if ($validator->passes()){
+            $inspection = Inspection::create([
+                'id_college' => $input['collegeid'],
+                'id_teacher' => Auth::user()->isTeacher()->id,
+                'final_remarks' => $input['finalremarks'],
+                ]);
 
+            for ($i=1; $i <= $input['count']; $i++) { 
+                Discrepancy::create([
+                    'id_discrepancy_list' => $input['discrepancyid'.$i],
+                    'id_college' => $input['collegeid'],
+                    'is_discrepancy' => $input['isdiscrepancy'.$i],
+                    'remarks' => $input['remarks'.$i],
+                    'id_inspection' => $inspection['id'],
+                    ]);
+            }
 
-
-
-
-            $user = $this->createadmin($input)->toArray();
-            return back()->with('success',$user['fname'].' Created Sucessfully as Admin');
+            return back()->with('success','Inspection Submitted Sucessfully');
         }
         return back()->with('errors',$validator->errors());
-
-
-        return view('university.teacher.addinspection',compact('categories'));
     }
 }

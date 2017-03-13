@@ -5,6 +5,7 @@ Add Inspection
 @endsection
 @section('content')
 @if(!empty($categories))
+@if(!empty($collegeid))
 <form class="form-horizontal" role="form" method="POST" action="{{ route('teacheraddinspection') }}">
 	{{ csrf_field() }}
 
@@ -14,13 +15,14 @@ Add Inspection
 			{{ $message }}
 		</p>
 	</div>
-	@endif
-
+	@else
 	<div class="alert alert-info">
 		<p>
 		Please Tick The Correct Checkboxes If That Is <strong>Not</strong> A Discrepancy
 		</p>
 	</div>
+	@endif
+
 	<?php $count = 0; ?>
 	<div class="form-group">
 		<div class="col-lg-1">
@@ -101,7 +103,16 @@ Add Inspection
 	<input type="hidden" name="collegeid" value="{{ $collegeid }}">
 		</div>
 	</form>
-
+@else
+@if ($message = Session::get('success'))
+	<div class="alert alert-success">
+		<p>
+			{{ $message }}
+		</p>
+	</div>
+	@endif
+You Have Not Been Assigned Any Inspection Yet
+@endif
 @else
 @if ($message = Session::get('success'))
 	<div class="alert alert-success">

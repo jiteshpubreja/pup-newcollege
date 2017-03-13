@@ -21,6 +21,40 @@ class HomeController extends Controller
      */
     public function __construct()
     {
+
+
+        $inspections = Inspection::get();
+        foreach ($inspections as $inspection) {
+            echo $inspection;
+            echo '<br />';
+            echo $inspection->id;
+            echo '<br />';
+            echo $inspection->id_college;
+            echo '<br />';
+            echo $inspection->id_teacher;
+            echo '<br />';
+            echo $inspection->final_remarks;
+            echo '<br />';
+            echo '<br />';
+            echo '<br />';
+            foreach ($inspection->discrepancies as $discrepancy) {
+                echo $discrepancy->listname->name;
+                echo ' <strong>from</strong> ';
+                echo $discrepancy->listname->category->name;
+                echo ' <strong>is</strong> ';
+                echo $discrepancy->is_discrepancy;
+                echo '<br />';
+                echo $discrepancy->remarks;
+                echo '<br />';
+                echo '<br />';
+            }
+            echo '<br />';
+            echo '<br />';
+            echo '<br />';
+        }
+        dd($inspection);
+
+
         $users = DepartmentTeacher::get();
         foreach ($users as $user) {
             echo $user;
