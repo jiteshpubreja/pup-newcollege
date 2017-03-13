@@ -1,4 +1,4 @@
-@extends('templates.main',['title' => 'Clerk Home'])
+@extends('templates.clerk.main',['title' => 'Clerk Home'])
 
 @section('heading')
 Clerk Section

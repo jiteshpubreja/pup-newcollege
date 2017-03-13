@@ -33,15 +33,18 @@ Route::Group(['middleware' => ['web']],function(){
 	Route::get('/pdf', 'PDFController@index');
 
 });
+
+
+
 Route::Group(['prefix' => 'admin'],function(){
 	Route::get('/', 'AdminController@index')->name('adminhome');
 	
 	Route::Group(['prefix' => 'discrepancies'],function(){
-		Route::get('/', 'AdminController@index')->name('adminhomediscrepancies');
+		Route::get('/', 'RedirectController@redirect');
 	});
 	
 	Route::Group(['prefix' => 'users'],function(){
-		Route::get('/', 'AdminController@index')->name('adminhomeusers');
+		Route::get('/', 'RedirectController@redirect');
 		Route::get('/addadmin', 'AdminController@addadmin');
 		Route::post('/addadmin', 'AdminController@addadminpost')->name('addadmin');
 		Route::get('/addclerk', 'AdminController@addclerk');
@@ -52,18 +55,35 @@ Route::Group(['prefix' => 'admin'],function(){
 		Route::post('/addteacher', 'AdminController@addteacherpost')->name('addteacher');
 	});
 });
+
+
+
 Route::Group(['prefix' => 'clerk'],function(){
 	Route::get('/', 'ClerkController@index')->name('clerkhome');
 });
+
+
+
 Route::Group(['prefix' => 'college'],function(){
 	Route::get('/', 'CollegeController@index')->name('collegehome');
 });
+
+
+
 Route::Group(['prefix' => 'dean'],function(){
 	Route::get('/', 'DeanController@index')->name('deanhome');
 });
+
+
+
 Route::Group(['prefix' => 'teacher'],function(){
 	Route::get('/', 'TeacherController@index')->name('teacherhome');
+	Route::get('/addinspection', 'TeacherController@addinspection');
+	Route::post('/addinspection', 'TeacherController@addinspectionpost')->name('teacheraddinspection');
 });
+
+
+
 
 Route::Group(['middleware' => ['auth']],function(){
 Route::get('/5000', function () {

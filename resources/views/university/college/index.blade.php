@@ -1,4 +1,4 @@
-@extends('templates.main',['title' => 'College Home'])
+@extends('templates.college.main',['title' => 'College Home'])
 
 @section('heading')
 College Section

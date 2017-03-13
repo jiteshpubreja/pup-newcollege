@@ -9,7 +9,11 @@ class Inspection extends Model
     protected $table = 'inspection_reports';
 
 	protected $fillable = [
-        'id_college', 'id_teacher','final_remarks',
+        'id_college',
+        'id_teacher',
+        'final_remarks',
+        'is_seen_by_clerk',
+        'is_forwarded_to_dean',
     ];
 
 	public function discrepancies(){

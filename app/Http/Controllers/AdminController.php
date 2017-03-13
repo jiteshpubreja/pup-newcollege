@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Admin;
 use App\Clerk;
 use App\Dean;
+use App\DepartmentClerk;
+use App\DepartmentDean;
+use App\DepartmentTeacher;
 use App\Teacher;
 use App\User;
 use Illuminate\Http\Request;
@@ -150,20 +153,6 @@ class AdminController extends Controller
         return view('university.admin.index');
     }
 
-    public function discrepanciesindex() {
-        if($this->isNotAdmin()) {
-            return Redirect::route('home');
-        }
-        return view('university.admin.discrepancies.index');
-    }
-
-    public function usersindex() {
-        if($this->isNotAdmin()) {
-            return Redirect::route('home');
-        }
-        return view('university.admin.users.index');
-    }
-
 
 
     public function addadmin() {
@@ -180,7 +169,7 @@ class AdminController extends Controller
         $validator = $this->validatoradmin($input);
         if ($validator->passes()){
             $user = $this->createadmin($input)->toArray();
-            return back()->with('success',$user['fname'].' Created Sucessfully');
+            return back()->with('success',$user['fname'].' Created Sucessfully as Admin');
         }
         return back()->with('errors',$validator->errors());
     }
@@ -190,7 +179,8 @@ class AdminController extends Controller
         if($this->isNotAdmin()) {
             return Redirect::route('home');
         }
-        return view('university.admin.users.addclerk');
+        $departments = DepartmentClerk::get()->toArray();
+        return view('university.admin.users.addclerk',compact('departments'));
     }
     public function addclerkpost(Request $request) {
         if($this->isNotAdmin()) {
@@ -200,7 +190,7 @@ class AdminController extends Controller
         $validator = $this->validatorclerk($input);
         if ($validator->passes()){
             $user = $this->createclerk($input)->toArray();
-            return back()->with('success', $user['fname'].' Created Sucessfully');
+            return back()->with('success', $user['fname'].' Created Sucessfully as Clerk');
         }
         return back()->with('errors',$validator->errors());
     }
@@ -210,7 +200,8 @@ class AdminController extends Controller
         if($this->isNotAdmin()) {
             return Redirect::route('home');
         }
-        return view('university.admin.users.adddean');
+        $departments = DepartmentDean::get()->toArray();
+        return view('university.admin.users.adddean',compact('departments'));
     }
     public function adddeanpost(Request $request) {
         if($this->isNotAdmin()) {
@@ -220,7 +211,7 @@ class AdminController extends Controller
         $validator = $this->validatordean($input);
         if ($validator->passes()){
             $user = $this->createdean($input)->toArray();
-            return back()->with('success', $user['fname'].' Created Sucessfully');
+            return back()->with('success', $user['fname'].' Created Sucessfully as Dean');
         }
         return back()->with('errors',$validator->errors());
     }
@@ -230,7 +221,8 @@ class AdminController extends Controller
         if($this->isNotAdmin()) {
             return Redirect::route('home');
         }
-        return view('university.admin.users.adddean');
+        $departments = DepartmentTeacher::get()->toArray();
+        return view('university.admin.users.addteacher',compact('departments'));
     }
     public function addteacherpost(Request $request) {
         if($this->isNotAdmin()) {
@@ -240,7 +232,7 @@ class AdminController extends Controller
         $validator = $this->validatorteacher($input);
         if ($validator->passes()){
             $user = $this->createteacher($input)->toArray();
-            return back()->with('success', $user['fname'].' Created Sucessfully');
+            return back()->with('success', $user['fname'].' Created Sucessfully as Teacher');
         }
         return back()->with('errors',$validator->errors());
     }

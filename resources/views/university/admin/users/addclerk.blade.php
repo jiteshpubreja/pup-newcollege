@@ -1,4 +1,4 @@
-@extends('templates.main',['title' => 'Add Clerk'])
+@extends('templates.admin.main',['title' => 'Add Clerk'])
 
 @section('heading')
 Add Clerk
@@ -45,6 +45,45 @@ Add Clerk
                                 @endif
                             </div>
                         </div>
+
+                        <div class="form-group{{ $errors->has('designation') ? ' has-error' : '' }}">
+                           <h4 >
+                                    <strong> <label for="designation" class="col-md-4 control-label">Designation</label></strong></h4>
+
+                            <div class="col-md-6">
+                                <input id="designation" type="text" class="form-control" name="designation" value="{{ old('designation') }}" required>
+
+                                @if ($errors->has('designation'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('designation') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        
+
+                        <div class="form-group{{ $errors->has('id_dept') ? ' has-error' : '' }}">
+                           <h4 >
+                                    <strong> <label for="id_dept" class="col-md-4 control-label">Department</label></strong></h4>
+
+                            <div class="col-md-6">
+                                <select name="id_dept" class=" selectpicker" data-live-search="true" id="id_dept" title="Select Department..." required>
+                                    @foreach($departments as $department)
+                                    <option value="{{ $department['id'] }}">
+                                    {{ $department['name'] }}</option>
+                                    @endforeach
+                                </select>
+
+                                @if ($errors->has('id_dept'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('id_dept') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        
 
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
                            <h4 >

@@ -15,7 +15,7 @@ class CreateDiscrepancyListTable extends Migration
     {
         Schema::create('discrepancy_list', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
+            $table->string('name',500);
             $table->integer('id_discrepancy_category')->unsigned();
             $table->timestamps();
 

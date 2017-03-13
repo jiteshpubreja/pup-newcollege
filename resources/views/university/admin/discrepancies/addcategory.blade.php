@@ -1,4 +1,4 @@
-@extends('templates.main',['title' => 'Admin Home'])
+@extends('templates.admin.main',['title' => 'Admin Home'])
 
 @section('heading')
 Admin Section
