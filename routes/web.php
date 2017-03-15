@@ -39,8 +39,14 @@ Route::Group(['middleware' => ['web']],function(){
 Route::Group(['prefix' => 'admin'],function(){
 	Route::get('/', 'AdminController@index')->name('adminhome');
 	
-	Route::Group(['prefix' => 'discrepancies'],function(){
+	Route::Group(['prefix' => 'departments'],function(){
 		Route::get('/', 'RedirectController@redirect');
+		Route::get('/addclerk', 'AdminController@adddepartmentclerk');
+		Route::post('/addclerk', 'AdminController@adddepartmentclerkpost')->name('addclerkdept');
+		Route::get('/adddean', 'AdminController@adddepartmentdean');
+		Route::post('/adddean', 'AdminController@adddepartmentdeanpost')->name('adddeandept');
+		Route::get('/addteacher', 'AdminController@adddepartmentteacher');
+		Route::post('/addteacher', 'AdminController@adddepartmentteacherpost')->name('addteacherdept');
 	});
 	
 	Route::Group(['prefix' => 'users'],function(){
@@ -60,6 +66,14 @@ Route::Group(['prefix' => 'admin'],function(){
 
 Route::Group(['prefix' => 'clerk'],function(){
 	Route::get('/', 'ClerkController@index')->name('clerkhome');
+
+	Route::Group(['prefix' => 'discrepancies'],function(){
+		Route::get('/', 'RedirectController@redirect');
+		Route::get('/add', 'ClerkController@adddiscrepancylist');
+		Route::post('/add', 'ClerkController@adddiscrepancylistpost')->name('adddiscrepancylist');
+		Route::get('/addcategory', 'ClerkController@adddiscrepancycategory');
+		Route::post('/addcategory', 'ClerkController@adddiscrepancycategorypost')->name('adddiscrepancycategory');
+	});
 });
 
 
@@ -90,9 +104,18 @@ Route::get('/5000', function () {
 		return view('forms.5000');
 	})->name('5000');
 
+Route::post('/handleUpload', 'HomeController@upload')->name('uploadfiles');
 
 Route::get('/AdminSignup', function () {
 		return view('auth.admin');
+	})->name('adminsignup');
+
+Route::get('/draft', function () {
+		return view('draft');
+	})->name('adminsignup');
+
+Route::get('/file', function () {
+		return view('files_uploading');
 	})->name('adminsignup');
 
 Route::get('/descrepencies', function () {

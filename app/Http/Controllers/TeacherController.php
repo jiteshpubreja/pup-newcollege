@@ -52,7 +52,6 @@ class TeacherController extends Controller
         if($this->isNotTeacher()) {
             return Redirect::route('home');
         }
-
         $categories = DiscrepancyCategory::get();
         $collegeid = College::first()->id;
         return view('university.teacher.addinspection',compact('categories'))->with('collegeid',$collegeid);

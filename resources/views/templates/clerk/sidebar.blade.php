@@ -3,54 +3,27 @@
     <i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
     <div class="menu-list">
         <ul id="menu-content" class="menu-content collapse out">
-            <li>
-                <a href="#">
+            <li class="{{ is_active('clerkhome') }}">
+                <a href="{{ route('clerkhome') }}">
                     <i class="fa fa-dashboard fa-lg"></i> Dashboard
                 </a>
             </li>
-            <li data-toggle="collapse" data-target="#products" class="collapsed active">
-                <a href="#"><i class="fa fa-gift fa-lg"></i> UI Elements <span class="arrow"></span></a>
+            <li data-toggle="collapse" data-target="#discrepancyactions" class="collapsed{{ is_active_array(['adddiscrepancylist','adddiscrepancycategory']) }}">
+                <a href="#"><i class="fa fa-times fa-lg"></i> Discrepancies <span class="arrow"></span></a>
             </li>
-            <ul class="sub-menu collapse" id="products">
-                <li class="active"><a href="#">CSS3 Animation</a></li>
-                <li><a href="#">General</a></li>
-                <li><a href="#">Buttons</a></li>
-                <li><a href="#">Tabs &amp; Accordions</a></li>
-                <li><a href="#">Typography</a></li>
-                <li><a href="#">FontAwesome</a></li>
-                <li><a href="#">Slider</a></li>
-                <li><a href="#">Panels</a></li>
-                <li><a href="#">Widgets</a></li>
-                <li><a href="#">Bootstrap Model</a></li>
-            </ul>
-            <li data-toggle="collapse" data-target="#service" class="collapsed">
-                <a href="#"><i class="fa fa-globe fa-lg"></i> Services <span class="arrow"></span></a>
-            </li>
-            <ul class="sub-menu collapse" id="service">
-                <li>New Service 1</li>
-                <li>New Service 2</li>
-                <li>New Service 3</li>
+            <ul class="sub-menu collapse" id="discrepancyactions">
+                <li class="{{ is_active('adddiscrepancylist') }}"><a href="{{ route('adddiscrepancylist') }}"><span class="glyphicon glyphicon-plus-sign"></span>Add Discrepancy</a></li>
+                <li class="{{ is_active('adddiscrepancycategory') }}"><a href="{{ route('adddiscrepancycategory') }}"><span class="glyphicon glyphicon-plus-sign"></span>Add Category</a></li>
             </ul>
 
-
-            <li data-toggle="collapse" data-target="#new" class="collapsed">
-                <a href="#"><i class="fa fa-car fa-lg"></i> New <span class="arrow"></span></a>
+            <li data-toggle="collapse" data-target="#departmentactions" class="collapsed{{ is_active_array(['addteacherdept','addclerkdept','adddeandept']) }}">
+                <a href="#"><i class="fa fa-ticket fa-lg"></i> Fees <span class="arrow"></span></a>
             </li>
-            <ul class="sub-menu collapse" id="new">
-                <li>New New 1</li>
-                <li>New New 2</li>
-                <li>New New 3</li>
+            <ul class="sub-menu collapse" id="departmentactions">
+                <li class="{{ is_active('addteacherdept') }}"><a href="{{ route('addteacherdept') }}"><span class="glyphicon glyphicon-plus-sign"></span>Add Teacher Department</a></li>
+                <li class="{{ is_active('addclerkdept') }}"><a href="{{ route('addclerkdept') }}"><span class="glyphicon glyphicon-plus-sign"></span>Add Clerk Department</a></li>
+                <li class="{{ is_active('adddeandept') }}"><a href="{{ route('adddeandept') }}"><span class="glyphicon glyphicon-plus-sign"></span>Add Dean Department</a></li>
             </ul>
-            <li>
-                <a href="#">
-                    <i class="fa fa-user fa-lg"></i> Profile
-                </a>
-            </li>
-            <li>
-                <a href="#">
-                    <i class="fa fa-users fa-lg"></i> Users
-                </a>
-            </li>
         </ul>
     </div>
 </div>

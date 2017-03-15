@@ -1,12 +1,12 @@
-@extends('templates.admin.main',['title' => 'Add Clerk Department'])
+@extends('templates.clerk.main',['title' => 'Add Discrepancy Category'])
 
 @section('heading')
-Add Clerk Department
+Add Discrepancy Category
 @endsection
 @section('content')
 
 
-<form class="form-horizontal" role="form" method="POST" action="{{ route('addclerkdept') }}">
+<form class="form-horizontal" role="form" method="POST" action="{{ route('adddiscrepancycategory') }}">
 	{{ csrf_field() }}
 
 	@if ($message = Session::get('success'))
@@ -35,7 +35,7 @@ Add Clerk Department
 		<div class="form-group">
 			<div class="col-md-6 col-md-offset-4">
 				<button type="submit" class="btn btn-primary">
-					Add Department
+					Add Category
 				</button>
 			</div>
 		</div>
@@ -51,20 +51,20 @@ Add Clerk Department
 			<div class="col-lg-6">
 				<h4 >
 					<label>
-						Department
+						Category
 					</label>
 				</h4>
 			</div>
 		</div>
 		<?php $sr = 1; ?>
-		@foreach($departments as $department)
+		@foreach($categories as $category)
 		<div class="form-group">
 			<div class="col-sm-1">
 				<label>({{ $sr++ }})</label>
 			</div>
 			<div class="col-sm-6">
 				<label>
-					{{ $department['name'] }}
+					{{ $category['name'] }}
 				</label>
 			</div>
 		</div>

@@ -6,11 +6,13 @@ use App\Admin;
 use App\Clerk;
 use App\College;
 use App\Dean;
+use App\DepartmentClerk;
 use App\DepartmentTeacher;
 use App\Discrepancy;
 use App\Inspection;
 use App\Teacher;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class HomeController extends Controller
 {
@@ -20,9 +22,17 @@ class HomeController extends Controller
      * @return void
      */
     public function __construct()
-    {
+    {   
+        $department = (new DepartmentClerk)->adddepartment(['name'=>'Tester']);
+        $status = "undefined";
+        if(isset($department->id)){
+            $status=$department;
+        }
+        else{
+            $status="failure";
+        }
 
-
+        // dd($status);
         $inspections = Inspection::get();
         foreach ($inspections as $inspection) {
             echo $inspection;
@@ -52,7 +62,7 @@ class HomeController extends Controller
             echo '<br />';
             echo '<br />';
         }
-        dd($inspection);
+        // dd($inspection);
 
 
         $users = DepartmentTeacher::get();
@@ -115,7 +125,7 @@ class HomeController extends Controller
         }
 
 
-        dd($users);
+        // dd($users);
         $this->middleware('auth');
     }
 
@@ -127,5 +137,22 @@ class HomeController extends Controller
     public function index()
     {
         return view('home');
+    }
+
+
+    public function upload(Request $request)
+    {
+        $refid = "PUP".mt_rand(1000000, 9999999);
+        // dd($refid);
+        // dd($request->file('file1'));
+        for ($i=1; $i <= 6; $i++) { 
+            if($request->hasFile('file'.$i)) {
+            $file = $request->file('file'.$i);
+            $name = 'file'.$i.'.'.$file->getClientOriginalExtension();
+            $file->move('uploads/'.$refid.'/',$name);
+        }
+        }
+
+        return back();
     }
 }

@@ -13,5 +13,6 @@
         @yield('content')
     </div>
 </div>
+@include('templates.footer')
 </body>
 </html>

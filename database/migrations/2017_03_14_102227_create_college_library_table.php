@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAccountFeeStructureTable extends Migration
+class CreateCollegeLibraryTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,8 @@ class CreateAccountFeeStructureTable extends Migration
      */
     public function up()
     {
-        Schema::create('account_fee_structure', function (Blueprint $table) {
+        Schema::create('college_library', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
-            $table->string('amount');
             $table->timestamps();
         });
     }
@@ -28,6 +26,6 @@ class CreateAccountFeeStructureTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('account_fee_structure');
+        Schema::dropIfExists('college_library');
     }
 }

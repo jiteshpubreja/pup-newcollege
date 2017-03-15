@@ -17,10 +17,10 @@ use Illuminate\Support\Facades\Validator;
 
 class AdminController extends Controller
 {
-    
+
     protected $admin;
 
-	public function __construct()
+    public function __construct()
     {
         $this->middleware('auth');
     }
@@ -42,7 +42,7 @@ class AdminController extends Controller
             'landline' => 'required|max:11',
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|min:6|confirmed',
-        ]);
+            ]);
     }
 
     protected function validatorclerk(array $data)
@@ -56,7 +56,7 @@ class AdminController extends Controller
             'id_dept' => 'required',
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|min:6|confirmed',
-        ]);
+            ]);
     }
 
     protected function validatordean(array $data)
@@ -70,7 +70,7 @@ class AdminController extends Controller
             'id_dept' => 'required',
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|min:6|confirmed',
-        ]);
+            ]);
     }
 
     protected function validatorteacher(array $data)
@@ -85,7 +85,7 @@ class AdminController extends Controller
             'id_dept' => 'required',
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|min:6|confirmed',
-        ]);
+            ]);
     }
 
     protected function create(array $data)
@@ -98,7 +98,7 @@ class AdminController extends Controller
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
             'is_activated' => 1,
-        ]);
+            ]);
     }
 
     protected function createadmin(array $data)
@@ -236,4 +236,71 @@ class AdminController extends Controller
         }
         return back()->with('errors',$validator->errors());
     }
+
+
+    public function adddepartmentclerk() {
+        if($this->isNotAdmin()) {
+            return Redirect::route('home');
+        }
+        $departments = DepartmentClerk::get()->toArray();
+        return view('university.admin.departments.addclerk',compact('departments'));
+    }
+    public function adddepartmentclerkpost(Request $request) {
+        if($this->isNotAdmin()) {
+            return Redirect::route('home');
+        }
+        $department = (new DepartmentClerk)->adddepartment($request->all());
+        if(isset($department->id)){
+            return back()->with('success', $department->name.' Created Sucessfully as Clerk Department');
+        }
+        else{
+            return back()->with('errors',$department);
+        }
+    }
+
+
+    public function adddepartmentdean() {
+        if($this->isNotAdmin()) {
+            return Redirect::route('home');
+        }
+        $departments = DepartmentDean::get()->toArray();
+        return view('university.admin.departments.adddean',compact('departments'));
+    }
+    public function adddepartmentdeanpost(Request $request) {
+        if($this->isNotAdmin()) {
+            return Redirect::route('home');
+        }
+        $department = (new DepartmentDean)->adddepartment($request->all());
+        if(isset($department->id)){
+            return back()->with('success', $department->name.' Created Sucessfully as Dean Department');
+        }
+        else{
+            return back()->with('errors',$department);
+        }
+    }
+
+
+    public function adddepartmentteacher() {
+        if($this->isNotAdmin()) {
+            return Redirect::route('home');
+        }
+        $departments = DepartmentTeacher::get()->toArray();
+        return view('university.admin.departments.addteacher',compact('departments'));
+    }
+    public function adddepartmentteacherpost(Request $request) {
+        if($this->isNotAdmin()) {
+            return Redirect::route('home');
+        }
+        $department = (new DepartmentTeacher)->adddepartment($request->all());
+        if(isset($department->id)){
+            return back()->with('success', $department->name.' Created Sucessfully as Teacher Department');
+        }
+        else{
+            return back()->with('errors',$department);
+        }
+    }
+
+
+
+    
 }

@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Validator;
 
 class DepartmentClerk extends Model
 {
@@ -13,6 +14,29 @@ class DepartmentClerk extends Model
     ];
 
 
+    protected function validator(array $data)
+    {
+        return Validator::make($data, [
+            'name' => 'required|max:255',
+        ]);
+    }
+
+    protected function createdepartment(array $data)
+    {
+    	$this->name = $data['name'];
+    	$this->save();
+
+        return $this;
+    }
+
+    public function adddepartment(array $input){
+
+		$validator = $this->validator($input);
+        if ($validator->passes()){
+            return $this->createdepartment($input);
+        }
+        return $validator->errors();
+	}
 
 	
 
