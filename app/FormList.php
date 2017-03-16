@@ -9,6 +9,6 @@ class FormList extends Model
     protected $table = 'forms_list';
 
 	protected $fillable = [
-        'id_form_list', 'id_fee_structure',
+        'name', 'route',
     ];
 }

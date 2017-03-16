@@ -25,6 +25,7 @@ class FeeStructure extends Model
     protected function createfeestructure(array $data)
     {
     	$this->name = $data['name'];
+    	$this->amount = $data['amount'];
     	$this->save();
 
         return $this;
@@ -34,7 +35,7 @@ class FeeStructure extends Model
 
 		$validator = $this->validator($input);
         if ($validator->passes()){
-            return $this->createdepartment($input);
+            return $this->createfeestructure($input);
         }
         return $validator->errors();
 	}

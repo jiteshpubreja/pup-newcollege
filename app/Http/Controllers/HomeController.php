@@ -149,7 +149,9 @@ class HomeController extends Controller
             if($request->hasFile('file'.$i)) {
             $file = $request->file('file'.$i);
             $name = 'file'.$i.'.'.$file->getClientOriginalExtension();
-            $file->move('uploads/'.$refid.'/',$name);
+            $destination = 'uploads/'.$refid.'/';
+            $file->move($destination,$name);
+            dd($destination.$name);
         }
         }
 

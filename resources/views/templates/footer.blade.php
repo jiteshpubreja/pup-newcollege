@@ -3,6 +3,6 @@
 </div>
 <hr class="hidden-print"/>
 <footer class="hidden-print">
-	<p>&copy; 2017 - Punjabi University, Patiala</p>
+	<p style="text-align: center;">&copy; 2017 - Punjabi University, Patiala</p>
 </footer>
 </div>

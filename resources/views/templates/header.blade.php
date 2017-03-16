@@ -15,7 +15,8 @@
       <div class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
             <li><a href="{{ route('home') }}"><span class="glyphicon glyphicon-home"></span> Home</a></li>
-            <li class="dropdown nav"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Application Form <b class="caret"></b></a>
+            <li><a href="{{ route('applynewcollege') }}"><span class="glyphicon glyphicon-plus-sign"></span> Apply New College</a></li>
+            <!-- <li class="dropdown nav"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Application Form <b class="caret"></b></a>
                 <ul class="dropdown-menu" >
                     <li><a href="{{ route('inspectionform') }}"><span class="glyphicon glyphicon-plus-sign"></span> Inspection Request</a></li>
                     <li><a href="{{ route('5000') }}"><span class="glyphicon glyphicon-plus-sign"></span> New College</a></li>
@@ -23,7 +24,7 @@
                     <li><a href="{{ route('teamselection') }}"><span class="glyphicon glyphicon-plus-sign"></span>Team Selection</a></li>
                     <li><a href="{{ route('headselection') }}"><span class="glyphicon glyphicon-plus-sign"></span>Head Selection</a></li>
                 </ul>
-            </li>
+            </li> -->
             <li><a href="{{ route('aboutus') }}" >About Us</a></li>
             <li><a href="{{ route('contactus') }}" >Contact Us</a></li>
         </ul>

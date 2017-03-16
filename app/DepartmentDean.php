@@ -17,7 +17,7 @@ class DepartmentDean extends Model
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => 'required|max:255',
+            'name' => 'required|max:255|unique:list_of_departments_dean',
         ]);
     }
 

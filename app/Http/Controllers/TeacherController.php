@@ -6,6 +6,7 @@ use App\College;
 use App\Discrepancy;
 use App\DiscrepancyCategory;
 use App\Inspection;
+use App\InspectionAssignment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
@@ -52,9 +53,16 @@ class TeacherController extends Controller
         if($this->isNotTeacher()) {
             return Redirect::route('home');
         }
+        $assignment = InspectionAssignment::where('id_teacher',$this->teacher->id)->first();
         $categories = DiscrepancyCategory::get();
-        $collegeid = College::first()->id;
-        return view('university.teacher.addinspection',compact('categories'))->with('collegeid',$collegeid);
+        if($assignment){ 
+            $collegeid = $assignment->id_college;
+            return view('university.teacher.addinspection',compact('categories'))->with('collegeid',$collegeid);
+        }
+        else {
+            return view('university.teacher.addinspection',compact('categories'));
+        }
+        
     }
 
     public function addinspectionpost(Request $request) {
@@ -79,7 +87,8 @@ class TeacherController extends Controller
                     'id_inspection' => $inspection['id'],
                     ]);
             }
-
+            $assignment = InspectionAssignment::where('id_teacher',$inspection->id_teacher)->where('id_college',$inspection->id_college)->first();
+            $assignment->delete();
             return back()->with('success','Inspection Submitted Sucessfully');
         }
         return back()->with('errors',$validator->errors());

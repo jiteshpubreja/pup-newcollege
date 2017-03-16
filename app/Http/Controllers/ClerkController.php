@@ -92,8 +92,8 @@ class ClerkController extends Controller
         if($this->isNotClerk()) {
             return Redirect::route('home');
         }
-        $structure = FeeStructure::get();
-        return view('university.clerk.fees.addstructure',compact('structure'));
+        $feestructures = FeeStructure::get();
+        return view('university.clerk.fees.addstructure',compact('feestructures'));
     }
     public function addfeestructurepost(Request $request) {
         if($this->isNotClerk()) {

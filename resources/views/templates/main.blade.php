@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="{{ config('app.locale') }}">
 @include('templates.head')
-<body>
+<body leftmargin="0" onLoad="SLIDES.play();">
     @include('templates.header')
     <div class="panel panel-primary">
         <div class="panel-heading">

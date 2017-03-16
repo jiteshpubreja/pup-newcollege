@@ -1,12 +1,12 @@
-@extends('templates.clerk.main',['title' => 'Add Discrepancy Category'])
+@extends('templates.clerk.main',['title' => 'Add Fee Structure'])
 
 @section('heading')
-Add Discrepancy Category
+Add Fee Structure
 @endsection
 @section('content')
 
 
-<form class="form-horizontal" role="form" method="POST" action="{{ route('adddiscrepancycategory') }}">
+<form class="form-horizontal" role="form" method="POST" action="{{ route('addfeestructure') }}">
 	{{ csrf_field() }}
 
 	@if ($message = Session::get('success'))
@@ -32,10 +32,25 @@ Add Discrepancy Category
 			</div>
 		</div>
 
+		<div class="form-group{{ $errors->has('amount') ? ' has-error' : '' }}">
+		<h4 >
+			<strong><label for="amount" class="col-md-4 control-label">Amount</label></strong></h4>
+
+			<div class="col-md-6">
+				<input id="amount" type="text" class="form-control" name="amount" value="{{ old('amount') }}" required autofocus>
+
+				@if ($errors->has('amount'))
+				<span class="help-block">
+					<strong>{{ $errors->first('amount') }}</strong>
+				</span>
+				@endif
+			</div>
+		</div>
+
 		<div class="form-group">
 			<div class="col-md-6 col-md-offset-4">
 				<button type="submit" class="btn btn-primary">
-					Add Category
+					Add Fee Structure
 				</button>
 			</div>
 		</div>
@@ -48,23 +63,35 @@ Add Discrepancy Category
 					</label>
 				</h4>
 			</div>
-			<div class="col-lg-6">
+			<div class="col-lg-2">
 				<h4 >
 					<label>
-						Category
+						Name
+					</label>
+				</h4>
+			</div>
+			<div class="col-lg-2">
+				<h4 >
+					<label>
+						Amount
 					</label>
 				</h4>
 			</div>
 		</div>
 		<?php $sr = 1; ?>
-		@foreach($categories as $category)
+		@foreach($feestructures as $feestructure)
 		<div class="form-group">
 			<div class="col-sm-1">
 				<label>({{ $sr++ }})</label>
 			</div>
-			<div class="col-sm-6">
+			<div class="col-sm-2">
 				<label>
-					{{ $category['name'] }}
+					{{ $feestructure['name'] }}
+				</label>
+			</div>
+			<div class="col-sm-2">
+				<label>
+					{{ $feestructure['amount'] }}
 				</label>
 			</div>
 		</div>
