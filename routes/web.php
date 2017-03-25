@@ -39,7 +39,8 @@ Route::Group(['middleware' => ['web']],function(){
 	Route::get('/user/activation/{token}', 'Auth\RegisterController@userActivation')->name('activation');
 
 	Route::get('/home', 'HomeController@index');
-	Route::get('/pdf', 'PDFController@index');
+	Route::get('/report/{user}','PDFController@index');
+	Route::post('/pdfs', 'PDFController@requestdd')->name('requestdd');
 
 });
 
@@ -84,10 +85,16 @@ Route::Group(['prefix' => 'clerk'],function(){
 		Route::post('/addcategory', 'ClerkController@adddiscrepancycategorypost')->name('adddiscrepancycategory');
 	});
 
-	Route::Group(['prefix' => 'discrepancies'],function(){
+	Route::Group(['prefix' => 'fees'],function(){
 		Route::get('/', 'RedirectController@redirect');
 		Route::get('/addfeestructure', 'ClerkController@addfeestructure');
 		Route::post('/addfeestructure', 'ClerkController@addfeestructurepost')->name('addfeestructure');
+	});
+
+	Route::Group(['prefix' => 'inspections'],function(){
+		Route::get('/', 'RedirectController@redirect');
+		Route::get('/viewinspection/{inspectionid?}', 'ClerkController@viewinspection')->name('clerkviewinspection');
+		Route::put('/viewinspection/{inspectionid?}', 'ClerkController@forwardinspection')->name('clerkviewinspection');
 	});
 });
 
@@ -109,6 +116,7 @@ Route::Group(['prefix' => 'teacher'],function(){
 	Route::get('/', 'TeacherController@index')->name('teacherhome');
 	Route::get('/addinspection', 'TeacherController@addinspection');
 	Route::post('/addinspection', 'TeacherController@addinspectionpost')->name('teacheraddinspection');
+	Route::get('/viewinspection/{inspectionid?}', 'TeacherController@viewinspection')->name('teacherviewinspection');
 });
 
 
@@ -118,6 +126,10 @@ Route::Group(['middleware' => ['auth']],function(){
 Route::get('/5000', function () {
 		return view('2');
 	})->name('5000');
+
+Route::get('/50000', function () {
+		return view('2-old');
+	})->name('50000');
 
 Route::post('/handleUpload', 'HomeController@upload')->name('uploadfiles');
 

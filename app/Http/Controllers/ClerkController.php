@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\DiscrepancyCategory;
 use App\DiscrepancyList;
 use App\FeeStructure;
+use App\Inspection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Route;
 
 class ClerkController extends Controller
 {
@@ -106,6 +108,66 @@ class ClerkController extends Controller
         else{
             return back()->with('errors',$list);
         }
+    }
+
+
+
+
+    
+
+    public function viewinspection($inspectionid = null) {
+        if($this->isNotClerk()) {
+            return Redirect::route('home');
+        }
+        $inspections = Inspection::orderBy('is_seen_by_clerk','asc')->get();
+        
+        if($inspections->count()){ 
+            if($inspectionid) {
+                $inspectionid = Inspection::where('id',$inspectionid)->first();
+
+                if(!$inspectionid->is_seen_by_clerk) {
+                    $inspectionid->is_seen_by_clerk = true;
+                    $inspectionid->save();
+                }
+                $categories = DiscrepancyCategory::get();
+                return view('university.clerk.inspections.viewinspection',compact('inspections','categories'))->with('inspectionid',$inspectionid);
+            }
+            else {
+
+                return view('university.clerk.inspections.viewinspection',compact('inspections'));
+            }
+        }
+        else {
+            return view('university.clerk.inspections.viewinspection');
+        }
+        
+        
+    }
+
+
+
+
+    
+
+    public function forwardinspection($inspectionid = null) {
+        if($this->isNotClerk()) {
+            return Redirect::route('home');
+        }
+            if($inspectionid) {
+                $inspectionid = Inspection::where('id',$inspectionid)->first();
+
+                if(!$inspectionid->is_forwarded_to_dean) {
+                    $inspectionid->is_forwarded_to_dean = true;
+                    $inspectionid->save();
+                }
+                return "Done";
+            }
+            else {
+
+                return "Not Found";
+            }
+        
+        
     }
 
 

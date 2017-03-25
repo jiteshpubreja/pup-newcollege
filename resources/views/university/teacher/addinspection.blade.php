@@ -1,4 +1,4 @@
-@extends('templates.teacher.main',['title' => 'Teacher Home'])
+@extends('templates.teacher.main',['title' => 'Add Inspection'])
 
 @section('heading')
 Add Inspection
@@ -18,7 +18,7 @@ Add Inspection
 	@else
 	<div class="alert alert-info">
 		<p>
-		Please Tick The Correct Checkboxes If That Is <strong>Not</strong> A Discrepancy
+			Please Select The Correct Options
 		</p>
 	</div>
 	@endif
@@ -30,14 +30,14 @@ Add Inspection
 				<label>S.No.</label>
 			</h4>
 		</div>
-		<div class="col-lg-6">
+		<div class="col-lg-5">
 			<h4>
 				<label>Descrepencies</label>
 			</h4>
 		</div>
-		<div class="col-lg-2">
+		<div class="col-lg-3">
 			<h4>
-				<label>Status</label>
+				<label>Is Discrepancy?</label>
 			</h4>
 		</div>
 		<div class="col-lg-2">
@@ -60,15 +60,18 @@ Add Inspection
 		<div class="col-sm-1">
 			<label>({{ $sr++ }})</label>
 		</div>
-		<div class="col-sm-6">
+		<div class="col-sm-5">
 			<label for="isdiscrepancy{{ $count }}" >
 				{{ $discrepancy->name }}
 			</label>
 		</div>
-		<div class="col-sm-2">
-			<div class="checkbox">
-				<input type="hidden" name="isdiscrepancy{{ $count }}" value="1">
-				<input type="checkbox" name="isdiscrepancy{{ $count }}" value="0">
+		<div class="col-sm-3">
+			<div class="radio radio-inline">
+
+				<strong><input type="radio" name="isdiscrepancy{{ $count }}" value="1"><label>Yes
+				</label></strong>
+				<strong><input type="radio" name="isdiscrepancy{{ $count }}" value="0" checked><label>No
+				</label></strong>
 			</div>
 		</div>
 		<div class="col-sm-2">
@@ -81,46 +84,59 @@ Add Inspection
 
 	<div class="form-group{{ $errors->has('finalremarks') ? ' has-error' : '' }}">
 		<h4 >
-			<strong><label for="finalremarks" class="col-md-2 control-label">Final Remarks</label></strong></h4>
+			<strong>
+				<label for="finalremarks" class="col-md-2 control-label">
+					Final Remarks
+				</label>
+			</strong>
+		</h4>
 
-			<div class="col-md-2">                       
-				<textarea name="finalremarks" cols="93" rows="5" required></textarea>
-				@if ($errors->has('finalremarks'))
-				<span class="help-block">
-					<strong>{{ $errors->first('finalremarks') }}</strong>
-				</span>
-				@endif
-			</div>
+		<div class="col-md-2">                       
+			<textarea name="finalremarks" cols="93" rows="5" required></textarea>
+			@if ($errors->has('finalremarks'))
+			<span class="help-block">
+				<strong>{{ $errors->first('finalremarks') }}</strong>
+			</span>
+			@endif
 		</div>
+	</div>
 
 
-		<div class="form-group">
-			<div class="col-md-6 col-md-offset-9">
-				<button type="submit" class="btn btn-primary">
-					Submit
-				</button>
-			</div>	
-	<input type="hidden" name="collegeid" value="{{ $collegeid }}">
-		</div>
-	</form>
+	<div class="form-group">
+		<div class="col-md-6 col-md-offset-9">
+			<button type="submit" class="btn btn-primary">
+				Submit
+			</button>
+		</div>	
+		<input type="hidden" name="collegeid" value="{{ $collegeid }}">
+	</div>
+</form>
 @else
 @if ($message = Session::get('success'))
-	<div class="alert alert-success">
-		<p>
-			{{ $message }}
-		</p>
-	</div>
-	@endif
-You Have Not Been Assigned Any Inspection Yet
+<div class="alert alert-success">
+	<p>
+		{{ $message }}
+	</p>
+</div>
+@endif
+<div class="alert alert-info">
+	<p>
+		You Haven't Been Assigned Any Inspection Yet
+	</p>
+</div>
 @endif
 @else
 @if ($message = Session::get('success'))
-	<div class="alert alert-success">
-		<p>
-			{{ $message }}
-		</p>
-	</div>
-	@endif
-Nothing To Display
+<div class="alert alert-success">
+	<p>
+		{{ $message }}
+	</p>
+</div>
 @endif
-	@endsection
+<div class="alert alert-info">
+	<p>
+		Nothing To Display
+	</p>
+</div>
+@endif
+@endsection

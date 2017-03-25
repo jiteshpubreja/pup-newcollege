@@ -8,41 +8,13 @@
                     <i class="fa fa-dashboard fa-lg"></i> Dashboard
                 </a>
             </li>
-            <li data-toggle="collapse" data-target="#products" class="collapsed{{ is_active_array(['teacherhome','teacheraddinspection']) }}">
+            <li data-toggle="collapse" data-target="#inspections" class="collapsed{{ is_active_array(['teacheraddinspection','teacherviewinspection']) }}">
                 <a href="#"><i class="fa fa-users fa-lg"></i> Inspections <span class="arrow"></span></a>
             </li>
-            <ul class="sub-menu collapse" id="products">
-                <li class="{{ is_active('teacherhome') }}"><a href="{{route('teacherhome')}}">Home</a></li>
-                <li class="{{ is_active('teacheraddinspection') }}"><a href="{{ route('teacheraddinspection') }}">Add Inspection</a></li>
+            <ul class="sub-menu collapse" id="inspections">
+                <li class="{{ is_active('teacheraddinspection') }}"><a href="{{ route('teacheraddinspection') }}"><span class="glyphicon glyphicon-plus-sign"></span> Add Inspection</a></li>
+                <li class="{{ is_active('teacherviewinspection') }}"><a href="{{ route('teacherviewinspection') }}"><span class="glyphicon glyphicon-folder-open"></span> View Inspections</a></li>
             </ul>
-            <li data-toggle="collapse" data-target="#service" class="collapsed{{ is_active_array(['teacherhome']) }}">
-                <a href="#"><i class="fa fa-globe fa-lg"></i> Services <span class="arrow"></span></a>
-            </li>
-            <ul class="sub-menu collapse" id="service">
-                <li>New Service 1</li>
-                <li>New Service 2</li>
-                <li>New Service 3</li>
-            </ul>
-
-
-            <li data-toggle="collapse" data-target="#new" class="collapsed">
-                <a href="#"><i class="fa fa-car fa-lg"></i> New <span class="arrow"></span></a>
-            </li>
-            <ul class="sub-menu collapse" id="new">
-                <li>New New 1</li>
-                <li>New New 2</li>
-                <li>New New 3</li>
-            </ul>
-            <li>
-                <a href="#">
-                    <i class="fa fa-user fa-lg"></i> Profile
-                </a>
-            </li>
-            <li>
-                <a href="#">
-                    <i class="fa fa-users fa-lg"></i> Users
-                </a>
-            </li>
         </ul>
     </div>
 </div>

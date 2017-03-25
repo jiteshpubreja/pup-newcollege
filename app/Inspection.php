@@ -16,7 +16,17 @@ class Inspection extends Model
         'is_forwarded_to_dean',
     ];
 
-	public function discrepancies(){
+    public function college(){
+
+        return $this->belongsTo('App\College','id_college');
+    }
+
+    public function inspector(){
+
+        return $this->belongsTo('App\Teacher','id_teacher');
+    }
+
+    public function discrepancies(){
 
 		return $this->hasMany('App\Discrepancy','id_inspection');
 	}

@@ -8,7 +8,7 @@ class PagesController extends Controller
 {
     public function aboutUs() {
     	
-    	return view('introduction');
+    	return redirect()->intended(route('introduction'));
 
     }
     public function introduction() {

@@ -22,6 +22,13 @@
             <ul class="sub-menu collapse" id="departmentactions">
                 <li class="{{ is_active('addfeestructure') }}"><a href="{{ route('addfeestructure') }}"><span class="glyphicon glyphicon-plus-sign"></span>Add Fee Structure</a></li>
             </ul>
+
+            <li data-toggle="collapse" data-target="#inspectionactions" class="collapsed{{ is_active_array(['clerkviewinspection']) }}">
+                <a href="#"><i class="fa fa-ticket fa-lg"></i> Inspections <span class="arrow"></span></a>
+            </li>
+            <ul class="sub-menu collapse" id="inspectionactions">
+                <li class="{{ is_active('clerkviewinspection') }}"><a href="{{ route('clerkviewinspection') }}"><span class="glyphicon glyphicon-folder-open"></span> View Inspections   <span class="label label-primary">{{ DB::table('inspection_reports')->where('is_seen_by_clerk',false)->get()->count() }}</span></a></li>
+            </ul>
         </ul>
     </div>
 </div>

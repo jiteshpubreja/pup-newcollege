@@ -93,4 +93,34 @@ class TeacherController extends Controller
         }
         return back()->with('errors',$validator->errors());
     }
+
+
+
+
+    
+
+    public function viewinspection($inspectionid = null) {
+        if($this->isNotTeacher()) {
+            return Redirect::route('home');
+        }
+        $inspections = Inspection::where('id_teacher',$this->teacher->id)->get();
+
+        
+        if($inspections->count()){ 
+            if($inspectionid) {
+                $inspectionid = Inspection::where('id_teacher',$this->teacher->id)->where('id',$inspectionid)->first();
+                $categories = DiscrepancyCategory::get();
+                return view('university.teacher.viewinspection',compact('inspections','categories'))->with('inspectionid',$inspectionid);
+            }
+            else {
+
+                return view('university.teacher.viewinspection',compact('inspections'));
+            }
+        }
+        else {
+            return view('university.teacher.viewinspection');
+        }
+        
+        
+    }
 }
