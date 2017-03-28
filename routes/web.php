@@ -41,6 +41,7 @@ Route::Group(['middleware' => ['web']],function(){
 	Route::get('/home', 'HomeController@index');
 	Route::get('/report/{user}','PDFController@index');
 	Route::post('/pdfs', 'PDFController@requestdd')->name('requestdd');
+	Route::put('/pdfs', 'PDFController@requestdd')->name('requestdd');
 
 });
 
@@ -102,6 +103,10 @@ Route::Group(['prefix' => 'clerk'],function(){
 
 Route::Group(['prefix' => 'college'],function(){
 	Route::get('/', 'CollegeController@index')->name('collegehome');
+	Route::get('/apply', 'CollegeController@applynewcollege');
+	Route::post('/apply', 'CollegeController@applynewcollegepost')->name('collegenewapply');
+	Route::put('/apply', 'CollegeController@applynewcollegeput');
+	Route::put('/apply/submit', 'CollegeController@applynewcollegesubmitput')->name('collegenewapplysubmit');
 });
 
 

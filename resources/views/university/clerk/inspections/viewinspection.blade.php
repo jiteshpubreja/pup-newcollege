@@ -4,6 +4,13 @@
 View Inspection
 @endsection
 @section('content')
+@if ($message = Session::get('success'))
+<div class="alert alert-success">
+	<p>
+		{{ $message }}
+	</p>
+</div>
+@endif
 @if(!empty($inspections))
 @if(!empty($inspectionid))
 @if(!empty($categories))
@@ -77,119 +84,136 @@ View Inspection
 		{{ $inspectionid->final_remarks }}
 	</p>
 </div>
+<div class=" col-md-12" style="text-align: center;"> 
+	<label>Inspection Submitted on {{ $inspectionid->created_at->toFormattedDateString() }}</label>
+	</div>
+	@if(!$inspectionid->is_forwarded_to_dean)
+	<br/>
+	<div class=" col-md-12" style="text-align: right;"> 
+		<a class="btn btn-primary" href="{{ route('clerkviewinspection',$inspectionid->id) }}"
+			onclick="event.preventDefault();
+			document.getElementById('forward-to-dean').submit();">
+			Forward To Dean
+		</a>
+	</div>
 
-<br/>
-<div class=" col-md-12" style="text-align: right;"> 
-<a class="btn btn-primary" href="{{ route('clerkviewinspection',$inspectionid->id) }}"
-                onclick="event.preventDefault();
-                document.getElementById('forward-to-dean').submit();">
-                Forward To Dean
-            </a>
-</div>
+	<form id="forward-to-dean" action="{{ route('clerkviewinspection',$inspectionid->id) }}" method="POST" style="display: none;">
+		<input type="hidden" name="_method" value="PUT">
+		{{ csrf_field() }}
+	</form>
+	@endif
+	@else
+	<div class="alert alert-info">
+		<p>
+			Nothing To Display
+		</p>
+	</div>
+	@endif
+	@else
+	<table width="100%">
+		<tr>
+			<td>
+				<h4>
+					<label>
+						S.No.
+					</label>
+				</h4>
+			</td>
+			<td>
+				<h4 >
+					<label>
+						College
+					</label>
+				</h4>
+			</td>
+			<td>
+				<h4 >
+					<label>
+						Inspected By
+					</label>
+				</h4>
+			</td>
+			<td>
+				<h4 >
+					<label>
+						Final Remarks
+					</label>
+				</h4>
+			</td>
+			<td>
+				<h4 >
+					<label>
+						Dated
+					</label>
+				</h4>
+			</td>
+			<td>
+				<h4 >
+					<label>
+						View Inspection
+					</label>
+				</h4>
+			</td>
+			<td>
+				<h4 >
+					<label>
+						Status
+					</label>
+				</h4>
+			</td>
+		</tr>
 
-<form id="forward-to-dean" action="{{ route('clerkviewinspection',$inspectionid->id) }}" method="POST" style="display: none;">
-<input type="hidden" name="_method" value="PUT">
-	{{ csrf_field() }}
-</form>
-@else
-<div class="alert alert-info">
-	<p>
-		Nothing To Display
-	</p>
-</div>
-@endif
-@else
-<table width="100%">
-	<tr>
-		<td>
-			<h4>
+
+		<?php $sr = 1; ?>
+		@foreach($inspections as $inspection)
+		<tr style="line-height:30px;">
+			<td>
+				<label>({{ $sr++ }})</label>
+			</td>
+			<td>
 				<label>
-					S.No.
+					{{ $inspection->college->user->fname." ".$inspection->college->user->lname }}
 				</label>
-			</h4>
-		</td>
-		<td>
-			<h4 >
+			</td>
+			<td>
 				<label>
-					College
+					{{ $inspection->inspector->user->fname." ".$inspection->inspector->user->lname }}
 				</label>
-			</h4>
-		</td>
-		<td>
-			<h4 >
+			</td>
+			<td>
 				<label>
-					Inspected By
+					{{ $inspection->final_remarks }}
+
 				</label>
-			</h4>
-		</td>
-		<td>
-			<h4 >
+			</td>
+			<td>
 				<label>
-					Final Remarks
+					{{ $inspection->created_at->toFormattedDateString() }}
 				</label>
-			</h4>
-		</td>
-		<td>
-			<h4 >
+			</td>
+			<td>
 				<label>
-					View Inspection
+					<a class="btn btn-primary btn-xs" href="{{ route('clerkviewinspection',$inspection->id) }}">View Inspection</a>
+
 				</label>
-			</h4>
-		</td>
-		<td>
-			<h4 >
-				<label>
-					Status
-				</label>
-			</h4>
-		</td>
-	</tr>
+			</td>
+			<td>
+				{!! $inspection->is_forwarded_to_dean ? "<span class='label label-success'>Forwarded</span>" : ($inspection->is_seen_by_clerk ? "<span class='label label-warning'>Pending</span>" : "<span class='label label-danger'>New</span>") !!}
+			</td>
+		</tr>
+		@endforeach
 
+	</table>
 
-	<?php $sr = 1; ?>
-	@foreach($inspections as $inspection)
-	<tr style="line-height:30px;">
-		<td>
-			<label>({{ $sr++ }})</label>
-		</td>
-		<td>
-			<label>
-				{{ $inspection->college->user->fname." ".$inspection->college->user->lname }}
-			</label>
-		</td>
-		<td>
-			<label>
-				{{ $inspection->inspector->user->fname." ".$inspection->inspector->user->lname }}
-			</label>
-		</td>
-		<td>
-			<label>
-				{{ $inspection->final_remarks }}
-			</label>
-		</td>
-		<td>
-			<label>
-				<a class="btn btn-primary btn-xs" href="{{ route('clerkviewinspection',$inspection->id) }}">View Inspection</a>
+	@endif
 
-			</label>
-		</td>
-		<td>
-			{!! $inspection->is_forwarded_to_dean ? "<span class='label label-success'>Forwarded</span>" : ($inspection->is_seen_by_clerk ? "<span class='label label-warning'>Pending</span>" : "<span class='label label-danger'>New</span>") !!}
-		</td>
-	</tr>
-	@endforeach
+	@else
+	<div class="alert alert-info">
+		<p>
+			You Haven't Done Any Inspections Yet
+		</p>
+	</div>
 
-</table>
+	@endif
 
-@endif
-
-@else
-<div class="alert alert-info">
-	<p>
-		You Haven't Done Any Inspections Yet
-	</p>
-</div>
-
-@endif
-
-@endsection
+	@endsection

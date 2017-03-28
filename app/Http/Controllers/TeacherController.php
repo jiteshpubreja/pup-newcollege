@@ -103,7 +103,7 @@ class TeacherController extends Controller
         if($this->isNotTeacher()) {
             return Redirect::route('home');
         }
-        $inspections = Inspection::where('id_teacher',$this->teacher->id)->get();
+        $inspections = Inspection::where('id_teacher',$this->teacher->id)->orderBy('created_at','desc')->get();
 
         
         if($inspections->count()){ 

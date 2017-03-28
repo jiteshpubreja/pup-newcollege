@@ -1,10 +1,28 @@
-@extends('templates.main',['title' => '5000-2'])
+@extends('templates.college.main',['title' => 'Apply For New College'])
 @section('heading')
-First Registration Form
+Edit Registration Form
 @endsection
 @section('content')
-<form class="form-horizontal" role="form" method="POST" action="{{ route('requestdd') }}">
+@if(!empty($form))
+<form class="form-horizontal" role="form" method="POST" action="{{ route('collegenewapply') }}">
 	{{ csrf_field() }}
+	<input type="hidden" name="_method" value="PUT">
+	@if ($message = Session::get('success'))
+	<div class="alert alert-success">
+		<p>
+			{{ $message }}
+		</p>
+	</div>
+	@else
+	<div class="alert alert-info">
+		<p>
+			It is Not Editable Once You Click Submit.
+			So Double Check Before You Click Submit.
+			<br />
+			Please Click Save Before Submitting, Or Else The Changes will <strong>Not</strong> Be Saved.
+		</p>
+	</div>
+	@endif
 	<div class="form-group{{ $errors->has('college_name') ? ' has-error' : '' }}">
 		<div class="col-sm-1" >
 			<label>1</label>
@@ -13,7 +31,7 @@ First Registration Form
 			<label>College Name</label>
 		</div>
 		<div class="col-sm-4">
-			<input type="text" class="form-control" required id="college_name" name="college_name" >
+			<input type="text" class="form-control" value="{{ $form->college_name }}" required id="college_name" name="college_name" >
 			@if ($errors->has('college_name'))
 			<span class="help-block">
 				<strong>{{ $errors->first('college_name') }}</strong>
@@ -32,7 +50,7 @@ First Registration Form
 			<label>Session(From which year to start)</label>
 		</div>
 		<div class="col-sm-4" >
-			<input type="text" class="form-control" required name="session" id="session" >
+			<input type="text" class="form-control" value="{{ $form->session }}" required name="session" id="session" >
 			@if ($errors->has('session'))
 			<span class="help-block">
 				<strong>{{ $errors->first('session') }}</strong>
@@ -47,10 +65,10 @@ First Registration Form
 			<label>3</label>
 		</div>
 		<div class="col-sm-7" >
-			<label>Cources To be start</label>
+			<label>Courses To be start</label>
 		</div>
 		<div class="col-sm-4" >
-			<input type="text" class="form-control" required name="courses" id="courses" >
+			<input type="text" class="form-control" value="{{ $form->courses }}" required name="courses" id="courses" >
 			@if ($errors->has('courses'))
 			<span class="help-block">
 				<strong>{{ $errors->first('courses') }}</strong>
@@ -73,9 +91,9 @@ First Registration Form
 		<div class="col-sm-4" >
 			<div class="radio radio-inline">
 
-				<strong><input type="radio" name="co_education" value="1"><label>Yes
+				<strong><input type="radio" name="co_education" value="1" {{ $form->co_education?"checked":"" }}><label>Yes
 				</label></strong>
-				<strong><input type="radio" name="co_education" value="0" checked><label>No
+				<strong><input type="radio" name="co_education" value="0" {{ $form->co_education?"":"checked" }}><label>No
 				</label></strong>
 			</div>
 		</div>
@@ -96,7 +114,7 @@ First Registration Form
 			<label >Railway Station</label>
 		</div>
 		<div class="col-sm-4">
-			<input type="text" class="form-control" required id="railway_station" name="railway_station" >
+			<input type="text" class="form-control" value="{{ $form->railway_station }}" required id="railway_station" name="railway_station" >
 			@if ($errors->has('railway_station'))
 			<span class="help-block">
 				<strong>{{ $errors->first('railway_station') }}</strong>
@@ -115,7 +133,7 @@ First Registration Form
 			<label >Bus Stand</label>
 		</div>
 		<div class="col-sm-4">
-			<input type="text" class="form-control" required id="bus_stand" name="bus_stand" >
+			<input type="text" class="form-control" value="{{ $form->bus_stand }}" required id="bus_stand" name="bus_stand" >
 			@if ($errors->has('bus_stand'))
 			<span class="help-block">
 				<strong>{{ $errors->first('bus_stand') }}</strong>
@@ -134,7 +152,7 @@ First Registration Form
 			<label >Post office</label>
 		</div>
 		<div class="col-sm-4">
-			<input type="text" class="form-control" required id="post_office" name="post_office" >
+			<input type="text" class="form-control" value="{{ $form->post_office }}" required id="post_office" name="post_office" >
 			@if ($errors->has('post_office'))
 			<span class="help-block">
 				<strong>{{ $errors->first('post_office') }}</strong>
@@ -153,7 +171,7 @@ First Registration Form
 			<label >Telegram office</label>
 		</div>
 		<div class="col-sm-4">
-			<input type="text" class="form-control" required id="telegram" name="telegram" >
+			<input type="text" class="form-control" value="{{ $form->telegram }}" required id="telegram" name="telegram" >
 			@if ($errors->has('telegram'))
 			<span class="help-block">
 				<strong>{{ $errors->first('telegram') }}</strong>
@@ -172,7 +190,7 @@ First Registration Form
 			<label >Telephone of college</label>
 		</div>
 		<div class="col-sm-4">
-			<input type="text" class="form-control" required id="college_phone_number" name="college_phone_number" >
+			<input type="text" class="form-control" value="{{ $form->college_phone_number }}" required id="college_phone_number" name="college_phone_number" >
 			@if ($errors->has('college_phone_number'))
 			<span class="help-block">
 				<strong>{{ $errors->first('college_phone_number') }}</strong>
@@ -192,7 +210,7 @@ First Registration Form
 			<label >Telephone of Principal</label>
 		</div>
 		<div class="col-sm-4">
-			<input type="text" class="form-control" required id="principal_phone_number" name="principal_phone_number" >
+			<input type="text" class="form-control" value="{{ $form->principal_phone_number }}" required id="principal_phone_number" name="principal_phone_number" >
 			@if ($errors->has('principal_phone_number'))
 			<span class="help-block">
 				<strong>{{ $errors->first('principal_phone_number') }}</strong>
@@ -203,7 +221,7 @@ First Registration Form
 	<br>
 
 
-	<div class="form-group">
+	<div class="form-group{{ $errors->has('president_of_mgmt_committee') ? ' has-error' : '' }}">
 		<div class="col-sm-1" >
 			<label>VII</label>
 		</div>
@@ -211,7 +229,7 @@ First Registration Form
 			<label >Telephone of President of managing comittee of college</label>
 		</div>
 		<div class="col-sm-4">
-			<input type="text" class="form-control" required id="president_of_mgmt_committee" name="president_of_mgmt_committee" >
+			<input type="text" class="form-control" value="{{ $form->president_of_mgmt_committee }}" required id="president_of_mgmt_committee" name="president_of_mgmt_committee" >
 			@if ($errors->has('president_of_mgmt_committee'))
 			<span class="help-block">
 				<strong>{{ $errors->first('president_of_mgmt_committee') }}</strong>
@@ -230,7 +248,7 @@ First Registration Form
 			<label >Telephone of Secratory office</label>
 		</div>
 		<div class="col-sm-4">
-			<input type="text" class="form-control" required id="secretary_office" name="secretary_office" >
+			<input type="text" class="form-control" value="{{ $form->secretary_office }}" required id="secretary_office" name="secretary_office" >
 			@if ($errors->has('secretary_office'))
 			<span class="help-block">
 				<strong>{{ $errors->first('secretary_office') }}</strong>
@@ -249,7 +267,7 @@ First Registration Form
 			<label >Telephone of Principal House number</label>
 		</div>
 		<div class="col-sm-4">
-			<input type="text" class="form-control" required id="principal_residence_phone" name="principal_residence_phone" >
+			<input type="text" class="form-control" value="{{ $form->principal_residence_phone }}" required id="principal_residence_phone" name="principal_residence_phone" >
 			@if ($errors->has('principal_residence_phone'))
 			<span class="help-block">
 				<strong>{{ $errors->first('principal_residence_phone') }}</strong>
@@ -271,7 +289,7 @@ First Registration Form
 			<label >Principal Office</label>
 		</div>
 		<div class="col-sm-4">
-			<input type="text" class="form-control" required id="principal_office_building" name="principal_office_building" >
+			<input type="text" class="form-control" value="{{ $form->principal_office_building }}" required id="principal_office_building" name="principal_office_building" >
 			@if ($errors->has('principal_office_building'))
 			<span class="help-block">
 				<strong>{{ $errors->first('principal_office_building') }}</strong>
@@ -298,7 +316,7 @@ First Registration Form
 			<label >Classes Count</label>
 		</div>
 		<div class="col-sm-4">
-			<input type="text" class="form-control" required id="classes_count" name="classes_count" >
+			<input type="text" class="form-control" value="{{ $form->classes_count }}" required id="classes_count" name="classes_count" >
 			@if ($errors->has('classes_count'))
 			<span class="help-block">
 				<strong>{{ $errors->first('classes_count') }}</strong>
@@ -316,7 +334,7 @@ First Registration Form
 			<label >Classes Size</label>
 		</div>
 		<div class="col-sm-4">
-			<input type="text" class="form-control" required id="classes_size" name="classes_size" >
+			<input type="text" class="form-control" value="{{ $form->classes_size }}" required id="classes_size" name="classes_size" >
 			@if ($errors->has('classes_size'))
 			<span class="help-block">
 				<strong>{{ $errors->first('coclasses_size') }}</strong>
@@ -333,7 +351,7 @@ First Registration Form
 			<label >Staff Room</label>
 		</div>
 		<div class="col-sm-4">
-			<input type="text" class="form-control" required id="staff_room" name="staff_room" >
+			<input type="text" class="form-control" value="{{ $form->staff_room }}" required id="staff_room" name="staff_room" >
 			@if ($errors->has('staff_room'))
 			<span class="help-block">
 				<strong>{{ $errors->first('staff_room') }}</strong>
@@ -350,7 +368,7 @@ First Registration Form
 			<label >Common Room For Girls</label>
 		</div>
 		<div class="col-sm-4">
-			<input type="text" class="form-control" required id="commonroom_for_girls" name="commonroom_for_girls" >
+			<input type="text" class="form-control" value="{{ $form->commonroom_for_girls }}" required id="commonroom_for_girls" name="commonroom_for_girls" >
 			@if ($errors->has('commonroom_for_girls'))
 			<span class="help-block">
 				<strong>{{ $errors->first('commonroom_for_girls') }}</strong>
@@ -367,7 +385,7 @@ First Registration Form
 			<label >Common Room For Boys</label>
 		</div>
 		<div class="col-sm-4">
-			<input type="text" class="form-control" required id="commonroom_for_boys" name="commonroom_for_boys" >
+			<input type="text" class="form-control" value="{{ $form->commonroom_for_boys }}" required id="commonroom_for_boys" name="commonroom_for_boys" >
 			@if ($errors->has('commonroom_for_boys'))
 			<span class="help-block">
 				<strong>{{ $errors->first('commonroom_for_boys') }}</strong>
@@ -402,9 +420,9 @@ First Registration Form
 		<div class="col-sm-4" >
 			<div class="radio radio-inline">
 
-				<strong><input type="radio" name="reading_room" id="reading_room_true" value="1"><label>Yes
+				<strong><input type="radio" name="reading_room" id="reading_room_true" value="1"  {{ $form->reading_room?"checked":"" }}><label>Yes
 				</label></strong>
-				<strong><input type="radio" name="reading_room" id="reading_room_false" value="0" checked><label>No
+				<strong><input type="radio" name="reading_room" id="reading_room_false" value="0"  {{ $form->reading_room?"":"checked" }}><label>No
 				</label></strong>
 			</div>
 		</div>
@@ -421,8 +439,8 @@ First Registration Form
 				</ul>
 			</div>
 			<div class="col-sm-4" >
-			<input type="hidden" name="readingroom_size" value="-- NA --">
-				<input type="text" class="form-control" required id="readingroom_size" name="readingroom_size" value="-- NA --" disabled="disabled" >
+				<input type="hidden" name="readingroom_size" value="-- NA --">
+				<input type="text" class="form-control" value="{{ $form->readingroom_size }}" required id="readingroom_size" name="readingroom_size" {{ $form->reading_room?"":"disabled=\"disabled\"" }}  >
 				@if ($errors->has('readingroom_size'))
 				<span class="help-block">
 					<strong>{{ $errors->first('readingroom_size') }}</strong>
@@ -442,9 +460,9 @@ First Registration Form
 		<div class="col-sm-4" >
 			<div class="radio radio-inline">
 
-				<strong><input type="radio" name="periodical_room" id="periodical_room_true" value="1"><label>Yes
+				<strong><input type="radio" name="periodical_room" id="periodical_room_true" value="1" {{ $form->periodical_room?"checked":"" }}><label>Yes
 				</label></strong>
-				<strong><input type="radio" name="periodical_room" id="periodical_room_false" value="0" checked><label>No
+				<strong><input type="radio" name="periodical_room" id="periodical_room_false" value="0" {{ $form->periodical_room?"":"checked" }}><label>No
 				</label></strong>
 			</div>
 		</div>
@@ -461,8 +479,8 @@ First Registration Form
 				</ul>
 			</div>
 			<div class="col-sm-4" >
-			<input type="hidden" name="periodical_room_size" value="-- NA --">
-				<input type="text" class="form-control" required id="periodical_room_size" name="periodical_room_size"  value="-- NA --" disabled="disabled">
+				<input type="hidden" name="periodical_room_size" value="-- NA --">
+				<input type="text" class="form-control" value="{{ $form->periodical_room_size }}" required id="periodical_room_size" name="periodical_room_size"  {{ $form->periodical_room?"":"disabled=\"disabled\"" }}>
 				@if ($errors->has('periodical_room_size'))
 				<span class="help-block">
 					<strong>{{ $errors->first('periodical_room_size') }}</strong>
@@ -482,9 +500,9 @@ First Registration Form
 		<div class="col-sm-4" >
 			<div class="radio radio-inline">
 
-				<strong><input type="radio" name="studyroom_for_staff" id="studyroom_for_staff_true" value="1"><label>Yes
+				<strong><input type="radio" name="studyroom_for_staff" id="studyroom_for_staff_true" value="1" {{ $form->studyroom_for_staff?"checked":"" }}><label>Yes
 				</label></strong>
-				<strong><input type="radio" name="studyroom_for_staff" id="studyroom_for_staff_false" value="0" checked><label>No
+				<strong><input type="radio" name="studyroom_for_staff" id="studyroom_for_staff_false" value="0" {{ $form->studyroom_for_staff?"":"checked" }}><label>No
 				</label></strong>
 			</div>
 		</div>
@@ -501,8 +519,8 @@ First Registration Form
 				</ul>
 			</div>
 			<div class="col-sm-4" >
-			<input type="hidden" name="studyroom_for_staff_size" value="-- NA --">
-				<input type="text" class="form-control" required id="studyroom_for_staff_size" name="studyroom_for_staff_size"  value="-- NA --" disabled="disabled" >
+				<input type="hidden" name="studyroom_for_staff_size" value="-- NA --">
+				<input type="text" class="form-control" value="{{ $form->studyroom_for_staff_size }}" required id="studyroom_for_staff_size" name="studyroom_for_staff_size"  {{ $form->studyroom_for_staff?"":"disabled=\"disabled\"" }}>
 				@if ($errors->has('studyroom_for_staff_size'))
 				<span class="help-block">
 					<strong>{{ $errors->first('studyroom_for_staff_size') }}</strong>
@@ -534,9 +552,9 @@ First Registration Form
 		<div class="col-sm-4" >
 			<div class="radio radio-inline">
 
-				<strong><input type="radio" name="science_lab" id="science_lab_true" value="1"><label>Yes
+				<strong><input type="radio" name="science_lab" id="science_lab_true" value="1" {{ $form->science_lab?"checked":"" }}><label>Yes
 				</label></strong>
-				<strong><input type="radio" name="science_lab" id="science_lab_false" value="0" checked><label>No
+				<strong><input type="radio" name="science_lab" id="science_lab_false" value="0" {{ $form->science_lab?"":"checked" }}><label>No
 				</label></strong>
 			</div>
 		</div>
@@ -553,8 +571,8 @@ First Registration Form
 					</ul>
 				</div>
 				<div class="col-sm-4" >
-			<input type="hidden" name="science_lab_size" value="-- NA --">
-					<input type="text" class="form-control" required id="science_lab_size" name="science_lab_size"  value="-- NA --" disabled="disabled">
+					<input type="hidden" name="science_lab_size" value="-- NA --">
+					<input type="text" class="form-control" value="{{ $form->science_lab_size }}" required id="science_lab_size" name="science_lab_size" {{ $form->science_lab?"":"disabled=\"disabled\"" }}>
 					@if ($errors->has('science_lab_size'))
 					<span class="help-block">
 						<strong>{{ $errors->first('science_lab_size') }}</strong>
@@ -577,7 +595,7 @@ First Registration Form
 				<label >Another Store Room</label>
 			</div>
 			<div class="col-sm-4">
-				<input type="text" class="form-control" required id="another_store_room" name="another_store_room" >
+				<input type="text" class="form-control" value="{{ $form->another_store_room }}" required id="another_store_room" name="another_store_room" >
 				@if ($errors->has('another_store_room'))
 				<span class="help-block">
 					<strong>{{ $errors->first('another_store_room') }}</strong>
@@ -597,9 +615,9 @@ First Registration Form
 			<div class="col-sm-4" >
 				<div class="radio radio-inline">
 
-					<strong><input type="radio" name="water_supply" value="1"><label>Yes
+					<strong><input type="radio" name="water_supply" value="1" {{ $form->water_supply?"checked":"" }}><label>Yes
 					</label></strong>
-					<strong><input type="radio" name="water_supply" value="0" checked><label>No
+					<strong><input type="radio" name="water_supply" value="0" {{ $form->water_supply?"":"checked" }}><label>No
 					</label></strong>
 				</div>
 			</div>
@@ -620,9 +638,9 @@ First Registration Form
 			<div class="col-sm-4" >
 				<div class="radio radio-inline">
 
-					<strong><input type="radio" name="electricity" value="1"><label>Yes
+					<strong><input type="radio" name="electricity" value="1" {{ $form->electricity?"checked":"" }}><label>Yes
 					</label></strong>
-					<strong><input type="radio" name="electricity" value="0" checked><label>No
+					<strong><input type="radio" name="electricity" value="0" {{ $form->electricity?"":"checked" }}><label>No
 					</label></strong>
 				</div>
 			</div>
@@ -641,7 +659,7 @@ First Registration Form
 				<label >Boys Washroom</label>
 			</div>
 			<div class="col-sm-4">
-				<input type="text" class="form-control" required id="boys_washroom" name="boys_washroom" >
+				<input type="text" class="form-control" value="{{ $form->boys_washroom }}" required id="boys_washroom" name="boys_washroom" >
 				@if ($errors->has('boys_washroom'))
 				<span class="help-block">
 					<strong>{{ $errors->first('boys_washroom') }}</strong>
@@ -658,7 +676,7 @@ First Registration Form
 				<label >Girls Washroom</label>
 			</div>
 			<div class="col-sm-4">
-				<input type="text" class="form-control" required id="girls_washroom" name="girls_washroom" >
+				<input type="text" class="form-control" value="{{ $form->girls_washroom }}" required id="girls_washroom" name="girls_washroom" >
 				@if ($errors->has('girls_washroom'))
 				<span class="help-block">
 					<strong>{{ $errors->first('girls_washroom') }}</strong>
@@ -675,7 +693,7 @@ First Registration Form
 				<label >Another Details Of Building</label>
 			</div>
 			<div class="col-sm-4">
-				<input type="text" class="form-control" required id="other_details" name="other_details" >
+				<input type="text" class="form-control" value="{{ $form->other_details }}" required id="other_details" name="other_details" >
 				@if ($errors->has('other_details'))
 				<span class="help-block">
 					<strong>{{ $errors->first('other_details') }}</strong>
@@ -695,9 +713,9 @@ First Registration Form
 			<div class="col-sm-4" >
 				<div class="radio radio-inline">
 
-					<strong><input type="radio" name="residence_for_principal" value="1"><label>Yes
+					<strong><input type="radio" name="residence_for_principal" value="1" {{ $form->residence_for_principal?"checked":"" }}><label>Yes
 					</label></strong>
-					<strong><input type="radio" name="residence_for_principal" value="0" checked><label>No
+					<strong><input type="radio" name="residence_for_principal" value="0" {{ $form->residence_for_principal?"":"checked" }}><label>No
 					</label></strong>
 				</div>
 			</div>
@@ -714,9 +732,9 @@ First Registration Form
 			<div class="col-sm-4" >
 				<div class="radio radio-inline">
 
-					<strong><input type="radio" name="required_furniture" value="1"><label>Yes
+					<strong><input type="radio" name="required_furniture" value="1" {{ $form->required_furniture?"checked":"" }}><label>Yes
 					</label></strong>
-					<strong><input type="radio" name="required_furniture" value="0" checked><label>No
+					<strong><input type="radio" name="required_furniture" value="0" {{ $form->required_furniture?"":"checked" }}><label>No
 					</label></strong>
 				</div>
 			</div>
@@ -732,10 +750,10 @@ First Registration Form
 
 
 
-		<div class="form-group">
+		<div class="form-group{{ $errors->has('land_details') ? ' has-error' : '' }}">
 			<div class="col-sm-8">
 
-				<div class="form-group{{ $errors->has('land_details') ? ' has-error' : '' }}">
+				<div class="form-group">
 					<div class="col-sm-1" >
 						<label>I</label>
 					</div>
@@ -753,7 +771,7 @@ First Registration Form
 </div>
 <br>
 
-<div class="form-group{{ $errors->has('law_it_management_land') ? ' has-error' : '' }}">
+<div class="form-group">
 	<div class="col-sm-1" >
 		<label>II</label>
 	</div>
@@ -785,7 +803,7 @@ First Registration Form
 
 	</div>
 	<br>
-	<div class="form-group{{ $errors->has('land_for_physical_education') ? ' has-error' : '' }}">
+	<div class="form-group">
 		<div class="col-sm-1" >
 			<label>IV</label>
 		</div>
@@ -798,7 +816,7 @@ First Registration Form
 
 
 
-	<div class="form-group{{ $errors->has('mba_mca') ? ' has-error' : '' }}">
+	<div class="form-group">
 		<div class="col-sm-1" >
 			<label>V</label>
 		</div>
@@ -809,7 +827,7 @@ First Registration Form
 	</div>
 	<br>
 
-	<div class="form-group{{ $errors->has('responsibility_of_society_interest') ? ' has-error' : '' }}">
+	<div class="form-group">
 		<div class="col-sm-1" >
 			<label>VI</label>
 		</div>
@@ -822,10 +840,10 @@ First Registration Form
 <div class="col-sm-4">
 
 	<div class="form-group">
-		<div class="col-sm-10">
+		<div class="col-sm-12">
 
 
-			<textarea class="form-control"  rows="22" name="land_details"   required></textarea>
+			<textarea class="form-control"  rows="22" name="land_details"   required>{{ $form->land_details }}</textarea>
 			@if ($errors->has('land_details'))
 			<span class="help-block">
 				<strong>{{ $errors->first('land_details') }}</strong>
@@ -860,9 +878,9 @@ First Registration Form
 	<div class="col-sm-4" >
 		<div class="radio radio-inline">
 
-			<strong><input type="radio" id="endorsement_fund_true" name="endorsement_fund" value="1"><label>Yes
+			<strong><input type="radio" id="endorsement_fund_true" name="endorsement_fund" value="1" {{ $form->endorsement_fund?"checked":"" }}><label>Yes
 			</label></strong>
-			<strong><input type="radio" id="endorsement_fund_false" name="endorsement_fund" value="0" checked><label>No
+			<strong><input type="radio" id="endorsement_fund_false" name="endorsement_fund" value="0" {{ $form->endorsement_fund?"":"checked" }}><label>No
 			</label></strong>
 		</div>
 	</div>
@@ -878,8 +896,8 @@ First Registration Form
 		&nbsp;
 	</div>
 	<div class="col-sm-4" >
-			<input type="hidden" name="endorsement_fund_details" value="-- NA --">
-		<textarea style="width: 300px" class="form-control" rows="4"  required id="endorsement_fund_details" name="endorsement_fund_details" disabled="disabled"  >-- NA --</textarea>
+		<input type="hidden" name="endorsement_fund_details" value="-- NA --">
+		<textarea  class="form-control" rows="4"  required id="endorsement_fund_details" name="endorsement_fund_details" {{ $form->endorsement_fund?"":"disabled=\"disabled\"" }}>{{ $form->endorsement_fund_details }}</textarea>
 		@if ($errors->has('endorsement_fund_details'))
 		<span class="help-block">
 			<strong>{{ $errors->first('endorsement_fund_details') }}</strong>
@@ -899,9 +917,9 @@ First Registration Form
 	<div class="col-sm-4" >
 		<div class="radio radio-inline">
 
-			<strong><input type="radio" name="resources" id="resources_true" value="1"><label>Yes
+			<strong><input type="radio" name="resources" id="resources_true" value="1" {{ $form->resources?"checked":"" }}><label>Yes
 			</label></strong>
-			<strong><input type="radio" name="resources" id="resources_false" value="0" checked><label>No
+			<strong><input type="radio" name="resources" id="resources_false" value="0" {{ $form->resources?"":"checked" }}><label>No
 			</label></strong>
 		</div>
 	</div>
@@ -918,8 +936,8 @@ First Registration Form
 				</ul>
 			</div>
 			<div class="col-sm-4" >
-			<input type="hidden" name="resources_detail" value="-- NA --">
-				<input type="text" class="form-control" required id="resources_detail" name="resources_detail"  value="-- NA --" disabled="disabled" >
+				<input type="hidden" name="resources_detail" value="-- NA --">
+				<input type="text" class="form-control" value="{{ $form->resources_detail }}" required id="resources_detail" name="resources_detail" {{ $form->resources?"":"disabled=\"disabled\"" }} >
 				@if ($errors->has('resources_detail'))
 				<span class="help-block">
 					<strong>{{ $errors->first('resources_detail') }}</strong>
@@ -940,9 +958,9 @@ First Registration Form
 		</div> 
 		<div class="col-sm-4" >
 			<div class="radio radio-inline">
-				<strong><input type="radio" name="bank_balance" value="1"><label>Yes
+				<strong><input type="radio" name="bank_balance" value="1" {{ $form->bank_balance?"checked":"" }}><label>Yes
 				</label></strong>
-				<strong><input type="radio" name="bank_balance" value="0" checked><label>No
+				<strong><input type="radio" name="bank_balance" value="0" {{ $form->bank_balance?"":"checked" }}><label>No
 				</label></strong>
 			</div>
 		</div>
@@ -959,205 +977,218 @@ First Registration Form
 		<div class="col-sm-4" >
 			<div class="radio radio-inline">
 
-				<strong><input type="radio" name="provision_of_25000" value="1"><label>Yes
+				<strong><input type="radio" name="provision_of_25000" value="1" {{ $form->provision_of_25000?"checked":"" }}><label>Yes
 				</label></strong>
-				<strong><input type="radio" name="provision_of_25000" value="0" checked><label>No
+				<strong><input type="radio" name="provision_of_25000" value="0" {{ $form->provision_of_25000?"":"checked" }}><label>No
 				</label></strong>
 			</div>
 		</div>
+	</div>
 
-		<div class="col-sm-1"><p></p></div>
+		<!-- <div class="col-sm-1"><p></p></div>
 		<div class="col-sm-11">
-			<ul>
+			<ul> -->
 				<div class="form-group">
-
-					<div class="col-sm-1" ></div>
+					<div class="col-sm-1" ><p></p></div>
 					<div class="col-sm-7" >
 						<li>similiarly Rs. 10,000/- will be spent for the same every year?</li>
 					</div> 
-					<div class="col-sm-4" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<div class="col-sm-4" >
 						<div class="radio radio-inline">
-							<strong><input type="radio" name="every_year_10000" value="1"><label>Yes
+							<strong><input type="radio" name="every_year_10000" value="1" {{ $form->every_year_10000?"checked":"" }}><label>Yes
 							</label></strong>
-							<strong><input type="radio" name="every_year_10000" value="0" checked><label>No
+							<strong><input type="radio" name="every_year_10000" value="0" {{ $form->every_year_10000?"":"checked" }}><label>No
 							</label></strong>
 						</div>
 					</div>
-
-
-
-
-					<div class="col-sm-1" >
-					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-1" ><p></p></div>
 					<div class="col-sm-7" >
-
 						<li>Does college had spent any amount on books earlier ?</li>
 					</div> 
-					<div class="col-sm-4" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<div class="col-sm-4" >
 						<div class="radio radio-inline">
 
-							<strong><input type="radio" name="any_other_amount" value="1"><label>Yes
+							<strong><input type="radio" name="any_other_amount" value="1" {{ $form->any_other_amount?"checked":"" }}><label>Yes
 							</label></strong>
-							<strong><input type="radio" name="any_other_amount" value="0" checked><label>No
+							<strong><input type="radio" name="any_other_amount" value="0" {{ $form->any_other_amount?"":"checked" }}><label>No
 							</label></strong>
 						</div>
 					</div>
 				</div>
+			<!-- </ul>
+		</div> -->
 
-			</ul>
-		</div>
 
-	</div>
-	<br>
-	<hr class="style18">
-	<div class="form-group">
-		<div class="col-sm-1" >
-			<label>14</label>
-		</div>
-		<div class="col-sm-7" >
-			<label >Does college has any Registered Managing Comittee? </label>
-		</div> 
-		<div class="col-sm-4" >
-			<div class="radio radio-inline">
-
-				<strong><input type="radio" name="register_committee" value="1"><label>Yes
-				</label></strong>
-				<strong><input type="radio" name="register_committee" value="0" checked><label>No
-				</label></strong>
+		<br>
+		<hr class="style18">
+		<div class="form-group">
+			<div class="col-sm-1" >
+				<label>14</label>
 			</div>
-		</div>
-	</div>
+			<div class="col-sm-7" >
+				<label >Does college has any Registered Managing Comittee? </label>
+			</div> 
+			<div class="col-sm-4" >
+				<div class="radio radio-inline">
 
-	<div class="form-group">
-		<div class="col-sm-1"><p></p></div>
-		<div class="col-sm-7">
-			<span class="bg-info" >NOTE:If yes then send the list of members. (For number of Members of Managing Comittee see Paragarph-3 of Application Letter.) Send the copy of Registration.</span>
-		</div>
-	</div>
-	<!-- FILE UPLOADER-->
-
-
-
-	<br>
-	<hr class="style18">
-	<div class="form-group">
-		<div class="col-sm-1" >
-			<label>15</label>
-		</div>
-		<div class="col-sm-7" >
-			<label >Does college has any members earlier?</label>
-		</div> 
-		<div class="col-sm-4" >
-			<div class="radio radio-inline">
-
-				<strong><input type="radio" name="early_members" value="1"><label>Yes
-				</label></strong>
-				<strong><input type="radio" name="early_members" value="0" checked><label>No
-				</label></strong>
+					<strong><input type="radio" name="register_committee" value="1" {{ $form->register_committee?"checked":"" }}><label>Yes
+					</label></strong>
+					<strong><input type="radio" name="register_committee" value="0" {{ $form->register_committee?"":"checked" }}><label>No
+					</label></strong>
+				</div>
 			</div>
 		</div>
 
-		<div class="col-sm-1"><p></p></div>
-		<div class="col-sm-11">
-			<ul>
-
-				<div class="form-group">
-
-					<div class="col-sm-7" >
-
-						<li>Does college Managing Comittee is ready to appointee Qualified faculity </li>
-
-					</div> 
-					<div class="col-sm-4" >
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-						<div class="radio radio-inline">
-
-							<strong><input type="radio" name="appoint_qualifiedfaculty" value="1"><label>Yes
-							</label></strong>
-							<strong><input type="radio" name="appoint_qualifiedfaculty" value="0" checked><label>No
-							</label></strong>
-						</div>
-					</div>
-				</div>
-
-
-				<div class="form-group">
-
-					<div class="col-sm-7" >
-
-						<li>Give salary scale according to UGC and University?</li>
-
-					</div> 
-					<div class="col-sm-4" >
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-						<div class="radio radio-inline">
-
-							<strong><input type="radio" name="salary_acc_ugc" value="1"><label>Yes
-							</label></strong>
-							<strong><input type="radio" name="salary_acc_ugc" value="0" checked><label>No
-							</label></strong>
-						</div>
-					</div>
-				</div>
-			</ul>
+		<div class="form-group">
+			<div class="col-sm-1"><p></p></div>
+			<div class="col-sm-7">
+				<span class="bg-info" >NOTE:If yes then send the list of members. (For number of Members of Managing Comittee see Paragarph-3 of Application Letter.) Send the copy of Registration.</span>
+			</div>
 		</div>
+		<!-- FILE UPLOADER-->
 
 
 
-	</div>
-	<br>
-	<hr class="style18">
-	<div class="form-group ">
-		<div class="col-sm-1" >
-			<label>16</label>
-		</div>
-		<div class="col-sm-7" >
-			<label >Does college has any other college within 5mile? If yes then write the name </label>
-		</div> 
-		<div class="col-sm-4" >
-			<div class="radio radio-inline">
+		<br>
+		<hr class="style18">
+		<div class="form-group">
+			<div class="col-sm-1" >
+				<label>15</label>
+			</div>
+			<div class="col-sm-7" >
+				<label >Does college has any members earlier?</label>
+			</div> 
+			<div class="col-sm-4" >
+				<div class="radio radio-inline">
 
-				<strong><input type="radio" name="within_5mile"  value="1"><label>Yes
-				</label></strong>
-				<strong><input type="radio" name="within_5mile" value="0" checked><label>No
-				</label></strong>
+					<strong><input type="radio" name="early_members" value="1" {{ $form->early_members?"checked":"" }}><label>Yes
+					</label></strong>
+					<strong><input type="radio" name="early_members" value="0" {{ $form->early_members?"":"checked" }}><label>No
+					</label></strong>
+				</div>
 			</div>
 		</div>
 		<div class="form-group">
 			<div class="col-sm-1"><p></p></div>
+			<div class="col-sm-7" >
+				<li>Does college Managing Comittee is ready to appointee Qualified faculity </li>
+
+			</div> 
+			<div class="col-sm-4" >
+				<div class="radio radio-inline">
+					<strong><input type="radio" name="appoint_qualifiedfaculty" value="1" {{ $form->appoint_qualifiedfaculty?"checked":"" }}><label>Yes
+					</label></strong>
+					<strong><input type="radio" name="appoint_qualifiedfaculty" value="0" {{ $form->appoint_qualifiedfaculty?"":"checked" }}><label>No
+					</label></strong>
+				</div>
+			</div>
 		</div>
 
-		<div class="form-group{{ $errors->has('any_other_college_name') ? ' has-error' : '' }}">
+
+		<div class="form-group">
+			<div class="col-sm-1"><p></p></div>
+			<div class="col-sm-7" >
+
+				<li>Give salary scale according to UGC and University?</li>
+
+			</div> 
+			<div class="col-sm-4" >
+				<div class="radio radio-inline">
+					<strong><input type="radio" name="salary_acc_ugc" value="1" {{ $form->salary_acc_ugc?"checked":"" }}><label>Yes
+					</label></strong>
+					<strong><input type="radio" name="salary_acc_ugc" value="0" {{ $form->salary_acc_ugc?"":"checked" }}><label>No
+					</label></strong>
+				</div>
+			</div>
+		</div>
+
+		<br>
+		<hr class="style18">
+		<div class="form-group ">
 			<div class="col-sm-1" >
+				<label>16</label>
 			</div>
 			<div class="col-sm-7" >
-				<ul>
-					<li>If no then give the name of any other college nearby and distance from college?</li>
-				</ul>
-			</div>
+				<label >Does college has any other college within 5mile? If yes then write the name </label>
+			</div> 
 			<div class="col-sm-4" >
-				<input type="text" class="form-control" required id="any_other_college_name" name="any_other_college_name"  >
-				@if ($errors->has('any_other_college_name'))
-				<span class="help-block">
-					<strong>{{ $errors->first('any_other_college_name') }}</strong>
-				</span>
+				<div class="radio radio-inline">
 
-				@endif
+					<strong><input type="radio" name="within_5mile"  value="1" {{ $form->within_5mile?"checked":"" }}><label>Yes
+					</label></strong>
+					<strong><input type="radio" name="within_5mile" value="0" {{ $form->within_5mile?"":"checked" }}><label>No
+					</label></strong>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-1"><p></p></div>
+			</div>
+
+			<div class="form-group{{ $errors->has('any_other_college_name') ? ' has-error' : '' }}">
+				<div class="col-sm-1" >
+				</div>
+				<div class="col-sm-7" >
+					<ul>
+						<li>If no then give the name of any other college nearby and distance from college?</li>
+					</ul>
+				</div>
+				<div class="col-sm-4" >
+					<input type="text" class="form-control" value="{{ $form->any_other_college_name }}" required id="any_other_college_name" name="any_other_college_name"  >
+					@if ($errors->has('any_other_college_name'))
+					<span class="help-block">
+						<strong>{{ $errors->first('any_other_college_name') }}</strong>
+					</span>
+
+					@endif
+				</div>
 			</div>
 		</div>
-	</div>
-	<br>
+		<br>
 
-	<div class="form-group">
-		<div class="col-sm-1" >&nbsp;</div>
-		<div class="col-sm-7" >&nbsp;</div>
-		<div class="col-sm-4 text-justify" >
+		<div class="form-group">
+			<div class="col-sm-1" >&nbsp;</div>
+			<div class="col-sm-7" >&nbsp;</div>
+			<div class="col-sm-4 text-justify" >
 
-			<button type="submit" class="btn btn-primary" >Submit</button>
+				<button type="submit" class="btn btn-primary" >Save</button>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div class="col-sm-1" >&nbsp;</div>
+			<div class="col-sm-7" >&nbsp;</div>
+			<div class="col-sm-4 text-justify" >
+
+				<span class="bg-info" >Last Saved {{ $form->updated_at->diffForHumans() }}</span>
+			</div>
+		</div>
+		@if(!$form->is_submitted)
+		<br/>
+		<div class="form-group">
+			<div class="col-sm-1" >&nbsp;</div>
+			<div class="col-sm-7" >
+				<span class="bg-info" >NOTE:Once Submitted It will no longer be editable.</span>
+			</div>
+			<div class="col-sm-4 text-justify" >
+
+				<a class="btn btn-primary" href="{{ route('collegenewapplysubmit') }}"
+				onclick="event.preventDefault();
+				document.getElementById('submit-the-form').submit();">
+				Submit
+			</a>
 		</div>
 	</div>
-</form>
 
+	@endif
+</form>
+@if(!$form->is_submitted)
+<form id="submit-the-form" action="{{ route('collegenewapplysubmit') }}" method="POST" style="display: none;">
+	<input type="hidden" name="_method" value="PUT">
+	{{ csrf_field() }}
+</form>
+@endif
 
 
 <script type="text/javascript">
@@ -1260,8 +1291,13 @@ $('#resources_false').click(function()
 });
 
 </script>
-
-
+@else
+<div class="alert alert-info">
+	<p>
+		Invalid Submission
+	</p>
+</div>
+@endif
 @endsection
 
 

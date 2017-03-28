@@ -19,6 +19,13 @@ class College extends Model
 		return $this->belongsTo('App\User','id_user');
 	}
 
+
+
+	public function form(){
+
+		return $this->hasOne('App\CollegeNewRegistration','id_college');
+	}
+
 	public function inspections(){
 
 		return $this->hasMany('App\Inspection','id_college');

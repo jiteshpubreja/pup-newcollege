@@ -1,37 +1,11 @@
-<table border="1" style="text-align: center;">
-<tr style="font-weight:bold;">
-@foreach($keys as $key)
-	<td>
-		{{ $key }}
-	</td>
-@endforeach
-</tr>
-@foreach($users as $user)
-<tr>
-@foreach($keys as $key)
-	<td>
-		{{ $user[$key] }}
-	</td>
-@endforeach
-</tr>
-@endforeach
-</table>
-<br pagebreak="true" />
-<table border="1" style="text-align: center;">
-<tr style="font-weight:bold;">
-@foreach($keys as $key)
-	<td>
-		{{ $key }}
-	</td>
-@endforeach
-</tr>
-@foreach($users as $user)
-<tr>
-@foreach($keys as $key)
-	<td>
-		{{ $user[$key] }}
-	</td>
-@endforeach
-</tr>
-@endforeach
-</table>
+
+
+
+	<br/>
+
+	<form id="forward-to-dean" action="{{ route('collegenewapply') }}" method="POST">
+		<input type="hidden" name="_method" value="PUT">
+		<input type="text" class="form-control" required id="college_name" name="college_name" value="Bhai Gurdas">
+		{{ csrf_field() }}
+		<input type="submit" value="submit">
+	</form>

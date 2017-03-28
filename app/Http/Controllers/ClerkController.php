@@ -119,7 +119,7 @@ class ClerkController extends Controller
         if($this->isNotClerk()) {
             return Redirect::route('home');
         }
-        $inspections = Inspection::orderBy('is_seen_by_clerk','asc')->get();
+        $inspections = Inspection::orderBy('is_forwarded_to_dean','asc')->orderBy('is_seen_by_clerk','asc')->orderBy('created_at','desc')->get();
         
         if($inspections->count()){ 
             if($inspectionid) {
@@ -160,11 +160,11 @@ class ClerkController extends Controller
                     $inspectionid->is_forwarded_to_dean = true;
                     $inspectionid->save();
                 }
-                return "Done";
+                return back()->with('success', 'Inspection Forwarded Sucessfully');
             }
             else {
 
-                return "Not Found";
+                return back();
             }
         
         

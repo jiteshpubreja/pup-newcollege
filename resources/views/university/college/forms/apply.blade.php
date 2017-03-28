@@ -1,10 +1,23 @@
-@extends('templates.main',['title' => '5000-2'])
+@extends('templates.college.main',['title' => 'Apply For New College'])
 @section('heading')
-First Registration Form
+Registration Form
 @endsection
 @section('content')
-<form class="form-horizontal" role="form" method="POST" action="{{ route('requestdd') }}">
+<form class="form-horizontal" role="form" method="POST" action="{{ route('collegenewapply') }}">
 	{{ csrf_field() }}
+	@if ($message = Session::get('success'))
+	<div class="alert alert-success">
+		<p>
+			{{ $message }}
+		</p>
+	</div>
+	@else
+	<div class="alert alert-info">
+		<p>
+			Once You Save The Form It can be edited Later.
+		</p>
+	</div>
+	@endif
 	<div class="form-group{{ $errors->has('college_name') ? ' has-error' : '' }}">
 		<div class="col-sm-1" >
 			<label>1</label>
@@ -47,7 +60,7 @@ First Registration Form
 			<label>3</label>
 		</div>
 		<div class="col-sm-7" >
-			<label>Cources To be start</label>
+			<label>Courses To be start</label>
 		</div>
 		<div class="col-sm-4" >
 			<input type="text" class="form-control" required name="courses" id="courses" >
@@ -93,7 +106,7 @@ First Registration Form
 			<label>I</label>
 		</div>
 		<div class="col-sm-7" >
-			<label >Railway Station</label>
+			<label>Railway Station</label>
 		</div>
 		<div class="col-sm-4">
 			<input type="text" class="form-control" required id="railway_station" name="railway_station" >
@@ -112,7 +125,7 @@ First Registration Form
 			<label>II</label>
 		</div>
 		<div class="col-sm-7" >
-			<label >Bus Stand</label>
+			<label>Bus Stand</label>
 		</div>
 		<div class="col-sm-4">
 			<input type="text" class="form-control" required id="bus_stand" name="bus_stand" >
@@ -131,7 +144,7 @@ First Registration Form
 			<label>III</label>
 		</div>
 		<div class="col-sm-7" >
-			<label >Post office</label>
+			<label>Post office</label>
 		</div>
 		<div class="col-sm-4">
 			<input type="text" class="form-control" required id="post_office" name="post_office" >
@@ -150,7 +163,7 @@ First Registration Form
 			<label>IV</label>
 		</div>
 		<div class="col-sm-7" >
-			<label >Telegram office</label>
+			<label>Telegram office</label>
 		</div>
 		<div class="col-sm-4">
 			<input type="text" class="form-control" required id="telegram" name="telegram" >
@@ -169,7 +182,7 @@ First Registration Form
 			<label>V</label>
 		</div>
 		<div class="col-sm-7" >
-			<label >Telephone of college</label>
+			<label>Telephone of college</label>
 		</div>
 		<div class="col-sm-4">
 			<input type="text" class="form-control" required id="college_phone_number" name="college_phone_number" >
@@ -189,7 +202,7 @@ First Registration Form
 			<label>VI</label>
 		</div>
 		<div class="col-sm-7" >
-			<label >Telephone of Principal</label>
+			<label>Telephone of Principal</label>
 		</div>
 		<div class="col-sm-4">
 			<input type="text" class="form-control" required id="principal_phone_number" name="principal_phone_number" >
@@ -203,12 +216,12 @@ First Registration Form
 	<br>
 
 
-	<div class="form-group">
+	<div class="form-group{{ $errors->has('president_of_mgmt_committee') ? ' has-error' : '' }}">
 		<div class="col-sm-1" >
 			<label>VII</label>
 		</div>
 		<div class="col-sm-7" >
-			<label >Telephone of President of managing comittee of college</label>
+			<label>Telephone of President of managing comittee of college</label>
 		</div>
 		<div class="col-sm-4">
 			<input type="text" class="form-control" required id="president_of_mgmt_committee" name="president_of_mgmt_committee" >
@@ -227,7 +240,7 @@ First Registration Form
 			<label>VIII</label>
 		</div>
 		<div class="col-sm-7" >
-			<label >Telephone of Secratory office</label>
+			<label>Telephone of Secratory office</label>
 		</div>
 		<div class="col-sm-4">
 			<input type="text" class="form-control" required id="secretary_office" name="secretary_office" >
@@ -246,7 +259,7 @@ First Registration Form
 			<label>IX</label>
 		</div>
 		<div class="col-sm-7" >
-			<label >Telephone of Principal House number</label>
+			<label>Telephone of Principal House number</label>
 		</div>
 		<div class="col-sm-4">
 			<input type="text" class="form-control" required id="principal_residence_phone" name="principal_residence_phone" >
@@ -268,7 +281,7 @@ First Registration Form
 			<label>I</label>
 		</div>
 		<div class="col-sm-7" >
-			<label >Principal Office</label>
+			<label>Principal Office</label>
 		</div>
 		<div class="col-sm-4">
 			<input type="text" class="form-control" required id="principal_office_building" name="principal_office_building" >
@@ -295,7 +308,7 @@ First Registration Form
 			<label>II</label>
 		</div>
 		<div class="col-sm-7" >
-			<label >Classes Count</label>
+			<label>Classes Count</label>
 		</div>
 		<div class="col-sm-4">
 			<input type="text" class="form-control" required id="classes_count" name="classes_count" >
@@ -313,7 +326,7 @@ First Registration Form
 			<label>III</label>
 		</div>
 		<div class="col-sm-7" >
-			<label >Classes Size</label>
+			<label>Classes Size</label>
 		</div>
 		<div class="col-sm-4">
 			<input type="text" class="form-control" required id="classes_size" name="classes_size" >
@@ -330,7 +343,7 @@ First Registration Form
 			<label>IV</label>
 		</div>
 		<div class="col-sm-7" >
-			<label >Staff Room</label>
+			<label>Staff Room</label>
 		</div>
 		<div class="col-sm-4">
 			<input type="text" class="form-control" required id="staff_room" name="staff_room" >
@@ -347,7 +360,7 @@ First Registration Form
 			<label>V</label>
 		</div>
 		<div class="col-sm-7" >
-			<label >Common Room For Girls</label>
+			<label>Common Room For Girls</label>
 		</div>
 		<div class="col-sm-4">
 			<input type="text" class="form-control" required id="commonroom_for_girls" name="commonroom_for_girls" >
@@ -364,7 +377,7 @@ First Registration Form
 			<label>VI</label>
 		</div>
 		<div class="col-sm-7" >
-			<label >Common Room For Boys</label>
+			<label>Common Room For Boys</label>
 		</div>
 		<div class="col-sm-4">
 			<input type="text" class="form-control" required id="commonroom_for_boys" name="commonroom_for_boys" >
@@ -397,7 +410,7 @@ First Registration Form
 			<label>VII</label>
 		</div>
 		<div class="col-sm-7" >
-			<label >Reading Room</label>
+			<label>Reading Room</label>
 		</div> 
 		<div class="col-sm-4" >
 			<div class="radio radio-inline">
@@ -421,7 +434,7 @@ First Registration Form
 				</ul>
 			</div>
 			<div class="col-sm-4" >
-			<input type="hidden" name="readingroom_size" value="-- NA --">
+				<input type="hidden" name="readingroom_size" value="-- NA --">
 				<input type="text" class="form-control" required id="readingroom_size" name="readingroom_size" value="-- NA --" disabled="disabled" >
 				@if ($errors->has('readingroom_size'))
 				<span class="help-block">
@@ -437,7 +450,7 @@ First Registration Form
 			<label>VIII</label>
 		</div>
 		<div class="col-sm-7" >
-			<label >Periodical Room</label>
+			<label>Periodical Room</label>
 		</div> 
 		<div class="col-sm-4" >
 			<div class="radio radio-inline">
@@ -461,7 +474,7 @@ First Registration Form
 				</ul>
 			</div>
 			<div class="col-sm-4" >
-			<input type="hidden" name="periodical_room_size" value="-- NA --">
+				<input type="hidden" name="periodical_room_size" value="-- NA --">
 				<input type="text" class="form-control" required id="periodical_room_size" name="periodical_room_size"  value="-- NA --" disabled="disabled">
 				@if ($errors->has('periodical_room_size'))
 				<span class="help-block">
@@ -477,7 +490,7 @@ First Registration Form
 			<label>IX</label>
 		</div>
 		<div class="col-sm-7" >
-			<label >Study Room For Staff</label>
+			<label>Study Room For Staff</label>
 		</div> 
 		<div class="col-sm-4" >
 			<div class="radio radio-inline">
@@ -501,7 +514,7 @@ First Registration Form
 				</ul>
 			</div>
 			<div class="col-sm-4" >
-			<input type="hidden" name="studyroom_for_staff_size" value="-- NA --">
+				<input type="hidden" name="studyroom_for_staff_size" value="-- NA --">
 				<input type="text" class="form-control" required id="studyroom_for_staff_size" name="studyroom_for_staff_size"  value="-- NA --" disabled="disabled" >
 				@if ($errors->has('studyroom_for_staff_size'))
 				<span class="help-block">
@@ -529,7 +542,7 @@ First Registration Form
 			<label>X</label>
 		</div>
 		<div class="col-sm-7" >
-			<label >Science Laboratory</label>
+			<label>Science Laboratory</label>
 		</div> 
 		<div class="col-sm-4" >
 			<div class="radio radio-inline">
@@ -553,7 +566,7 @@ First Registration Form
 					</ul>
 				</div>
 				<div class="col-sm-4" >
-			<input type="hidden" name="science_lab_size" value="-- NA --">
+					<input type="hidden" name="science_lab_size" value="-- NA --">
 					<input type="text" class="form-control" required id="science_lab_size" name="science_lab_size"  value="-- NA --" disabled="disabled">
 					@if ($errors->has('science_lab_size'))
 					<span class="help-block">
@@ -574,7 +587,7 @@ First Registration Form
 				<label>XI</label>
 			</div>
 			<div class="col-sm-7" >
-				<label >Another Store Room</label>
+				<label>Another Store Room</label>
 			</div>
 			<div class="col-sm-4">
 				<input type="text" class="form-control" required id="another_store_room" name="another_store_room" >
@@ -592,7 +605,7 @@ First Registration Form
 				<label>XII</label>
 			</div>
 			<div class="col-sm-7" >
-				<label >water Supply</label>
+				<label>water Supply</label>
 			</div> 
 			<div class="col-sm-4" >
 				<div class="radio radio-inline">
@@ -615,7 +628,7 @@ First Registration Form
 				<label>XIII</label>
 			</div>
 			<div class="col-sm-7" >
-				<label >Electricity Supply</label>
+				<label>Electricity Supply</label>
 			</div> 
 			<div class="col-sm-4" >
 				<div class="radio radio-inline">
@@ -638,7 +651,7 @@ First Registration Form
 				<label>XIV</label>
 			</div>
 			<div class="col-sm-7" >
-				<label >Boys Washroom</label>
+				<label>Boys Washroom</label>
 			</div>
 			<div class="col-sm-4">
 				<input type="text" class="form-control" required id="boys_washroom" name="boys_washroom" >
@@ -655,7 +668,7 @@ First Registration Form
 				<label>XV</label>
 			</div>
 			<div class="col-sm-7" >
-				<label >Girls Washroom</label>
+				<label>Girls Washroom</label>
 			</div>
 			<div class="col-sm-4">
 				<input type="text" class="form-control" required id="girls_washroom" name="girls_washroom" >
@@ -672,7 +685,7 @@ First Registration Form
 				<label>XVI</label>
 			</div>
 			<div class="col-sm-7" >
-				<label >Another Details Of Building</label>
+				<label>Another Details Of Building</label>
 			</div>
 			<div class="col-sm-4">
 				<input type="text" class="form-control" required id="other_details" name="other_details" >
@@ -690,7 +703,7 @@ First Registration Form
 				<label>7</label>
 			</div>
 			<div class="col-sm-7" >
-				<label >Residence for principal OR Will managing comittee will arrange residence for principal(Within 1 km)? Or they will promised to do the same?</label>
+				<label>Residence for principal OR Will managing comittee will arrange residence for principal(Within 1 km)? Or they will promised to do the same?</label>
 			</div> 
 			<div class="col-sm-4" >
 				<div class="radio radio-inline">
@@ -709,7 +722,7 @@ First Registration Form
 				<label>8</label>
 			</div>
 			<div class="col-sm-7" >
-				<label >Does college have required furniture?</label>
+				<label>Does college have required furniture?</label>
 			</div> 
 			<div class="col-sm-4" >
 				<div class="radio radio-inline">
@@ -740,7 +753,7 @@ First Registration Form
 						<label>I</label>
 					</div>
 					<div class="col-sm-11" >
-						<label >Land required for education 2500sq.mt.</label>
+						<label>Land required for education 2500sq.mt.</label>
 					</div>
 <!-- <div class="col-sm-4">
 <input type="text" class="form-control" required id="land_details" name="land_details" >
@@ -758,7 +771,7 @@ First Registration Form
 		<label>II</label>
 	</div>
 	<div class="col-sm-11" >
-		<label >For Law,Information Technology Mangement and Arts/Science Degree college Land should
+		<label>For Law,Information Technology Mangement and Arts/Science Degree college Land should
 			be according to following:<br>
 			Inside Municipal corporation Area-  2Arcs<br>
 			Inside Municipal Comittee Area   -  3Arcs<br>
@@ -779,7 +792,7 @@ First Registration Form
 		<label>III</label>
 	</div>
 	<div class="col-sm-11" >
-		<label >Land Required inside Municipal Corporation and Municipal Comittee areas for girls Arts/Science Degree
+		<label>Land Required inside Municipal Corporation and Municipal Comittee areas for girls Arts/Science Degree
 			college should be 2Arcs and outside Municipal limit it should be 3Arcs</label>
 		</div>
 
@@ -790,7 +803,7 @@ First Registration Form
 			<label>IV</label>
 		</div>
 		<div class="col-sm-11" >
-			<label >Land Required for Phyisical Education college inside or outside should be 5Arcs</label>
+			<label>Land Required for Phyisical Education college inside or outside should be 5Arcs</label>
 		</div>
 
 	</div>
@@ -803,7 +816,7 @@ First Registration Form
 			<label>V</label>
 		</div>
 		<div class="col-sm-11" >
-			<label >Courses under AICTE should have land according to AICTE norms. For MBA 1Arcs, For MCA 1.5Arcs</label>
+			<label>Courses under AICTE should have land according to AICTE norms. For MBA 1Arcs, For MCA 1.5Arcs</label>
 		</div>
 
 	</div>
@@ -814,7 +827,7 @@ First Registration Form
 			<label>VI</label>
 		</div>
 		<div class="col-sm-11" >
-			<label >If Sociey/Trust have Land according to rules for 99years lease, then permission for opening college will be on this promise If during lease time lease agreement overs then due to this if admitted students and staff faces any problem then society/trust will be liable for the same.</label>
+			<label>If Sociey/Trust have Land according to rules for 99years lease, then permission for opening college will be on this promise If during lease time lease agreement overs then due to this if admitted students and staff faces any problem then society/trust will be liable for the same.</label>
 		</div>
 
 	</div>
@@ -822,7 +835,7 @@ First Registration Form
 <div class="col-sm-4">
 
 	<div class="form-group">
-		<div class="col-sm-10">
+		<div class="col-sm-12">
 
 
 			<textarea class="form-control"  rows="22" name="land_details"   required></textarea>
@@ -855,7 +868,7 @@ First Registration Form
 		<label>10</label>
 	</div>
 	<div class="col-sm-7" >
-		<label >Does college had submitted or will submit the amount of endorsement fund in the form of F.D.R. payable to Dean,College Development Council, Punjabi University,Patiala (Details of Endorsement Fund decided by University is in Appendix-1)</label>
+		<label>Does college had submitted or will submit the amount of endorsement fund in the form of F.D.R. payable to Dean,College Development Council, Punjabi University,Patiala (Details of Endorsement Fund decided by University is in Appendix-1)</label>
 	</div> 
 	<div class="col-sm-4" >
 		<div class="radio radio-inline">
@@ -878,8 +891,8 @@ First Registration Form
 		&nbsp;
 	</div>
 	<div class="col-sm-4" >
-			<input type="hidden" name="endorsement_fund_details" value="-- NA --">
-		<textarea style="width: 300px" class="form-control" rows="4"  required id="endorsement_fund_details" name="endorsement_fund_details" disabled="disabled"  >-- NA --</textarea>
+		<input type="hidden" name="endorsement_fund_details" value="-- NA --">
+		<textarea  class="form-control" rows="4"  required id="endorsement_fund_details" name="endorsement_fund_details" disabled="disabled"  >-- NA --</textarea>
 		@if ($errors->has('endorsement_fund_details'))
 		<span class="help-block">
 			<strong>{{ $errors->first('endorsement_fund_details') }}</strong>
@@ -894,7 +907,7 @@ First Registration Form
 		<label>11</label>
 	</div>
 	<div class="col-sm-7" >
-		<label >Does college has enough resources to maintain their working position?</label>
+		<label>Does college has enough resources to maintain their working position?</label>
 	</div> 
 	<div class="col-sm-4" >
 		<div class="radio radio-inline">
@@ -918,7 +931,7 @@ First Registration Form
 				</ul>
 			</div>
 			<div class="col-sm-4" >
-			<input type="hidden" name="resources_detail" value="-- NA --">
+				<input type="hidden" name="resources_detail" value="-- NA --">
 				<input type="text" class="form-control" required id="resources_detail" name="resources_detail"  value="-- NA --" disabled="disabled" >
 				@if ($errors->has('resources_detail'))
 				<span class="help-block">
@@ -936,7 +949,7 @@ First Registration Form
 			<label>12</label>
 		</div>
 		<div class="col-sm-7" >
-			<label >Does bank have any other amount on the name of college? Attach proofs.</label>
+			<label>Does bank have any other amount on the name of college? Attach proofs.</label>
 		</div> 
 		<div class="col-sm-4" >
 			<div class="radio radio-inline">
@@ -954,7 +967,7 @@ First Registration Form
 			<label>13</label>
 		</div>
 		<div class="col-sm-7" >
-			<label >Does college have provision of Rs. 25,000/- for Library Books for first year or they will arrange it? </label>
+			<label>Does college have provision of Rs. 25,000/- for Library Books for first year or they will arrange it? </label>
 		</div> 
 		<div class="col-sm-4" >
 			<div class="radio radio-inline">
@@ -965,17 +978,17 @@ First Registration Form
 				</label></strong>
 			</div>
 		</div>
+	</div>
 
-		<div class="col-sm-1"><p></p></div>
+		<!-- <div class="col-sm-1"><p></p></div>
 		<div class="col-sm-11">
-			<ul>
+			<ul> -->
 				<div class="form-group">
-
-					<div class="col-sm-1" ></div>
+					<div class="col-sm-1" ><p></p></div>
 					<div class="col-sm-7" >
 						<li>similiarly Rs. 10,000/- will be spent for the same every year?</li>
 					</div> 
-					<div class="col-sm-4" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<div class="col-sm-4" >
 						<div class="radio radio-inline">
 							<strong><input type="radio" name="every_year_10000" value="1"><label>Yes
 							</label></strong>
@@ -983,17 +996,13 @@ First Registration Form
 							</label></strong>
 						</div>
 					</div>
-
-
-
-
-					<div class="col-sm-1" >
 					</div>
+					<div class="form-group">
+					<div class="col-sm-1" ><p></p></div>
 					<div class="col-sm-7" >
-
 						<li>Does college had spent any amount on books earlier ?</li>
 					</div> 
-					<div class="col-sm-4" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<div class="col-sm-4" >
 						<div class="radio radio-inline">
 
 							<strong><input type="radio" name="any_other_amount" value="1"><label>Yes
@@ -1003,11 +1012,10 @@ First Registration Form
 						</div>
 					</div>
 				</div>
+			<!-- </ul>
+		</div> -->
 
-			</ul>
-		</div>
-
-	</div>
+	
 	<br>
 	<hr class="style18">
 	<div class="form-group">
@@ -1015,7 +1023,7 @@ First Registration Form
 			<label>14</label>
 		</div>
 		<div class="col-sm-7" >
-			<label >Does college has any Registered Managing Comittee? </label>
+			<label>Does college has any Registered Managing Comittee? </label>
 		</div> 
 		<div class="col-sm-4" >
 			<div class="radio radio-inline">
@@ -1045,7 +1053,7 @@ First Registration Form
 			<label>15</label>
 		</div>
 		<div class="col-sm-7" >
-			<label >Does college has any members earlier?</label>
+			<label>Does college has any members earlier?</label>
 		</div> 
 		<div class="col-sm-4" >
 			<div class="radio radio-inline">
@@ -1056,22 +1064,15 @@ First Registration Form
 				</label></strong>
 			</div>
 		</div>
-
+		</div>
+		<div class="form-group">
 		<div class="col-sm-1"><p></p></div>
-		<div class="col-sm-11">
-			<ul>
-
-				<div class="form-group">
-
-					<div class="col-sm-7" >
-
+			<div class="col-sm-7" >
 						<li>Does college Managing Comittee is ready to appointee Qualified faculity </li>
 
 					</div> 
 					<div class="col-sm-4" >
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 						<div class="radio radio-inline">
-
 							<strong><input type="radio" name="appoint_qualifiedfaculty" value="1"><label>Yes
 							</label></strong>
 							<strong><input type="radio" name="appoint_qualifiedfaculty" value="0" checked><label>No
@@ -1082,16 +1083,14 @@ First Registration Form
 
 
 				<div class="form-group">
-
+					<div class="col-sm-1"><p></p></div>
 					<div class="col-sm-7" >
 
 						<li>Give salary scale according to UGC and University?</li>
 
 					</div> 
 					<div class="col-sm-4" >
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 						<div class="radio radio-inline">
-
 							<strong><input type="radio" name="salary_acc_ugc" value="1"><label>Yes
 							</label></strong>
 							<strong><input type="radio" name="salary_acc_ugc" value="0" checked><label>No
@@ -1099,12 +1098,7 @@ First Registration Form
 						</div>
 					</div>
 				</div>
-			</ul>
-		</div>
-
-
-
-	</div>
+			
 	<br>
 	<hr class="style18">
 	<div class="form-group ">
@@ -1112,7 +1106,7 @@ First Registration Form
 			<label>16</label>
 		</div>
 		<div class="col-sm-7" >
-			<label >Does college has any other college within 5mile? If yes then write the name </label>
+			<label>Does college has any other college within 5mile? If yes then write the name </label>
 		</div> 
 		<div class="col-sm-4" >
 			<div class="radio radio-inline">
@@ -1153,7 +1147,7 @@ First Registration Form
 		<div class="col-sm-7" >&nbsp;</div>
 		<div class="col-sm-4 text-justify" >
 
-			<button type="submit" class="btn btn-primary" >Submit</button>
+			<button type="submit" class="btn btn-primary" >Save</button>
 		</div>
 	</div>
 </form>

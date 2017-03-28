@@ -23,6 +23,11 @@ class HomeController extends Controller
      */
     public function __construct()
     {   
+
+
+
+
+
         $department = (new DepartmentClerk)->adddepartment(['name'=>'Tester']);
         $status = "undefined";
         if(isset($department->id)){
@@ -136,7 +141,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        return view('temp');
     }
 
 

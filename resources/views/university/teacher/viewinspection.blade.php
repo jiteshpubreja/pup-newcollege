@@ -77,6 +77,9 @@ View Inspection
 		{{ $inspectionid->final_remarks }}
 	</p>
 </div>
+<div class=" col-md-12" style="text-align: center;"> 
+<label>Inspection Submitted on {{ $inspectionid->created_at->toFormattedDateString() }}
+</div>
 @else
 <div class="alert alert-info">
 	<p>
@@ -111,6 +114,13 @@ View Inspection
 		<td>
 			<h4 >
 				<label>
+					Dated
+				</label>
+			</h4>
+		</td>
+		<td>
+			<h4 >
+				<label>
 					View Inspection
 				</label>
 			</h4>
@@ -132,6 +142,11 @@ View Inspection
 		<td>
 			<label>
 				{{ $inspection->final_remarks }}
+			</label>
+		</td>
+		<td>
+			<label>
+				{{ $inspection->created_at->toFormattedDateString() }}
 			</label>
 		</td>
 		<td>
