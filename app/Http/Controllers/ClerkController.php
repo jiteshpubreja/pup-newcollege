@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\College;
+use App\CollegeNewRegistration;
+use App\CollegeUploadedFile;
 use App\DiscrepancyCategory;
 use App\DiscrepancyList;
 use App\FeeStructure;
@@ -13,10 +16,10 @@ use Illuminate\Support\Facades\Route;
 
 class ClerkController extends Controller
 {
-    
+
     protected $clerk;
 
-	public function __construct()
+    public function __construct()
     {
         $this->middleware('auth');
     }
@@ -122,8 +125,8 @@ class ClerkController extends Controller
         $inspections = Inspection::orderBy('is_forwarded_to_dean','asc')->orderBy('is_seen_by_clerk','asc')->orderBy('created_at','desc')->get();
         
         if($inspections->count()){ 
+            $inspectionid = Inspection::where('id',$inspectionid)->first();
             if($inspectionid) {
-                $inspectionid = Inspection::where('id',$inspectionid)->first();
 
                 if(!$inspectionid->is_seen_by_clerk) {
                     $inspectionid->is_seen_by_clerk = true;
@@ -153,18 +156,164 @@ class ClerkController extends Controller
         if($this->isNotClerk()) {
             return Redirect::route('home');
         }
-            if($inspectionid) {
-                $inspectionid = Inspection::where('id',$inspectionid)->first();
+        if($inspectionid) {
+            $inspectionid = Inspection::where('id',$inspectionid)->first();
 
-                if(!$inspectionid->is_forwarded_to_dean) {
-                    $inspectionid->is_forwarded_to_dean = true;
-                    $inspectionid->save();
+            if(!$inspectionid->is_forwarded_to_dean) {
+                $inspectionid->is_forwarded_to_dean = true;
+                $inspectionid->save();
+            }
+            return back()->with('success', 'Inspection Forwarded Sucessfully');
+        }
+        else {
+
+            return back();
+        }
+        
+        
+    }
+
+
+
+
+    
+
+    public function viewapplication($collegeid = null) {
+        if($this->isNotClerk()) {
+            return Redirect::route('home');
+        }
+        $applications = CollegeNewRegistration::where('is_submitted',true)->orderBy('is_forwarded_to_dean','asc')->orderBy('is_seen_by_clerk','asc')->orderBy('created_at','desc')->get();
+        
+        if($applications->count()){ 
+            $collegeid = CollegeNewRegistration::where('id',$collegeid)->where('is_submitted',true)->first();
+            if($collegeid) {
+
+                if(!$collegeid->is_seen_by_clerk) {
+                    $collegeid->is_seen_by_clerk = true;
+                    $collegeid->save();
                 }
-                return back()->with('success', 'Inspection Forwarded Sucessfully');
+                return view('university.clerk.applications.view',compact('applications'))->with('form',$collegeid);
             }
             else {
 
-                return back();
+                return view('university.clerk.applications.view',compact('applications'));
+            }
+        }
+        else {
+            return view('university.clerk.applications.view');
+        }
+        
+        
+    }
+
+
+    public function viewapplicationrejects($collegeid = null) {
+        if($this->isNotClerk()) {
+            return Redirect::route('home');
+        }
+        $applications = CollegeNewRegistration::onlyTrashed()->orderBy('deleted_at','desc')->get();
+        
+        if($applications->count()){ 
+            $collegeid = CollegeNewRegistration::onlyTrashed()->where('id',$collegeid)->first();
+            if($collegeid) {
+                return view('university.clerk.applications.viewrejected',compact('applications'))->with('form',$collegeid);
+            }
+            else {
+
+                return view('university.clerk.applications.viewrejected',compact('applications'));
+            }
+        }
+        else {
+            return view('university.clerk.applications.viewrejected');
+        }
+        
+        
+    }
+
+
+
+
+    
+
+    public function forwardapplication($collegeid = null) {
+        if($this->isNotClerk()) {
+            return Redirect::route('home');
+        }
+        if($collegeid) {
+            $collegeid = CollegeNewRegistration::where('id',$collegeid)->first();
+
+            if(!$collegeid->is_forwarded_to_dean) {
+                $collegeid->is_forwarded_to_dean = true;
+                $collegeid->save();
+            }
+            return back()->with('success', 'Application Forwarded Sucessfully');
+        }
+        else {
+
+            return back();
+        }
+        
+        
+    }
+
+
+
+
+    
+
+    public function rejectapplication($collegeid = null) {
+        if($this->isNotClerk()) {
+            return Redirect::route('home');
+        }
+        if($collegeid) {
+            $collegeid = CollegeNewRegistration::where('id',$collegeid)->first();
+
+            $collegeid->delete();
+            return back()->with('success', 'Application Rejected Sucessfully');
+        }
+        else {
+
+            return back();
+        }
+        
+        
+    }
+
+
+
+
+    
+
+    public function viewappdocs($collegeid = null) {
+        if($this->isNotClerk()) {
+            return Redirect::route('home');
+        }
+            $collegeid = CollegeNewRegistration::withTrashed()->where('id',$collegeid)->first();
+
+            if($collegeid){
+            $files = CollegeUploadedFile::where('ref_id',$collegeid->ref_id)->get()->toArray();
+            $list = array();
+            foreach ($files as $file) {
+                $list[$file['filetype']]=$file['path'];
+            }
+            if($files){
+                return view('university.clerk.applications.viewdocuments')->with('form',$collegeid)->with('files',$list);
+            }
+            return view('university.clerk.applications.viewdocuments')->with('form',$collegeid);
+        }
+        return view('university.clerk.applications.viewdocuments');
+
+
+            if($collegeid) {
+
+                if(!$collegeid->is_seen_by_clerk) {
+                    $collegeid->is_seen_by_clerk = true;
+                    $collegeid->save();
+                }
+                return view('university.clerk.applications.view',compact('applications'))->with('form',$collegeid);
+            }
+            else {
+            return view('university.clerk.inspections.viewinspection');
             }
         
         

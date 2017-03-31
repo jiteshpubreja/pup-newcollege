@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Admin;
 use App\Clerk;
 use App\College;
+use App\CollegeNewRegistration;
+use App\CollegeUploadedFile;
 use App\Dean;
 use App\DepartmentClerk;
 use App\DepartmentTeacher;
@@ -21,9 +23,8 @@ class HomeController extends Controller
      *
      * @return void
      */
-    public function __construct()
+    public function d__construct()
     {   
-
 
 
 
@@ -141,7 +142,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('temp');
+        return view('temp')->with('colleges',College::get());
     }
 
 

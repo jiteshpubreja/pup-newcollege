@@ -9,7 +9,7 @@ class College extends Model
     protected $table = 'college_applicants';
 
 	protected $fillable = [
-        'id_user', 'number_of_inspections',
+        'id_user',
     ];
 
 
@@ -23,11 +23,16 @@ class College extends Model
 
 	public function form(){
 
-		return $this->hasOne('App\CollegeNewRegistration','id_college');
+		return $this->hasOne('App\CollegeNewRegistration','id_college')->orderBy('created_at','desc');
+	}
+
+	public function files(){
+
+		return $this->hasMany('App\CollegeUploadedFile','id_college');
 	}
 
 	public function inspections(){
 
-		return $this->hasMany('App\Inspection','id_college');
+		return $this->hasMany('App\Inspection','id_college')->orderBy('created_at','desc');
 	}
 }

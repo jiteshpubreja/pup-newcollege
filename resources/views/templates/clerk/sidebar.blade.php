@@ -23,6 +23,14 @@
                 <li class="{{ is_active('addfeestructure') }}"><a href="{{ route('addfeestructure') }}"><span class="glyphicon glyphicon-plus-sign"></span>Add Fee Structure</a></li>
             </ul>
 
+            <li data-toggle="collapse" data-target="#applicationactions" class="collapsed{{ is_active_array(['clerkviewapplication','clerkviewapplicationrejects']) }}">
+                <a href="#"><i class="fa fa-ticket fa-lg"></i> Applications   {!! new_applications() !!} <span class="arrow"></span></a>
+            </li>
+            <ul class="sub-menu collapse" id="applicationactions">
+                <li class="{{ is_active('clerkviewapplication') }}"><a href="{{ route('clerkviewapplication') }}"><span class="glyphicon glyphicon-folder-open"></span> View Applications   {!! new_applications() !!}</a></li>
+                <li class="{{ is_active('clerkviewapplicationrejects') }}"><a href="{{ route('clerkviewapplicationrejects') }}"><span class="glyphicon glyphicon-folder-open"></span> Rejected Applications</a></li>
+            </ul>
+
             <li data-toggle="collapse" data-target="#inspectionactions" class="collapsed{{ is_active_array(['clerkviewinspection']) }}">
                 <a href="#"><i class="fa fa-ticket fa-lg"></i> Inspections   {!! new_inspections() !!} <span class="arrow"></span></a>
             </li>

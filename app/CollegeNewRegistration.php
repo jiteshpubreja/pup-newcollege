@@ -3,9 +3,14 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class CollegeNewRegistration extends Model
 {
+
+    use SoftDeletes;
+
+
     protected $table = 'college_new_registeration';
 
 	protected $fillable = [
@@ -64,6 +69,7 @@ class CollegeNewRegistration extends Model
         'is_submitted',
     ];
 
+    protected $dates = ['deleted_at'];
 
 
 	public function college(){

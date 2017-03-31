@@ -25,12 +25,12 @@ Route::Group(['middleware' => ['web']],function(){
 	Route::Group(['prefix' => 'aboutus'],function(){
 		Route::get('/', 'PagesController@aboutus')->name('aboutus');
 		Route::get('/introduction', 'PagesController@introduction')->name('introduction');
-	Route::get('/infrastructure', 'PagesController@infrastructure')->name('infrastructure');
-	Route::get('/agrade', 'PagesController@agrade')->name('agrade');
-	Route::get('/publication', 'PagesController@publication')->name('publication');
-	Route::get('/museum', 'PagesController@museum')->name('museum');
-	Route::get('/library', 'PagesController@library')->name('library');
-	Route::get('/applynewcollege', 'PagesController@applynewcollege')->name('applynewcollege');
+		Route::get('/infrastructure', 'PagesController@infrastructure')->name('infrastructure');
+		Route::get('/agrade', 'PagesController@agrade')->name('agrade');
+		Route::get('/publication', 'PagesController@publication')->name('publication');
+		Route::get('/museum', 'PagesController@museum')->name('museum');
+		Route::get('/library', 'PagesController@library')->name('library');
+		Route::get('/applynewcollege', 'PagesController@applynewcollege')->name('applynewcollege');
 	});
 
 	Route::get('/contactus', 'PagesController@contactUs')->name('contactus');
@@ -97,16 +97,30 @@ Route::Group(['prefix' => 'clerk'],function(){
 		Route::get('/viewinspection/{inspectionid?}', 'ClerkController@viewinspection')->name('clerkviewinspection');
 		Route::put('/viewinspection/{inspectionid?}', 'ClerkController@forwardinspection')->name('clerkviewinspection');
 	});
+
+	Route::Group(['prefix' => 'applications'],function(){
+		Route::get('/', 'RedirectController@redirect');
+		Route::get('/view/{collegeid?}', 'ClerkController@viewapplication')->name('clerkviewapplication');
+		Route::get('/rejected/view/{collegeid?}', 'ClerkController@viewapplicationrejects')->name('clerkviewapplicationrejects');
+		Route::get('/view/{collegeid?}/docs', 'ClerkController@viewappdocs')->name('clerkviewappdocs');
+		Route::put('/view/{collegeid?}', 'ClerkController@forwardapplication')->name('clerkviewapplication');
+		Route::put('/view/{collegeid?}/reject', 'ClerkController@rejectapplication')->name('clerkrejectapplication');
+	});
 });
 
 
 
 Route::Group(['prefix' => 'college'],function(){
 	Route::get('/', 'CollegeController@index')->name('collegehome');
+	Route::get('/rejected/{applicationid?}', 'CollegeController@viewrejectedapplications')->name('collegeviewrejected');
 	Route::get('/apply', 'CollegeController@applynewcollege');
 	Route::post('/apply', 'CollegeController@applynewcollegepost')->name('collegenewapply');
 	Route::put('/apply', 'CollegeController@applynewcollegeput');
 	Route::put('/apply/submit', 'CollegeController@applynewcollegesubmitput')->name('collegenewapplysubmit');
+	Route::get('/upload', 'CollegeController@uploadsupportingdocs');
+	Route::post('/upload', 'CollegeController@uploadsupportingdocspost')->name('collegeuploaddocs');
+	Route::get('/draft/upload', 'CollegeController@uploaddraft');
+	Route::post('/draft/upload', 'CollegeController@uploaddraftpost')->name('collegeuploaddraft');
 });
 
 
@@ -128,41 +142,53 @@ Route::Group(['prefix' => 'teacher'],function(){
 
 
 Route::Group(['middleware' => ['auth']],function(){
-Route::get('/5000', function () {
+
+	Route::get('/download/{refid}/{filename}', 'PDFController@download')->name('collegedownload');
+
+
+
+
+
+
+
+
+
+
+	Route::get('/5000', function () {
 		return view('2');
 	})->name('5000');
 
-Route::get('/50000', function () {
+	Route::get('/50000', function () {
 		return view('2-old');
 	})->name('50000');
 
-Route::post('/handleUpload', 'HomeController@upload')->name('uploadfiles');
+	Route::post('/handleUpload', 'HomeController@upload')->name('uploadfiles');
 
-Route::get('/AdminSignup', function () {
+	Route::get('/AdminSignup', function () {
 		return view('auth.admin');
 	})->name('adminsignup');
 
-Route::get('/draft', function () {
+	Route::get('/draft', function () {
 		return view('draft');
 	})->name('adminsignup');
 
-Route::get('/file', function () {
+	Route::get('/file', function () {
 		return view('files_uploading');
 	})->name('adminsignup');
 
-Route::get('/descrepencies', function () {
+	Route::get('/descrepencies', function () {
 		return view('forms.descrepencies');
 	})->name('descrepencies');
 
-Route::get('/headselection', function () {
+	Route::get('/headselection', function () {
 		return view('forms.headselection');
 	})->name('headselection');
 
-Route::get('/inspectionform', function () {
+	Route::get('/inspectionform', function () {
 		return view('forms.inspectionform');
 	})->name('inspectionform');
 
-Route::get('/teamselection', function () {
+	Route::get('/teamselection', function () {
 		return view('forms.teamselection');
 	})->name('teamselection');
 

@@ -210,7 +210,7 @@ View Inspection
 	@else
 	<div class="alert alert-info">
 		<p>
-			You Haven't Done Any Inspections Yet
+			No Inspections Done Yet
 		</p>
 	</div>
 

@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\CollegeNewRegistration;
+use App\CollegeUploadedFile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class CollegeController extends Controller
 {
@@ -98,16 +100,46 @@ class CollegeController extends Controller
 
 
 
+    public function viewrejectedapplications($applicationid = null) {
+        if($this->isNotCollege()) {
+            return Redirect::route('home');
+        }
+        $college = Auth::user()->isCollege();
+        $applications = CollegeNewRegistration::onlyTrashed()->where('id_college',$college->id)->orderBy('deleted_at','desc')->get();
+        if($applications->count()){ 
+            $applicationid = CollegeNewRegistration::onlyTrashed()->where('id_college',$college->id)->where('id',$applicationid)->first();
+            if($applicationid) {
+                return view('university.college.forms.applyviewrejected',compact('applications'))->with('form',$applicationid);
+            }
+            else {
+
+                return view('university.college.forms.applyviewrejected',compact('applications'));
+            }
+        }
+        else {
+            return view('university.college.forms.applyviewrejected');
+        }
+    }
+
+
+
+
+
     public function applynewcollege() {
         if($this->isNotCollege()) {
             return Redirect::route('home');
         }
-        $form = Auth::user()->isCollege()->form;
+        $college = Auth::user()->isCollege();
+        $form = $college->form;
         if($form){
             if($form->is_submitted)
                 return view('university.college.forms.applyview')->with('form',$form);
             else
                 return view('university.college.forms.applyedit')->with('form',$form);
+        }
+        if(isset($_GET['old'])){
+            $applicationid = CollegeNewRegistration::onlyTrashed()->where('id_college',$college->id)->where('id',$_GET['old'])->first();
+                return view('university.college.forms.applyfromold')->with('form',$applicationid);
         }
         return view('university.college.forms.apply');
     }
@@ -165,5 +197,188 @@ class CollegeController extends Controller
             $form->save();
         }
         return back()->with('success',$form['ref_id'].' Submitted Sucessfully');
+    }
+
+
+
+
+
+    public function uploadsupportingdocs() {
+        if($this->isNotCollege()) {
+            return Redirect::route('home');
+        }
+        $college = Auth::user()->isCollege();
+        $form = $college->form;
+        
+        if($form){
+            $files = CollegeUploadedFile::where('ref_id',$form->ref_id)->get()->toArray();
+            $list = array();
+            foreach ($files as $file) {
+                $list[$file['filetype']]=$file['path'];
+            }
+            if($files){
+                return view('university.college.forms.uploaddocuments')->with('form',$form)->with('files',$list);
+            }
+            return view('university.college.forms.uploaddocuments')->with('form',$form);
+        }
+        return view('university.college.forms.uploaddocuments');
+    }
+
+    public function uploadsupportingdocspost(Request $request) {
+        if($this->isNotCollege()) {
+            return Redirect::route('home');
+        }
+        $college = Auth::user()->isCollege();
+        $form = $college->form;
+        $destination = 'uploads/'.$form->ref_id.'/';
+        $count = 0;
+        $failed = 0;
+
+        if($request->hasFile('landdetails')) {
+            $file = $request->file('landdetails');
+            if( strcmp(Str::lower($file->getClientOriginalExtension()), "pdf")==0){
+                $name = 'landdetails'.'.'.$file->getClientOriginalExtension();
+                $file->move($destination,$name);
+                CollegeUploadedFile::create([
+                    'id_college'=>$college->id,
+                    'ref_id'=>$form->ref_id,
+                    'filetype'=>'landdetails',
+                    'path'=> route('collegedownload',['refid'=>$form->ref_id,'filename'=>$name])
+                    ]);
+                $count++;
+            }
+            else
+                $failed++;
+            
+        }
+
+        if($request->hasFile('buildingdetails')) {
+            $file = $request->file('buildingdetails');
+            if( strcmp(Str::lower($file->getClientOriginalExtension()), "pdf")==0){
+                $name = 'buildingdetails'.'.'.$file->getClientOriginalExtension();
+                $file->move($destination,$name);
+                CollegeUploadedFile::create([
+                    'id_college'=>$college->id,
+                    'ref_id'=>$form->ref_id,
+                    'filetype'=>'buildingdetails',
+                    'path'=> route('collegedownload',['refid'=>$form->ref_id,'filename'=>$name])
+                    ]);
+                $count++;
+            }
+            else
+                $failed++;
+        }
+
+        if($request->hasFile('bankproofs')) {
+            $file = $request->file('bankproofs');
+            if( strcmp(Str::lower($file->getClientOriginalExtension()), "pdf")==0){
+                $name = 'bankproofs'.'.'.$file->getClientOriginalExtension();
+                $file->move($destination,$name);
+                CollegeUploadedFile::create([
+                    'id_college'=>$college->id,
+                    'ref_id'=>$form->ref_id,
+                    'filetype'=>'bankproofs',
+                    'path'=> route('collegedownload',['refid'=>$form->ref_id,'filename'=>$name])
+                    ]);
+                $count++;
+            }
+            else
+                $failed++;
+        }
+
+        if($request->hasFile('permissionletters')) {
+            $file = $request->file('permissionletters');
+            if( strcmp(Str::lower($file->getClientOriginalExtension()), "pdf")==0){
+                $name = 'permissionletters'.'.'.$file->getClientOriginalExtension();
+                $file->move($destination,$name);
+                CollegeUploadedFile::create([
+                    'id_college'=>$college->id,
+                    'ref_id'=>$form->ref_id,
+                    'filetype'=>'permissionletters',
+                    'path'=> route('collegedownload',['refid'=>$form->ref_id,'filename'=>$name])
+                    ]);
+                $count++;
+            }
+            else
+                $failed++;
+        }
+
+        if($request->hasFile('comitteelist')) {
+            $file = $request->file('comitteelist');
+            if( strcmp(Str::lower($file->getClientOriginalExtension()), "pdf")==0){
+                $name = 'comitteelist'.'.'.$file->getClientOriginalExtension();
+                $file->move($destination,$name);
+                CollegeUploadedFile::create([
+                    'id_college'=>$college->id,
+                    'ref_id'=>$form->ref_id,
+                    'filetype'=>'comitteelist',
+                    'path'=> route('collegedownload',['refid'=>$form->ref_id,'filename'=>$name])
+                    ]);
+                $count++;
+            }
+            else
+                $failed++;
+        }
+
+        if($request->hasFile('tehsildocuments')) {
+            $file = $request->file('tehsildocuments');
+            if( strcmp(Str::lower($file->getClientOriginalExtension()), "pdf")==0){
+                $name = 'tehsildocuments'.'.'.$file->getClientOriginalExtension();
+                $file->move($destination,$name);
+                CollegeUploadedFile::create([
+                    'id_college'=>$college->id,
+                    'ref_id'=>$form->ref_id,
+                    'filetype'=>'tehsildocuments',
+                    'path'=> route('collegedownload',['refid'=>$form->ref_id,'filename'=>$name])
+                    ]);
+                $count++;
+            }
+            else
+                $failed++;
+        }
+
+        if($count)
+            return back()->with('success',$count.' Files Uploaded Sucessfully with '.$failed.' failures');
+        else if($failed)
+            return back()->with('error',$count.' Files Uploaded Sucessfully with '.$failed.' failures');
+        else
+            return back()->with('error','Please Select Atleast One File To Upload');
+    }
+
+
+
+
+
+    public function uploaddraft() {
+        if($this->isNotCollege()) {
+            return Redirect::route('home');
+        }
+        $college = Auth::user()->isCollege();
+        $form = $college->form;
+        $files = CollegeUploadedFile::where('ref_id',$form->ref_id)->get()->toArray();
+        $list = array();
+        foreach ($files as $file) {
+            $list[$file['filetype']]=$file['path'];
+        }
+        if($form){
+            return view('university.college.forms.uploaddrafts')->with('form',$form);
+        }
+        return view('university.college.forms.uploaddrafts');
+    }
+
+    public function uploaddraftpost() {
+        if($this->isNotCollege()) {
+            return Redirect::route('home');
+        }
+        $college = Auth::user()->isCollege();
+        $form = $college->form;
+        $files = CollegeUploadedFile::where('ref_id',$form->ref_id)->get()->toArray();
+        foreach ($files as $file) {
+            $list[$file['filetype']]=$file['path'];
+        }
+        if($form){
+            return view('university.college.forms.uploaddrafts')->with('form',$form);
+        }
+        return view('university.college.forms.uploaddrafts');
     }
 }

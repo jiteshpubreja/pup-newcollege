@@ -1,12 +1,11 @@
 @extends('templates.college.main',['title' => 'Apply For New College'])
 @section('heading')
-Edit Registration Form
+Registration Form
 @endsection
 @section('content')
 @if(!empty($form))
 <form class="form-horizontal" role="form" method="POST" action="{{ route('collegenewapply') }}">
 	{{ csrf_field() }}
-	<input type="hidden" name="_method" value="PUT">
 	@if ($message = Session::get('success'))
 	<div class="alert alert-success">
 		<p>
@@ -16,10 +15,7 @@ Edit Registration Form
 	@else
 	<div class="alert alert-info">
 		<p>
-			It is Not Editable Once You Click Submit.
-			So Double Check Before You Click Submit.
-			<br />
-			Please Click Save Before Submitting, Or Else The Changes will <strong>Not</strong> Be Saved.
+			Once You Save The Form It can be edited Later.
 		</p>
 	</div>
 	@endif
@@ -1155,42 +1151,7 @@ Edit Registration Form
 				<button type="submit" class="btn btn-primary" >Save</button>
 			</div>
 		</div>
-
-		<div class="form-group">
-			<div class="col-sm-1" >&nbsp;</div>
-			<div class="col-sm-7" >&nbsp;</div>
-			<div class="col-sm-4 text-justify" >
-
-				<span class="bg-info" >Last Saved {{ $form->updated_at->diffForHumans() }}</span>
-			</div>
-		</div>
-		@if(!$form->is_submitted)
-		<br/>
-		<div class="form-group">
-			<div class="col-sm-1" >&nbsp;</div>
-			<div class="col-sm-7" >
-				<span class="bg-info" >NOTE:Please Click Save Before Submit or else the Edited Data will be lost.</span>
-				<br>
-				<span class="bg-info" >NOTE:Once Submitted It will no longer be editable.</span>
-			</div>
-			<div class="col-sm-4 text-justify" >
-
-				<a class="btn btn-primary" href="{{ route('collegenewapplysubmit') }}"
-				onclick="event.preventDefault();
-				document.getElementById('submit-the-form').submit();">
-				Submit
-			</a>
-		</div>
-	</div>
-
-	@endif
 </form>
-@if(!$form->is_submitted)
-<form id="submit-the-form" action="{{ route('collegenewapplysubmit') }}" method="POST" style="display: none;">
-	<input type="hidden" name="_method" value="PUT">
-	{{ csrf_field() }}
-</form>
-@endif
 
 
 <script type="text/javascript">

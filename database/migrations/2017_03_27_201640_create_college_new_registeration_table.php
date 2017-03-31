@@ -16,7 +16,7 @@ class CreateCollegeNewRegisterationTable extends Migration
         Schema::create('college_new_registeration', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('id_college')->unsigned();
-            $table->string('ref_id')->unique();           
+            $table->string('ref_id')->unique();
             $table->string('college_name');
             $table->string('session');
             $table->text('courses');

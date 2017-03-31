@@ -16,7 +16,6 @@ class CreateCollegeApplicantsTable extends Migration
         Schema::create('college_applicants', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('id_user')->unsigned()->unique();
-            $table->integer('number_of_inspections')->unsigned()->default(0);
             $table->timestamps();
 
             $table->foreign('id_user')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
