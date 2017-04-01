@@ -13,14 +13,15 @@
             </li>
             <ul class="sub-menu collapse" id="discrepancyactions">
                 <li class="{{ is_active('adddiscrepancylist') }}"><a href="{{ route('adddiscrepancylist') }}"><span class="glyphicon glyphicon-plus-sign"></span>Add Discrepancy</a></li>
-                <li class="{{ is_active('adddiscrepancycategory') }}"><a href="{{ route('adddiscrepancycategory') }}"><span class="glyphicon glyphicon-plus-sign"></span>Add Category</a></li>
+                <li class="{{ is_active('adddiscrepancycategory') }}"><a href="{{ route('adddiscrepancycategory') }}"><span class="glyphicon glyphicon-plus-sign"></span> Add Category</a></li>
             </ul>
 
-            <li data-toggle="collapse" data-target="#departmentactions" class="collapsed{{ is_active_array(['addfeestructure']) }}">
-                <a href="#"><i class="fa fa-ticket fa-lg"></i> Fees <span class="arrow"></span></a>
+            <li data-toggle="collapse" data-target="#departmentactions" class="collapsed{{ is_active_array(['addfeestructure','clerkviewalldrafts']) }}">
+                <a href="#"><i class="fa fa-ticket fa-lg"></i> Fees   {!! new_drafts() !!}<span class="arrow"></span></a>
             </li>
             <ul class="sub-menu collapse" id="departmentactions">
-                <li class="{{ is_active('addfeestructure') }}"><a href="{{ route('addfeestructure') }}"><span class="glyphicon glyphicon-plus-sign"></span>Add Fee Structure</a></li>
+                <li class="{{ is_active('addfeestructure') }}"><a href="{{ route('addfeestructure') }}"><span class="glyphicon glyphicon-plus-sign"></span> Add Fee Structure</a></li>
+                <li class="{{ is_active('clerkviewalldrafts') }}"><a href="{{ route('clerkviewalldrafts') }}"><span class="glyphicon glyphicon-folder-open"></span> View Drafts   {!! new_drafts() !!}</a></li>
             </ul>
 
             <li data-toggle="collapse" data-target="#applicationactions" class="collapsed{{ is_active_array(['clerkviewapplication','clerkviewapplicationrejects']) }}">

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\CollegeNewRegistration;
 use App\CollegeUploadedFile;
+use App\FeePayment;
+use App\FeeStructure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
@@ -85,6 +87,19 @@ class CollegeController extends Controller
             ]);
     }
 
+    protected function validatordraft(array $data)
+    {
+        return Validator::make($data, [
+            'id_college' => 'required',
+            'president_name' => 'required|max:255',
+            'purpose' => 'required|max:255',
+            'amount' => 'required|max:255',
+            'draft_no' => 'required|max:255',
+            'bank_name' => 'required|max:255',
+            'dated' => 'required|max:255',
+            ]);
+    }
+
 
 
 
@@ -139,7 +154,7 @@ class CollegeController extends Controller
         }
         if(isset($_GET['old'])){
             $applicationid = CollegeNewRegistration::onlyTrashed()->where('id_college',$college->id)->where('id',$_GET['old'])->first();
-                return view('university.college.forms.applyfromold')->with('form',$applicationid);
+            return view('university.college.forms.applyfromold')->with('form',$applicationid);
         }
         return view('university.college.forms.apply');
     }
@@ -353,32 +368,55 @@ class CollegeController extends Controller
         if($this->isNotCollege()) {
             return Redirect::route('home');
         }
+
         $college = Auth::user()->isCollege();
         $form = $college->form;
-        $files = CollegeUploadedFile::where('ref_id',$form->ref_id)->get()->toArray();
-        $list = array();
-        foreach ($files as $file) {
-            $list[$file['filetype']]=$file['path'];
-        }
         if($form){
-            return view('university.college.forms.uploaddrafts')->with('form',$form);
+            $structures = FeeStructure::get();
+            $payments = FeePayment::where('id_college',$college->id)->orderBy('created_at','desc')->get();
+
+            return view('university.college.forms.uploaddrafts',compact('structures'))->with('payments',$payments);
         }
         return view('university.college.forms.uploaddrafts');
+
+
     }
 
-    public function uploaddraftpost() {
+    public function uploaddraftpost(Request $request) {
         if($this->isNotCollege()) {
             return Redirect::route('home');
         }
-        $college = Auth::user()->isCollege();
-        $form = $college->form;
-        $files = CollegeUploadedFile::where('ref_id',$form->ref_id)->get()->toArray();
-        foreach ($files as $file) {
-            $list[$file['filetype']]=$file['path'];
+        if($request->hasFile('draft_image')) {
+            $file = $request->file('draft_image');
+
+            $college = Auth::user()->isCollege();
+            $destination = 'uploads/'.$college->user->id.'/';
+
+            $input = $request->all();
+            $input['id_college'] = $college->id;
+
+            if(strcmp($input['purpose'],"Other") == 0)
+                $input['purpose'] = $input['purpose_other'];
+
+            if( (strcmp(Str::lower($file->getClientOriginalExtension()), "pdf")==0) or 
+                (strcmp(Str::lower($file->getClientOriginalExtension()), "jpg")==0)){
+                $validator = $this->validatordraft($input);
+            if ($validator->passes()){
+                $name = "Draft-".mt_rand(1000000, 9999999).'.'.Str::lower($file->getClientOriginalExtension());
+
+                $file->move($destination,$name);
+                $input['draft_image'] = url($destination.$name);
+
+                FeePayment::create($input);
+
+                return back()->with('success',' Draft Uploaded Sucessfully.');
+
+            }
+            return back()->with('errors',$validator->errors());
         }
-        if($form){
-            return view('university.college.forms.uploaddrafts')->with('form',$form);
-        }
-        return view('university.college.forms.uploaddrafts');
+        else
+            return back()->with('error','Draft Document Should Be .pdf or .jpg');
     }
+    return back()->with('error','Please Select Draft Document To Upload');
+}
 }

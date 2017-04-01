@@ -8,7 +8,7 @@
             </button> 
             <ul class="nav navbar-nav">
               <li>
-                  <a href="/" class="navbar-brand">PUP New College</a>
+                  <a href="{{ url('/') }}" class="navbar-brand">PUP New College</a>
               </li>
           </ul>
       </div>
@@ -70,7 +70,7 @@
 </div>
 <div class="container table-bordered .hidden-print" style="color: #317eac">
 
-    <h3 class="alert alert-info text-center text-capitalize timestext"><strong>Welcome to Punjabi University Patiala New college Registration Year 2017-18</strong>  </h3>
+    <h3 class="alert alert-info text-center text-capitalize timestext"><strong>Welcome to Punjabi University Patiala New college Registration</strong>  </h3>
     <div class="row text-center">
         <div class="row text-justify">
             <div class="col-md-12">

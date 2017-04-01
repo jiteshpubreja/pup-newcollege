@@ -1,4 +1,4 @@
-@extends('templates.clerk.main',['title' => 'View Supporting Documents'])
+@extends('templates.dean.main',['title' => 'View Supporting Documents'])
 @section('heading')
 View Supporting Documents
 @endsection

@@ -7,6 +7,7 @@ use App\CollegeNewRegistration;
 use App\CollegeUploadedFile;
 use App\DiscrepancyCategory;
 use App\DiscrepancyList;
+use App\FeePayment;
 use App\FeeStructure;
 use App\Inspection;
 use Illuminate\Http\Request;
@@ -169,8 +170,6 @@ class ClerkController extends Controller
 
             return back();
         }
-        
-        
     }
 
 
@@ -280,17 +279,13 @@ class ClerkController extends Controller
     }
 
 
-
-
-    
-
     public function viewappdocs($collegeid = null) {
         if($this->isNotClerk()) {
             return Redirect::route('home');
         }
-            $collegeid = CollegeNewRegistration::withTrashed()->where('id',$collegeid)->first();
+        $collegeid = CollegeNewRegistration::withTrashed()->where('id',$collegeid)->first();
 
-            if($collegeid){
+        if($collegeid){
             $files = CollegeUploadedFile::where('ref_id',$collegeid->ref_id)->get()->toArray();
             $list = array();
             foreach ($files as $file) {
@@ -302,22 +297,60 @@ class ClerkController extends Controller
             return view('university.clerk.applications.viewdocuments')->with('form',$collegeid);
         }
         return view('university.clerk.applications.viewdocuments');
-
-
-            if($collegeid) {
-
-                if(!$collegeid->is_seen_by_clerk) {
-                    $collegeid->is_seen_by_clerk = true;
-                    $collegeid->save();
-                }
-                return view('university.clerk.applications.view',compact('applications'))->with('form',$collegeid);
-            }
-            else {
-            return view('university.clerk.inspections.viewinspection');
-            }
-        
-        
     }
+
+    public function viewdrafts($collegeid = null) {
+        if($this->isNotClerk()) {
+            return Redirect::route('home');
+        }
+        $collegeid = CollegeNewRegistration::withTrashed()->where('id',$collegeid)->first();
+
+        if($collegeid){
+            $payments = FeePayment::where('id_college',$collegeid->college->id)->get();
+            
+            if($payments->count()){
+                return view('university.clerk.applications.viewdrafts')->with('form',$collegeid)->with('payments',$payments);
+            }
+            return view('university.clerk.applications.viewdrafts')->with('form',$collegeid);
+        }
+        return view('university.clerk.applications.viewdrafts');
+    }
+
+    public function viewalldrafts() {
+        if($this->isNotClerk()) {
+            return Redirect::route('home');
+        }
+        $collegeid = CollegeNewRegistration::withTrashed()->first();
+
+        if($collegeid){
+            $payments = FeePayment::orderBy('is_verified','asc')->orderBy('created_at','desc')->get();
+            
+            if($payments->count()){
+                return view('university.clerk.applications.viewdrafts')->with('form',$collegeid)->with('payments',$payments);
+            }
+            return view('university.clerk.applications.viewdrafts')->with('form',$collegeid);
+        }
+        return view('university.clerk.applications.viewdrafts');
+    }
+
+
+    public function approvedrafts($draftid = null) {
+        if($this->isNotClerk()) {
+            return Redirect::route('home');
+        }
+        $draft = FeePayment::find($draftid);
+        if($draft){
+            if(!$draft->is_verified) {
+                $draft->is_verified = true;
+                $draft->verified_by = Auth::user()->isClerk()->id;
+                $draft->save();
+            }
+            return back()->with('success', 'Draft Verified Sucessfully');
+        }
+        return back();
+    }
+
+
 
 
 }

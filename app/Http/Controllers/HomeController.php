@@ -14,6 +14,7 @@ use App\Discrepancy;
 use App\Inspection;
 use App\Teacher;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class HomeController extends Controller

@@ -67,6 +67,10 @@ class CollegeNewRegistration extends Model
         'appoint_qualifiedfaculty',
         'salary_acc_ugc',
         'is_submitted',
+        'is_seen_by_clerk',
+        'is_forwarded_to_dean',
+        'is_seen_by_dean',
+        'is_loi_granted',
     ];
 
     protected $dates = ['deleted_at'];

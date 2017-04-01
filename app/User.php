@@ -58,4 +58,9 @@ class User extends Authenticatable
     }
 
 
+    public function fullname() {
+        return $this->fname." ".$this->lname;
+    }
+
+
 }

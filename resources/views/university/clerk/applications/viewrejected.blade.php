@@ -878,6 +878,8 @@ View Rejected Application
 	<br/>
 	<div class=" col-md-12" style="text-align: center;"> 
 		<a class="btn btn-primary" href="{{ route('clerkviewappdocs',$form->id) }}">View Documents</a>
+		&nbsp;&nbsp;&nbsp;&nbsp;
+		<a class="btn btn-primary" href="{{ route('clerkviewdrafts',$form->id) }}">View Drafts</a>
 	@else
 	<table width="100%" style="text-align: center;">
 		<tr>
@@ -926,13 +928,6 @@ View Rejected Application
 			<td>
 				<h4 >
 					<label>
-						View Documents
-					</label>
-				</h4>
-			</td>
-			<td>
-				<h4 >
-					<label>
 						Status
 					</label>
 				</h4>
@@ -970,12 +965,6 @@ View Rejected Application
 			<td>
 				<label>
 					<a class="btn btn-primary btn-xs" href="{{ route('clerkviewapplicationrejects',$application->id) }}">View Application</a>
-
-				</label>
-			</td>
-			<td>
-				<label>
-					<a class="btn btn-primary btn-xs" href="{{ route('clerkviewappdocs',$application->id) }}">View Documents</a>
 
 				</label>
 			</td>

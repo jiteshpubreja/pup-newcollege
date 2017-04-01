@@ -1,4 +1,4 @@
-@extends('templates.clerk.main',['title' => 'View Application'])
+@extends('templates.dean.main',['title' => 'View Application'])
 @section('heading')
 View Application
 @endsection
@@ -6,7 +6,7 @@ View Application
 @if ($message = Session::get('success'))
 <div class="alert alert-success">
 	<p>
-		{{ $message }}
+		{!! $message !!}
 	</p>
 </div>
 @endif
@@ -874,25 +874,17 @@ View Application
 	</div>
 	<br/>
 	<div class=" col-md-12" style="text-align: center;"> 
-		<a class="btn btn-primary" href="{{ route('clerkviewappdocs',$form->id) }}">View Documents</a>
+		<a class="btn btn-primary" href="{{ route('deanviewappdocs',$form->id) }}">View Documents</a>
+	@if(!$form->is_loi_granted)
 		&nbsp;&nbsp;&nbsp;&nbsp;
-		<a class="btn btn-primary" href="{{ route('clerkviewdrafts',$form->id) }}">View Drafts</a>
-	@if(!$form->is_forwarded_to_dean)
-		&nbsp;&nbsp;&nbsp;&nbsp;
-		<a class="btn btn-success" href="{{ route('clerkviewapplication',$form->id) }}"
+		<a class="btn btn-success" href="{{ route('deanviewapplication',$form->id) }}"
 			onclick="event.preventDefault();
-			document.getElementById('forward-to-dean').submit();">
-			Forward To Dean
-		</a>
-		&nbsp;&nbsp;&nbsp;&nbsp;
-		<a class="btn btn-danger" href="{{ route('clerkrejectapplication',$form->id) }}"
-			onclick="event.preventDefault();
-			document.getElementById('reject-application').submit();">
-			<i class="fa fa-times fa-lg"></i> Reject
+			document.getElementById('grant-loi').submit();">
+			Grant LOI
 		</a>
 	</div>
 
-	<form id="forward-to-dean" action="{{ route('clerkviewapplication',$form->id) }}" method="POST" style="display: none;">
+	<form id="grant-loi" action="{{ route('deanviewapplication',$form->id) }}" method="POST" style="display: none;">
 		<input type="hidden" name="_method" value="PUT">
 		{{ csrf_field() }}
 	</form>
@@ -957,13 +949,6 @@ View Application
 			<td>
 				<h4 >
 					<label>
-						View Drafts
-					</label>
-				</h4>
-			</td>
-			<td>
-				<h4 >
-					<label>
 						Status
 					</label>
 				</h4>
@@ -1000,23 +985,18 @@ View Application
 			</td>
 			<td>
 				<label>
-					<a class="btn btn-primary btn-xs" href="{{ route('clerkviewapplication',$application->id) }}">View Application</a>
+					<a class="btn btn-primary btn-xs" href="{{ route('deanviewapplication',$application->id) }}">View Application</a>
 
 				</label>
 			</td>
 			<td>
 				<label>
-					<a class="btn btn-primary btn-xs" href="{{ route('clerkviewappdocs',$application->id) }}">View Documents</a>
+					<a class="btn btn-primary btn-xs" href="{{ route('deanviewappdocs',$application->id) }}">View Documents</a>
 
 				</label>
 			</td>
 			<td>
-				<label>
-					<a class="btn btn-primary btn-xs" href="{{ route('clerkviewdrafts',$application->id) }}">View Drafts</a>
-				</label>
-			</td>
-			<td>
-				{!! $application->is_forwarded_to_dean ? "<span class='label label-success'>Forwarded</span>" : ($application->is_seen_by_clerk ? "<span class='label label-warning'>Pending</span>" : "<span class='label label-danger'>New</span>") !!}
+				{!! $application->is_loi_granted ? "<span class='label label-success'>Granted LOI</span>" : ($application->is_seen_by_dean ? "<span class='label label-warning'>Pending</span>" : "<span class='label label-danger'>New</span>") !!}
 			</td>
 		</tr>
 		@endforeach

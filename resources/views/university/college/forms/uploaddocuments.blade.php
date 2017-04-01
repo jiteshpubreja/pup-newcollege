@@ -5,7 +5,7 @@ Upload Supporting Documents
 @section('content')
 @if(!empty($form))
 @if(!empty($files))
-<form method="POST" action="{{route('collegeuploaddocs')}}" class="form-horizontal custm-form" role="form" enctype="multipart/form-data">
+<form method="POST" action="{{route('collegeuploaddocs')}}" class="form-horizontal" role="form" enctype="multipart/form-data">
 
 
     {!! csrf_field() !!}

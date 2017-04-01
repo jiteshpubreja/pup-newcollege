@@ -20,4 +20,10 @@ class FeePayment extends Model
         'is_verified',
         'verified_by',
     ];
+
+
+    public function college(){
+
+        return $this->belongsTo('App\College','id_college');
+    }
 }

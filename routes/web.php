@@ -105,6 +105,14 @@ Route::Group(['prefix' => 'clerk'],function(){
 		Route::get('/view/{collegeid?}/docs', 'ClerkController@viewappdocs')->name('clerkviewappdocs');
 		Route::put('/view/{collegeid?}', 'ClerkController@forwardapplication')->name('clerkviewapplication');
 		Route::put('/view/{collegeid?}/reject', 'ClerkController@rejectapplication')->name('clerkrejectapplication');
+		Route::get('/view/{collegeid?}/drafts', 'ClerkController@viewdrafts')->name('clerkviewdrafts');
+		Route::get('/view/{draftid?}/drafts/approve', 'ClerkController@approvedrafts')->name('clerkapprovedrafts');
+	});
+
+	Route::Group(['prefix' => 'drafts'],function(){
+		Route::get('/', 'RedirectController@redirect');
+		Route::get('/view', 'ClerkController@viewalldrafts')->name('clerkviewalldrafts');
+		Route::get('/view/{draftid?}/drafts/approve', 'ClerkController@approvedrafts')->name('clerkapprovedrafts');
 	});
 });
 
@@ -121,12 +129,32 @@ Route::Group(['prefix' => 'college'],function(){
 	Route::post('/upload', 'CollegeController@uploadsupportingdocspost')->name('collegeuploaddocs');
 	Route::get('/draft/upload', 'CollegeController@uploaddraft');
 	Route::post('/draft/upload', 'CollegeController@uploaddraftpost')->name('collegeuploaddraft');
+	Route::get('/inspection/request', 'CollegeController@uploaddraft');
+	Route::post('/inspection/request', 'CollegeController@uploaddraftpost')->name('collegeuploaddraft');
 });
 
 
 
 Route::Group(['prefix' => 'dean'],function(){
 	Route::get('/', 'DeanController@index')->name('deanhome');
+
+	Route::Group(['prefix' => 'drafts'],function(){
+		Route::get('/', 'RedirectController@redirect');
+		Route::get('/view', 'DeanController@viewdrafts')->name('deanviewdrafts');
+	});
+
+	Route::Group(['prefix' => 'applications'],function(){
+		Route::get('/', 'RedirectController@redirect');
+		Route::get('/view/{collegeid?}', 'DeanController@viewapplication')->name('deanviewapplication');
+		Route::get('/view/{collegeid?}/docs', 'DeanController@viewappdocs')->name('deanviewappdocs');
+		Route::put('/view/{collegeid?}', 'DeanController@generateloi')->name('deanviewapplication');
+	});
+
+	Route::Group(['prefix' => 'inspections'],function(){
+		Route::get('/', 'RedirectController@redirect');
+		Route::get('/viewinspection/{inspectionid?}', 'DeanController@viewinspection')->name('deanviewinspection');
+		Route::put('/viewinspection/{inspectionid?}', 'DeanController@approveinspection')->name('deanviewinspection');
+	});
 });
 
 

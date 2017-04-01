@@ -16,9 +16,22 @@ function is_active_array($views) {
     return '';
 }
 
+function dated_format($date) {
+    return \Carbon\Carbon::createFromFormat('Y-m-d', $date)->toFormattedDateString();
+}
+
 function new_inspections() {
 
-    $count = DB::table('inspection_reports')->where('is_seen_by_clerk',false)->get()->count();
+    $count = \App\Inspection::where('is_seen_by_clerk',false)->get()->count();
+    if($count)
+        return '<span class="label label-primary">'.$count.'</span>';
+    else
+    return '';
+}
+
+function new_inspections_dean() {
+
+    $count = \App\Inspection::where('is_forwarded_to_dean',true)->where('is_seen_by_dean',false)->get()->count();
     if($count)
         return '<span class="label label-primary">'.$count.'</span>';
     else
@@ -27,7 +40,25 @@ function new_inspections() {
 
 function new_applications() {
 
-    $count = DB::table('college_new_registeration')->where('is_seen_by_clerk',false)->get()->count();
+    $count = \App\CollegeNewRegistration::where('is_seen_by_clerk',false)->get()->count();
+    if($count)
+        return '<span class="label label-primary">'.$count.'</span>';
+    else
+    return '';
+}
+
+function new_applications_dean() {
+
+    $count = \App\CollegeNewRegistration::where('is_forwarded_to_dean',true)->where('is_seen_by_dean',false)->get()->count();
+    if($count)
+        return '<span class="label label-primary">'.$count.'</span>';
+    else
+    return '';
+}
+
+function new_drafts() {
+
+    $count = \App\FeePayment::where('is_verified',false)->get()->count();
     if($count)
         return '<span class="label label-primary">'.$count.'</span>';
     else

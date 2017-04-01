@@ -14,6 +14,8 @@ class Inspection extends Model
         'final_remarks',
         'is_seen_by_clerk',
         'is_forwarded_to_dean',
+        'is_seen_by_dean',
+        'is_approved_by_dean',
     ];
 
     public function college(){
