@@ -20,6 +20,26 @@ function dated_format($date) {
     return \Carbon\Carbon::createFromFormat('Y-m-d', $date)->toFormattedDateString();
 }
 
+function new_inspections_tab() {
+
+    $count = \App\Inspection::where('is_seen_by_clerk',false)->get()->count();
+    $count += \App\InspectionRequest::where('is_forwarded_to_dean',false)->get()->count();
+    if($count)
+        return '<span class="label label-primary">'.$count.'</span>';
+    else
+    return '';
+}
+
+function new_inspections_tab_dean() {
+
+    $count = \App\Inspection::where('is_forwarded_to_dean',true)->where('is_seen_by_dean',false)->get()->count();
+    $count += \App\InspectionRequest::where('is_forwarded_to_dean',true)->get()->count();
+    if($count)
+        return '<span class="label label-primary">'.$count.'</span>';
+    else
+    return '';
+}
+
 function new_inspections() {
 
     $count = \App\Inspection::where('is_seen_by_clerk',false)->get()->count();
@@ -32,6 +52,24 @@ function new_inspections() {
 function new_inspections_dean() {
 
     $count = \App\Inspection::where('is_forwarded_to_dean',true)->where('is_seen_by_dean',false)->get()->count();
+    if($count)
+        return '<span class="label label-primary">'.$count.'</span>';
+    else
+    return '';
+}
+
+function new_requests() {
+
+    $count = \App\InspectionRequest::where('is_forwarded_to_dean',false)->get()->count();
+    if($count)
+        return '<span class="label label-primary">'.$count.'</span>';
+    else
+    return '';
+}
+
+function new_requests_dean() {
+
+    $count = \App\InspectionRequest::where('is_forwarded_to_dean',true)->get()->count();
     if($count)
         return '<span class="label label-primary">'.$count.'</span>';
     else

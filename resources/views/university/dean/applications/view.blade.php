@@ -869,31 +869,33 @@ View Application
 			</div>
 		</div>
 	</div>
-<div class=" col-md-12" style="text-align: center;"> 
-	<label>Application Submitted on {{ $form->created_at->toFormattedDateString() }}</label>
+	<div class=" col-md-12" style="text-align: center;"> 
+		<label>Application Submitted on {{ $form->created_at->toFormattedDateString() }}</label>
 	</div>
 	<br/>
 	<div class=" col-md-12" style="text-align: center;"> 
 		<a class="btn btn-primary" href="{{ route('deanviewappdocs',$form->id) }}">View Documents</a>
-	@if(!$form->is_loi_granted)
+		&nbsp;&nbsp;&nbsp;&nbsp;
+		<a class="btn btn-primary" href="{{ route('deanviewapplicationpdf',$form->id) }}">Download PDF</a>
+		@if(!$form->is_loi_granted)
 		&nbsp;&nbsp;&nbsp;&nbsp;
 		<a class="btn btn-success" href="{{ route('deanviewapplication',$form->id) }}"
 			onclick="event.preventDefault();
 			document.getElementById('grant-loi').submit();">
 			Grant LOI
 		</a>
+
+		<form id="grant-loi" action="{{ route('deanviewapplication',$form->id) }}" method="POST" style="display: none;">
+			<input type="hidden" name="_method" value="PUT">
+			{{ csrf_field() }}
+		</form>
+
+		<form id="reject-application" action="{{ route('clerkrejectapplication',$form->id) }}" method="POST" style="display: none;">
+			<input type="hidden" name="_method" value="PUT">
+			{{ csrf_field() }}
+		</form>
+		@endif
 	</div>
-
-	<form id="grant-loi" action="{{ route('deanviewapplication',$form->id) }}" method="POST" style="display: none;">
-		<input type="hidden" name="_method" value="PUT">
-		{{ csrf_field() }}
-	</form>
-
-	<form id="reject-application" action="{{ route('clerkrejectapplication',$form->id) }}" method="POST" style="display: none;">
-		<input type="hidden" name="_method" value="PUT">
-		{{ csrf_field() }}
-	</form>
-	@endif
 	@else
 	<table width="100%" style="text-align: center;">
 		<tr>

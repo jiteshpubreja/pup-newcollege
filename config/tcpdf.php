@@ -5,8 +5,8 @@ return [
 	'page_units'            => 'mm',
 	'unicode'               => true,
 	'encoding'              => 'UTF-8',
-	'font_directory'        => '',
-	'image_directory'       => '',
+	'font_directory'        => storage_path('fonts/'),
+	'image_directory'       => public_path('images/'),
 	'tcpdf_throw_exception' => false,
 
 	// See more info at the tcpdf_config.php file in TCPDF (if you do not set this here, TCPDF will use it default)

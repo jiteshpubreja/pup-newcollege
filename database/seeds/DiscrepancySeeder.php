@@ -1,5 +1,7 @@
 <?php
 
+use App\DiscrepancyCategory;
+use App\DiscrepancyList;
 use Illuminate\Database\Seeder;
 
 class DiscrepancySeeder extends Seeder

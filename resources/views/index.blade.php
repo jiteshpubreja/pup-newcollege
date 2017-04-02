@@ -1,7 +1,7 @@
 @extends('templates.main',['title' => 'Home'])
 
 @section('heading')
-Punjabi University,Patiala
+Punjabi University, Patiala
 @endsection
 @section('content')
 

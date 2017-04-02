@@ -55,7 +55,7 @@ College Section
 				<table class="table table-bordered table-hover">
 					<caption>
 						<h4 class="text-capitalize text-center">
-							<strong>The application fee (without late fee ) for different types of Courses is as follows with one batch: </strong>
+							<strong>The application fee ( without late fee ) for different types of Courses is as follows with one batch: </strong>
 						</h4>
 					</caption>
 

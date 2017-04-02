@@ -1,4 +1,8 @@
-﻿.btn-primary {
+﻿.btn-primary,
+.btn-success,
+.btn-info,
+.btn-warning,
+.btn-danger {
     box-shadow: 1px 2px 5px #000000;
 }
 .well {
@@ -15,7 +19,12 @@
 
 
 hr.style18 {
-	height: 10px;
-	border: 0;
-	box-shadow: 0 7px 7px -7px #044687 inset;
+    height: 10px;
+    border: 0;
+    box-shadow: 0 7px 7px -7px #044687 inset;
+}
+
+
+.redhr {
+    width: 100%;
 }

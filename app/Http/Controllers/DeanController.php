@@ -7,16 +7,25 @@ use App\CollegeUploadedFile;
 use App\DiscrepancyCategory;
 use App\FeePayment;
 use App\Inspection;
+use App\InspectionAssignment;
+use App\InspectionMember;
+use App\InspectionRequest;
+use App\Teacher;
+use App\Traits\PDFGenerator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Validator;
 
 class DeanController extends Controller
 {
-    
+
+
+    use PDFGenerator;
+
     protected $dean;
 
-	public function __construct()
+    public function __construct()
     {
         $this->middleware('auth');
     }
@@ -44,18 +53,14 @@ class DeanController extends Controller
         if($this->isNotDean()) {
             return Redirect::route('home');
         }
-            $payments = FeePayment::where('is_verified',true)->orderBy('created_at','desc')->get();
-            
-            if($payments->count()){
-                return view('university.dean.applications.viewdrafts')->with('payments',$payments);
-            }
-            return view('university.dean.applications.viewdrafts');
+        $payments = FeePayment::where('is_verified',true)->orderBy('created_at','desc')->get();
+
+        if($payments->count()){
+            return view('university.dean.applications.viewdrafts')->with('payments',$payments);
+        }
+        return view('university.dean.applications.viewdrafts');
     }
 
-
-
-
-    
 
     public function viewapplication($collegeid = null) {
         if($this->isNotDean()) {
@@ -74,15 +79,36 @@ class DeanController extends Controller
                 return view('university.dean.applications.view',compact('applications'))->with('form',$collegeid);
             }
             else {
-
                 return view('university.dean.applications.view',compact('applications'));
             }
         }
         else {
             return view('university.clerk.applications.view');
         }
+    }
+
+
+    public function viewapplicationpdf($collegeid = null) {
+        if($this->isNotDean()) {
+            return Redirect::route('home');
+        }
+        $applications = CollegeNewRegistration::where('is_forwarded_to_dean',true)->orderBy('is_loi_granted','asc')->orderBy('is_seen_by_dean','asc')->orderBy('created_at','desc')->get();
         
-        
+        if($applications->count()){ 
+            $collegeid = CollegeNewRegistration::where('id',$collegeid)->where('is_submitted',true)->first();
+            if($collegeid) {
+                $page="LEGAL";
+                $letterexists=false;
+                $font="helvetica";
+                $this->getPDF(view('university.reports.application')->with('form',$collegeid)->render(),$letterexists,$font,$page);
+            }
+            else {
+                return abort(404);
+            }
+        }
+        else {
+            return abort(404);
+        }
     }
 
 
@@ -134,6 +160,128 @@ class DeanController extends Controller
 
 
 
+    public function deanviewrequest() {
+        if($this->isNotDean()) {
+            return Redirect::route('home');
+        }
+        $requests = InspectionRequest::where('is_forwarded_to_dean',true)->get();
+        
+        if($requests->count()){ 
+            return view('university.dean.inspections.viewrequests',compact('requests'));
+        }
+        return view('university.dean.inspections.viewrequests');
+    }
+
+
+
+    public function deanassignconvener($requestid = null) {
+        if($this->isNotDean()) {
+            return Redirect::route('home');
+        }
+        $teachers = Teacher::get();
+        $requestid = InspectionRequest::where('is_forwarded_to_dean',true)->where('id',$requestid)->first();
+        
+        if($requestid){ 
+            $assignment = InspectionAssignment::where('id_college',$requestid->college->id)->first();
+            if($assignment){
+                return view('university.dean.inspections.assignconvener')->with('requestid',$requestid)->with('assignment',$assignment);
+            }
+            if($teachers->count()){ 
+                return view('university.dean.inspections.assignconvener',compact('teachers'))->with('requestid',$requestid);
+            }
+            return view('university.dean.inspections.assignconvener')->with('requestid',$requestid);
+        }
+        return view('university.dean.inspections.assignconvener');
+    }
+
+
+
+    public function deanassignconvenerpost(Request $request,$requestid = null) {
+        if($this->isNotDean()) {
+            return Redirect::route('home');
+        }
+        $requestid = InspectionRequest::where('is_forwarded_to_dean',true)->where('id',$requestid)->first();
+        if($requestid){
+
+            $input = $request->all();
+            $input['id_college'] = $requestid->college->id;
+
+            $validator = Validator::make($input, [
+                'id_college' => 'required|exists:college_applicants,id',
+                'id_teacher' => 'required|exists:teachers,id'
+                ]);
+            if ($validator->passes()){
+                $assignment = InspectionAssignment::create($input);
+                return redirect()->route('deanviewrequest')->with('success',$assignment->teacher->user->fullname().' Assigned Sucessfully as Convener to '.$assignment->college->form->college_name);
+            }
+            return back()->with('errors',$validator->errors());
+        }
+        return back();
+    }
+
+
+
+    public function deanassignmembers($requestid = null) {
+        if($this->isNotDean()) {
+            return Redirect::route('home');
+        }
+        $requestid = InspectionRequest::where('is_forwarded_to_dean',true)->where('id',$requestid)->first();
+        
+        if($requestid){ 
+            $assignment = InspectionAssignment::where('id_college',$requestid->college->id)->first();
+            if($assignment){
+
+                $teachers = Teacher::where('id','!=',$assignment->id_teacher)->get();
+                $members = InspectionMember::where('id_assignment',$assignment->id)->get();
+
+
+                if($members->count()){
+                    return view('university.dean.inspections.assignmembers')->with('requestid',$requestid)->with('assignment',$assignment)->with('members',$members);
+                }
+                if($teachers->count()){ 
+                    return view('university.dean.inspections.assignmembers',compact('teachers'))->with('requestid',$requestid)->with('assignment',$assignment);
+                }
+                return view('university.dean.inspections.assignmembers')->with('requestid',$requestid)->with('assignment',$assignment);
+            }
+            return view('university.dean.inspections.assignmembers')->with('requestid',$requestid);
+        }
+        return view('university.dean.inspections.assignmembers');
+    }
+
+
+
+    public function deanassignmemberspost(Request $request,$requestid = null) {
+        if($this->isNotDean()) {
+            return Redirect::route('home');
+        }
+        $requestid = InspectionRequest::where('is_forwarded_to_dean',true)->where('id',$requestid)->first();
+        if($requestid){
+            $assignment = InspectionAssignment::where('id_college',$requestid->college->id)->first();
+            if($assignment){
+
+                $input = $request->all();
+                $input['id_assignment'] = $assignment->id;
+                $validator = Validator::make($input, [
+                    'id_assignment' => 'required|exists:inspection_assignments,id',
+                    'id_teacher' => 'required|exists:teachers,id'
+                    ]);
+                if ($validator->passes()){
+
+                    foreach ($input['id_teacher'] as $teacher) {
+                        InspectionMember::create([
+                            'id_assignment' => $input['id_assignment'],
+                            'id_teacher' => $teacher,
+                            ]);
+                    }
+                    $requestid->delete();
+                    return redirect()->route('deanviewrequest')->with('success',count($input['id_teacher']).' Members Assigned Sucessfully to Inspection Team For '.$assignment->college->form->college_name);
+                }
+                return back()->with('errors',$validator->errors());
+            }
+            return back();
+        }
+        return back();
+    }
 
     
 
@@ -155,15 +303,33 @@ class DeanController extends Controller
                 return view('university.dean.inspections.viewinspection',compact('inspections','categories'))->with('inspectionid',$inspectionid);
             }
             else {
-
                 return view('university.dean.inspections.viewinspection',compact('inspections'));
             }
         }
         else {
             return view('university.dean.inspections.viewinspection');
         }
+    }
+
+    
+
+    public function viewinspectionpdf($inspectionid = null) {
+        if($this->isNotDean()) {
+            return Redirect::route('home');
+        }
         
-        
+        $inspectionid = Inspection::where('id',$inspectionid)->first();
+        if($inspectionid) {
+            $categories = DiscrepancyCategory::get();
+            $page="LEGAL";
+            $letterexists=false;
+            $font="helvetica";
+
+            $this->getPDF(view('university.reports.inspection',compact('inspections','categories'))->with('inspectionid',$inspectionid)->render(),$letterexists,$font,$page);
+        }
+        else {
+            return abort(404);
+        }
     }
 
 

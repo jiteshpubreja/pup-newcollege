@@ -22,5 +22,10 @@ class Clerk extends Model
 		return $this->belongsTo('App\User','id_user');
 	}
 
+	public function department(){
+
+		return $this->belongsTo('App\DepartmentClerk','id_dept');
+	}
+
 
 }

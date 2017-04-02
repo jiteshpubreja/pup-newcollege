@@ -16,6 +16,7 @@ class CreateInspectionRequestsTable extends Migration
         Schema::create('inspection_requests', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('id_college')->unsigned();
+            $table->boolean('is_forwarded_to_dean')->default(0);
             $table->timestamps();
 
             $table->foreign('id_college')->references('id')->on('college_applicants')->onUpdate('cascade')->onDelete('cascade');

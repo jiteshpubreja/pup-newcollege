@@ -6,6 +6,8 @@ use App\CollegeNewRegistration;
 use App\CollegeUploadedFile;
 use App\FeePayment;
 use App\FeeStructure;
+use App\InspectionRequest;
+use App\Traits\PDFGenerator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
@@ -14,6 +16,9 @@ use Illuminate\Support\Str;
 
 class CollegeController extends Controller
 {
+
+    use PDFGenerator;
+
 
     protected $college;
 
@@ -139,6 +144,26 @@ class CollegeController extends Controller
 
 
 
+
+    public function viewapplicationpdf() {
+        if($this->isNotCollege()) {
+            return Redirect::route('home');
+        }
+        $college = Auth::user()->isCollege();
+        $form = $college->form;
+        if($form){
+            if($form->is_submitted){
+
+                $page="LEGAL";
+            $letterexists=false;
+            $font="helvetica";
+            $this->getPDF(view('university.reports.application')->with('form',$form)->render(),$letterexists,$font,$page);
+        }
+            else
+                return abort(404);
+        }
+        return abort(404);
+    }
 
     public function applynewcollege() {
         if($this->isNotCollege()) {
@@ -419,4 +444,101 @@ class CollegeController extends Controller
     }
     return back()->with('error','Please Select Draft Document To Upload');
 }
+
+
+
+
+
+public function requestinspection() {
+    if($this->isNotCollege()) {
+        return Redirect::route('home');
+    }
+    $college = Auth::user()->isCollege();
+    $request = $college->inspectionrequest;
+    $assignment = $college->inspectionassignment;
+    $form = $college->form;
+    if($form){
+        if($request)
+            return view('university.college.forms.inspectionrequest')->with('form',$form)->with('request',$request);
+        elseif($assignment)
+            return view('university.college.forms.inspectionrequest')->with('form',$form)->with('assignment',$assignment);
+        else
+            return view('university.college.forms.inspectionrequest')->with('form',$form);
+    }
+    return view('university.college.forms.inspectionrequest');
+}
+
+
+public function scheduledinspectionletter() {
+    if($this->isNotCollege()) {
+        return Redirect::route('home');
+    }
+    $college = Auth::user()->isCollege();
+    $request = $college->inspectionrequest;
+    $assignment = $college->inspectionassignment;
+    $form = $college->form;
+    if($form){
+        if($assignment And $assignment->members->count()){
+            if($assignment->schedule){
+
+                $page="LEGAL";
+                $letterexists=true;
+                $font="anmollipi";
+                $this->getPDF(view('university.reports.letters.scheduledinspection')->with('assignment',$assignment)->render(),$letterexists,$font,$page);
+            }
+            return abort(404);
+        }
+        return abort(404);
+    }
+    return abort(404);
+}
+
+public function requestinspectionpost(Request $request) {
+    if($this->isNotCollege()) {
+        return Redirect::route('home');
+    }
+    $college = Auth::user()->isCollege();
+    $request = $college->inspectionrequest;
+    $form = $college->form;
+    if($form){
+        if($form->is_loi_granted){
+            InspectionRequest::create(['id_college' => $college->id]);
+            return back()->with('success','Inspection Requested Sucessfully.');
+        }
+        return back();
+    }
+
+}
+
+public function downloads() {
+    if($this->isNotCollege()) {
+        return Redirect::route('home');
+    }
+
+    $list = array();
+    $college = Auth::user()->isCollege();
+    $request = $college->inspectionrequest;
+    $assignment = $college->inspectionassignment;
+    $form = $college->form;
+    if($form){
+        if($assignment And $assignment->members->count()){
+            if($assignment->schedule){
+                $list['Application Form'] = route('collegeviewapplicationpdf');
+                $list['Inspection Letter'] = route('scheduledinspectionletter');
+
+
+                return view('university.college.downloads')->with('downloads',$list);
+            }
+            return view('university.college.downloads');
+        }
+        return view('university.college.downloads');
+    }
+    return view('university.college.downloads');
+}
+
+
+
+
+
+
 }

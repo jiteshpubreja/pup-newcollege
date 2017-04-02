@@ -17,4 +17,9 @@ class InspectionMember extends Model
 
         return $this->belongsTo('App\Teacher','id_teacher');
     }
+
+    public function assignment(){
+
+        return $this->belongsTo('App\InspectionAssignment','id_assignment');
+    }
 }

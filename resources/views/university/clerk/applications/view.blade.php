@@ -869,15 +869,17 @@ View Application
 			</div>
 		</div>
 	</div>
-<div class=" col-md-12" style="text-align: center;"> 
-	<label>Application Submitted on {{ $form->created_at->toFormattedDateString() }}</label>
+	<div class=" col-md-12" style="text-align: center;"> 
+		<label>Application Submitted on {{ $form->created_at->toFormattedDateString() }}</label>
 	</div>
 	<br/>
 	<div class=" col-md-12" style="text-align: center;"> 
 		<a class="btn btn-primary" href="{{ route('clerkviewappdocs',$form->id) }}">View Documents</a>
 		&nbsp;&nbsp;&nbsp;&nbsp;
 		<a class="btn btn-primary" href="{{ route('clerkviewdrafts',$form->id) }}">View Drafts</a>
-	@if(!$form->is_forwarded_to_dean)
+		&nbsp;&nbsp;&nbsp;&nbsp;
+		<a class="btn btn-primary" href="{{ route('clerkviewapplicationpdf',$form->id) }}">Download PDF</a>
+		@if(!$form->is_forwarded_to_dean)
 		&nbsp;&nbsp;&nbsp;&nbsp;
 		<a class="btn btn-success" href="{{ route('clerkviewapplication',$form->id) }}"
 			onclick="event.preventDefault();
@@ -890,18 +892,18 @@ View Application
 			document.getElementById('reject-application').submit();">
 			<i class="fa fa-times fa-lg"></i> Reject
 		</a>
+
+		<form id="forward-to-dean" action="{{ route('clerkviewapplication',$form->id) }}" method="POST" style="display: none;">
+			<input type="hidden" name="_method" value="PUT">
+			{{ csrf_field() }}
+		</form>
+
+		<form id="reject-application" action="{{ route('clerkrejectapplication',$form->id) }}" method="POST" style="display: none;">
+			<input type="hidden" name="_method" value="PUT">
+			{{ csrf_field() }}
+		</form>
+		@endif
 	</div>
-
-	<form id="forward-to-dean" action="{{ route('clerkviewapplication',$form->id) }}" method="POST" style="display: none;">
-		<input type="hidden" name="_method" value="PUT">
-		{{ csrf_field() }}
-	</form>
-
-	<form id="reject-application" action="{{ route('clerkrejectapplication',$form->id) }}" method="POST" style="display: none;">
-		<input type="hidden" name="_method" value="PUT">
-		{{ csrf_field() }}
-	</form>
-	@endif
 	@else
 	<table width="100%" style="text-align: center;">
 		<tr>

@@ -5,7 +5,7 @@ Add Inspection
 @endsection
 @section('content')
 @if(!empty($categories))
-@if(!empty($collegeid))
+@if(!empty($assignment))
 <form class="form-horizontal" role="form" method="POST" action="{{ route('teacheraddinspection') }}">
 	{{ csrf_field() }}
 
@@ -18,7 +18,7 @@ Add Inspection
 	@else
 	<div class="alert alert-info">
 		<p>
-			Please Select The Correct Options
+			Please Select The Correct Options for Inspection of <strong>{{ $assignment->college->form->college_name }}</strong>.
 		</p>
 	</div>
 	@endif
@@ -108,9 +108,99 @@ Add Inspection
 				Submit
 			</button>
 		</div>	
-		<input type="hidden" name="collegeid" value="{{ $collegeid }}">
+		<input type="hidden" name="collegeid" value="{{ $assignment->id_college }}">
 	</div>
 </form>
+@if($assignment->members->count())
+<div class="row text-justify">
+	<div class="col-md-12">
+		<div class="panel panel-primary">
+			<div class="panel-heading text-uppercase"><strong>Inspection Team Members</strong></div>
+			<div class="panel-body text-info">
+				<table width="100%" style="text-align: center;">
+					<tr>
+						<td>
+							<h4>
+								<label>
+									S.No.
+								</label>
+							</h4>
+						</td>
+						<td>
+							<h4 >
+								<label>
+									Name
+								</label>
+							</h4>
+						</td>
+						<td>
+							<h4 >
+								<label>
+									Designation
+								</label>
+							</h4>
+						</td>
+						<td>
+							<h4 >
+								<label>
+									Department
+								</label>
+							</h4>
+						</td>
+						<td>
+							<h4 >
+								<label>
+									Email
+								</label>
+							</h4>
+						</td>
+						<td>
+							<h4 >
+								<label>
+									Mobile No.
+								</label>
+							</h4>
+						</td>
+					</tr>
+					<?php $sr = 1; ?>
+					@foreach($assignment->members as $member)
+					<tr style="line-height:30px;">
+						<td>
+							<label>({{ $sr++ }})</label>
+						</td>
+						<td>
+							<label>
+								{{ $member->teacher->user->fullname() }}
+							</label>
+						</td>
+						<td>
+							<label>
+								{{ $member->teacher->designation }}
+							</label>
+						</td>
+						<td>
+							<label>
+								{{ $member->teacher->department->name }}
+							</label>
+						</td>
+						<td>
+							<label>
+								{{ $member->teacher->user->email }}
+							</label>
+						</td>
+						<td>
+							<label>
+								{{ $member->teacher->user->mobile }}
+							</label>
+						</td>
+					</tr>
+					@endforeach
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+@endif
 @else
 @if ($message = Session::get('success'))
 <div class="alert alert-success">
@@ -118,13 +208,14 @@ Add Inspection
 		{{ $message }}
 	</p>
 </div>
-@endif
+@else
 <div class="alert alert-info">
 	<p>
 		You Haven't Been Assigned Any Inspection Yet
 	</p>
 </div>
 @endif
+@endif
 @else
 @if ($message = Session::get('success'))
 <div class="alert alert-success">
@@ -132,11 +223,12 @@ Add Inspection
 		{{ $message }}
 	</p>
 </div>
-@endif
+@else
 <div class="alert alert-info">
 	<p>
 		Nothing To Display
 	</p>
 </div>
+@endif
 @endif
 @endsection

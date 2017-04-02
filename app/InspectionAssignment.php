@@ -23,8 +23,13 @@ class InspectionAssignment extends Model
         return $this->belongsTo('App\Teacher','id_teacher');
     }
 
-	public function members(){
+    public function members(){
 
-		return $this->hasMany('App\InspectionMember','id_assignment');
-	}
+        return $this->hasMany('App\InspectionMember','id_assignment');
+    }
+
+    public function schedule(){
+
+        return $this->hasOne('App\InspectionSchedule','id_assignment');
+    }
 }

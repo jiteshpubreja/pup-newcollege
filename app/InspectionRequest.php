@@ -10,6 +10,7 @@ class InspectionRequest extends Model
 
 	protected $fillable = [
         'id_college',
+        'is_forwarded_to_dean',
     ];
 
     public function college(){

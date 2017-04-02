@@ -26,6 +26,19 @@ class College extends Model
 		return $this->hasOne('App\CollegeNewRegistration','id_college')->orderBy('created_at','desc');
 	}
 
+
+
+	public function inspectionrequest(){
+
+		return $this->hasOne('App\InspectionRequest','id_college');
+	}
+
+
+	public function inspectionassignment(){
+
+		return $this->hasOne('App\InspectionAssignment','id_college');
+	}
+
 	public function files(){
 
 		return $this->hasMany('App\CollegeUploadedFile','id_college');

@@ -32,10 +32,11 @@
                 <li class="{{ is_active('clerkviewapplicationrejects') }}"><a href="{{ route('clerkviewapplicationrejects') }}"><span class="glyphicon glyphicon-folder-open"></span> Rejected Applications</a></li>
             </ul>
 
-            <li data-toggle="collapse" data-target="#inspectionactions" class="collapsed{{ is_active_array(['clerkviewinspection']) }}">
-                <a href="#"><i class="fa fa-ticket fa-lg"></i> Inspections   {!! new_inspections() !!} <span class="arrow"></span></a>
+            <li data-toggle="collapse" data-target="#inspectionactions" class="collapsed{{ is_active_array(['clerkviewinspection','clerkviewrequest']) }}">
+                <a href="#"><i class="fa fa-ticket fa-lg"></i> Inspections   {!! new_inspections_tab() !!} <span class="arrow"></span></a>
             </li>
             <ul class="sub-menu collapse" id="inspectionactions">
+                <li class="{{ is_active('clerkviewrequest') }}"><a href="{{ route('clerkviewrequest') }}"><span class="glyphicon glyphicon-folder-open"></span> View Requests   {!! new_requests() !!}</a></li>
                 <li class="{{ is_active('clerkviewinspection') }}"><a href="{{ route('clerkviewinspection') }}"><span class="glyphicon glyphicon-folder-open"></span> View Inspections   {!! new_inspections() !!}</a></li>
             </ul>
         </ul>

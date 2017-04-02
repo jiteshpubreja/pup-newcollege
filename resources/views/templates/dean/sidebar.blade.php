@@ -23,10 +23,11 @@
             </ul>
 
 
-            <li data-toggle="collapse" data-target="#inspectionactions" class="collapsed{{ is_active_array(['deanviewinspection']) }}">
-                <a href="#"><i class="fa fa-ticket fa-lg"></i> Inspections   {!! new_inspections_dean() !!} <span class="arrow"></span></a>
+            <li data-toggle="collapse" data-target="#inspectionactions" class="collapsed{{ is_active_array(['deanviewinspection','deanviewrequest']) }}">
+                <a href="#"><i class="fa fa-ticket fa-lg"></i> Inspections   {!! new_inspections_tab_dean() !!} <span class="arrow"></span></a>
             </li>
             <ul class="sub-menu collapse" id="inspectionactions">
+                <li class="{{ is_active('deanviewrequest') }}"><a href="{{ route('deanviewrequest') }}"><span class="glyphicon glyphicon-folder-open"></span> View Requests   {!! new_requests_dean() !!}</a></li>
                 <li class="{{ is_active('deanviewinspection') }}"><a href="{{ route('deanviewinspection') }}"><span class="glyphicon glyphicon-folder-open"></span> View Inspections   {!! new_inspections_dean() !!}</a></li>
             </ul>
 

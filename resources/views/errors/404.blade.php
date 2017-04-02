@@ -54,27 +54,6 @@
             <li><a href="{{ route('aboutus') }}" >About Us</a></li>
             <li><a href="{{ route('contactus') }}" >Contact Us</a></li>
         </ul>
-        <ul class="nav navbar-nav navbar-right">
-            @if (Auth::guest())    
-            <li><a href="{{ route('register') }}"><span class="glyphicon glyphicon-user"></span>Sign Up</a></li>  
-            <li><a href="{{ route('login') }}"><span class="glyphicon glyphicon-log-in"></span>Login</a></li>
-            @else
-            
-            <li><p class="navbar-text">Signed in as {{ Auth::user()->fname." ".Auth::user()->lname }}</p></li>
-            <li>
-                <a href="{{ route('logout') }}"
-                onclick="event.preventDefault();
-                document.getElementById('logout-form').submit();">
-                Logout
-            </a>
-
-            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                {{ csrf_field() }}
-            </form>
-        </li>
-
-        @endif
-    </ul>
 
 </div>
 </div>

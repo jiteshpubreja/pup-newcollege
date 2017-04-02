@@ -30,6 +30,11 @@ class Inspection extends Model
 
     public function discrepancies(){
 
-		return $this->hasMany('App\Discrepancy','id_inspection');
-	}
+        return $this->hasMany('App\Discrepancy','id_inspection');
+    }
+
+    public function members(){
+
+        return $this->hasMany('App\InspectionReportMember','id_inspection');
+    }
 }

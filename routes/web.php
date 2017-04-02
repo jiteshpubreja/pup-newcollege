@@ -18,10 +18,6 @@ Route::Group(['middleware' => ['web']],function(){
 
 	Route::get('/', 'RedirectController@redirect')->name('home');
 
-	Route::get('/controller', function () {
-		return view('administration.clerk');
-	})->name('clerk');
-
 	Route::Group(['prefix' => 'aboutus'],function(){
 		Route::get('/', 'PagesController@aboutus')->name('aboutus');
 		Route::get('/introduction', 'PagesController@introduction')->name('introduction');
@@ -37,12 +33,6 @@ Route::Group(['middleware' => ['web']],function(){
 
 	Auth::routes();
 	Route::get('/user/activation/{token}', 'Auth\RegisterController@userActivation')->name('activation');
-
-	Route::get('/home', 'HomeController@index');
-	Route::get('/report/{user}','PDFController@index');
-	Route::post('/pdfs', 'PDFController@requestdd')->name('requestdd');
-	Route::put('/pdfs', 'PDFController@requestdd')->name('requestdd');
-
 });
 
 
@@ -95,7 +85,11 @@ Route::Group(['prefix' => 'clerk'],function(){
 	Route::Group(['prefix' => 'inspections'],function(){
 		Route::get('/', 'RedirectController@redirect');
 		Route::get('/viewinspection/{inspectionid?}', 'ClerkController@viewinspection')->name('clerkviewinspection');
+		Route::get('/viewinspection/{inspectionid?}/pdf', 'ClerkController@viewinspectionpdf')->name('clerkviewinspectionpdf');
 		Route::put('/viewinspection/{inspectionid?}', 'ClerkController@forwardinspection')->name('clerkviewinspection');
+		Route::get('/request', 'ClerkController@clerkviewrequest')->name('clerkviewrequest');
+		Route::put('/request/{requestid?}', 'ClerkController@clerkforwardrequest')->name('clerkforwardrequest');
+		Route::put('/request/{requestid?}/reject', 'ClerkController@clerkrejectrequest')->name('clerkrejectrequest');
 	});
 
 	Route::Group(['prefix' => 'applications'],function(){
@@ -103,6 +97,7 @@ Route::Group(['prefix' => 'clerk'],function(){
 		Route::get('/view/{collegeid?}', 'ClerkController@viewapplication')->name('clerkviewapplication');
 		Route::get('/rejected/view/{collegeid?}', 'ClerkController@viewapplicationrejects')->name('clerkviewapplicationrejects');
 		Route::get('/view/{collegeid?}/docs', 'ClerkController@viewappdocs')->name('clerkviewappdocs');
+		Route::get('/view/{collegeid?}/pdf', 'ClerkController@viewapplicationpdf')->name('clerkviewapplicationpdf');
 		Route::put('/view/{collegeid?}', 'ClerkController@forwardapplication')->name('clerkviewapplication');
 		Route::put('/view/{collegeid?}/reject', 'ClerkController@rejectapplication')->name('clerkrejectapplication');
 		Route::get('/view/{collegeid?}/drafts', 'ClerkController@viewdrafts')->name('clerkviewdrafts');
@@ -129,8 +124,15 @@ Route::Group(['prefix' => 'college'],function(){
 	Route::post('/upload', 'CollegeController@uploadsupportingdocspost')->name('collegeuploaddocs');
 	Route::get('/draft/upload', 'CollegeController@uploaddraft');
 	Route::post('/draft/upload', 'CollegeController@uploaddraftpost')->name('collegeuploaddraft');
-	Route::get('/inspection/request', 'CollegeController@uploaddraft');
-	Route::post('/inspection/request', 'CollegeController@uploaddraftpost')->name('collegeuploaddraft');
+	Route::get('/inspection/request', 'CollegeController@requestinspection');
+	Route::post('/inspection/request', 'CollegeController@requestinspectionpost')->name('collegerequestinspection');
+
+	Route::Group(['prefix' => 'downloads'],function(){
+		Route::get('/', 'CollegeController@downloads')->name('collegedownloads');
+		Route::get('/inspectionletter', 'CollegeController@scheduledinspectionletter')->name('scheduledinspectionletter');
+		Route::get('/applicationform/pdf', 'CollegeController@viewapplicationpdf')->name('collegeviewapplicationpdf');
+	});
+
 });
 
 
@@ -147,13 +149,20 @@ Route::Group(['prefix' => 'dean'],function(){
 		Route::get('/', 'RedirectController@redirect');
 		Route::get('/view/{collegeid?}', 'DeanController@viewapplication')->name('deanviewapplication');
 		Route::get('/view/{collegeid?}/docs', 'DeanController@viewappdocs')->name('deanviewappdocs');
+		Route::get('/view/{collegeid?}/pdf', 'DeanController@viewapplicationpdf')->name('deanviewapplicationpdf');
 		Route::put('/view/{collegeid?}', 'DeanController@generateloi')->name('deanviewapplication');
 	});
 
 	Route::Group(['prefix' => 'inspections'],function(){
 		Route::get('/', 'RedirectController@redirect');
 		Route::get('/viewinspection/{inspectionid?}', 'DeanController@viewinspection')->name('deanviewinspection');
+		Route::get('/viewinspection/{inspectionid?}/pdf', 'DeanController@viewinspectionpdf')->name('deanviewinspectionpdf');
 		Route::put('/viewinspection/{inspectionid?}', 'DeanController@approveinspection')->name('deanviewinspection');
+		Route::get('/request', 'DeanController@deanviewrequest')->name('deanviewrequest');
+		Route::get('/request/{requestid?}/convener', 'DeanController@deanassignconvener')->name('deanassignconvener');
+		Route::post('/request/{requestid?}/convener', 'DeanController@deanassignconvenerpost')->name('deanassignconvener');
+		Route::get('/request/{requestid?}/members', 'DeanController@deanassignmembers')->name('deanassignmembers');
+		Route::post('/request/{requestid?}/members', 'DeanController@deanassignmemberspost')->name('deanassignmembers');
 	});
 });
 
@@ -161,64 +170,17 @@ Route::Group(['prefix' => 'dean'],function(){
 
 Route::Group(['prefix' => 'teacher'],function(){
 	Route::get('/', 'TeacherController@index')->name('teacherhome');
+	Route::get('/scheduleinspection', 'TeacherController@scheduleinspection');
+	Route::post('/scheduleinspection', 'TeacherController@scheduleinspectionpost')->name('teacherscheduleinspection');
 	Route::get('/addinspection', 'TeacherController@addinspection');
 	Route::post('/addinspection', 'TeacherController@addinspectionpost')->name('teacheraddinspection');
 	Route::get('/viewinspection/{inspectionid?}', 'TeacherController@viewinspection')->name('teacherviewinspection');
+	Route::get('/viewinspection/{inspectionid?}/pdf', 'TeacherController@viewinspectionpdf')->name('teacherviewinspectionpdf');
 });
 
 
 
 
 Route::Group(['middleware' => ['auth']],function(){
-
 	Route::get('/download/{refid}/{filename}', 'PDFController@download')->name('collegedownload');
-
-
-
-
-
-
-
-
-
-
-	Route::get('/5000', function () {
-		return view('2');
-	})->name('5000');
-
-	Route::get('/50000', function () {
-		return view('2-old');
-	})->name('50000');
-
-	Route::post('/handleUpload', 'HomeController@upload')->name('uploadfiles');
-
-	Route::get('/AdminSignup', function () {
-		return view('auth.admin');
-	})->name('adminsignup');
-
-	Route::get('/draft', function () {
-		return view('draft');
-	})->name('adminsignup');
-
-	Route::get('/file', function () {
-		return view('files_uploading');
-	})->name('adminsignup');
-
-	Route::get('/descrepencies', function () {
-		return view('forms.descrepencies');
-	})->name('descrepencies');
-
-	Route::get('/headselection', function () {
-		return view('forms.headselection');
-	})->name('headselection');
-
-	Route::get('/inspectionform', function () {
-		return view('forms.inspectionform');
-	})->name('inspectionform');
-
-	Route::get('/teamselection', function () {
-		return view('forms.teamselection');
-	})->name('teamselection');
-
-
 });

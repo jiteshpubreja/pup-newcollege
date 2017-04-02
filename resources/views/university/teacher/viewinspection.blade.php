@@ -67,7 +67,97 @@ View Inspection
 	@endforeach
 </table>
 <hr class="style18">
-
+@if($inspectionid->members->count())
+<div class="row text-justify">
+	<div class="col-md-12">
+		<div class="panel panel-primary">
+			<div class="panel-heading text-uppercase"><strong>Inspection Team Members</strong></div>
+			<div class="panel-body text-info">
+				<table width="100%" style="text-align: center;">
+					<tr>
+						<td>
+							<h4>
+								<label>
+									S.No.
+								</label>
+							</h4>
+						</td>
+						<td>
+							<h4 >
+								<label>
+									Name
+								</label>
+							</h4>
+						</td>
+						<td>
+							<h4 >
+								<label>
+									Designation
+								</label>
+							</h4>
+						</td>
+						<td>
+							<h4 >
+								<label>
+									Department
+								</label>
+							</h4>
+						</td>
+						<td>
+							<h4 >
+								<label>
+									Email
+								</label>
+							</h4>
+						</td>
+						<td>
+							<h4 >
+								<label>
+									Mobile No.
+								</label>
+							</h4>
+						</td>
+					</tr>
+					<?php $sr = 1; ?>
+					@foreach($inspectionid->members as $member)
+					<tr style="line-height:30px;">
+						<td>
+							<label>({{ $sr++ }})</label>
+						</td>
+						<td>
+							<label>
+								{{ $member->teacher->user->fullname() }}
+							</label>
+						</td>
+						<td>
+							<label>
+								{{ $member->teacher->designation }}
+							</label>
+						</td>
+						<td>
+							<label>
+								{{ $member->teacher->department->name }}
+							</label>
+						</td>
+						<td>
+							<label>
+								{{ $member->teacher->user->email }}
+							</label>
+						</td>
+						<td>
+							<label>
+								{{ $member->teacher->user->mobile }}
+							</label>
+						</td>
+					</tr>
+					@endforeach
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+<hr class="style18">
+@endif
 <h4 >
 	<strong><label class="col-md-3 control-label">Final Remarks</label></strong>
 </h4>
@@ -78,97 +168,102 @@ View Inspection
 	</p>
 </div>
 <div class=" col-md-12" style="text-align: center;"> 
-<label>Inspection Submitted on {{ $inspectionid->created_at->toFormattedDateString() }}
-</div>
-@else
-<div class="alert alert-info">
-	<p>
-		Nothing To Display
-	</p>
-</div>
-@endif
-@else
-<table width="100%">
-	<tr>
-		<td>
-			<h4>
+	<label>Inspection Submitted on {{ $inspectionid->created_at->toFormattedDateString() }}
+	</div>
+	<div class=" col-md-12" style="text-align: center;"> 
+		<a class="btn btn-primary" href="{{ route('teacherviewinspectionpdf',$inspectionid->id) }}">Download PDF</a>
+	</div>
+
+
+	@else
+	<div class="alert alert-info">
+		<p>
+			Nothing To Display
+		</p>
+	</div>
+	@endif
+	@else
+	<table width="100%">
+		<tr>
+			<td>
+				<h4>
+					<label>
+						S.No.
+					</label>
+				</h4>
+			</td>
+			<td>
+				<h4 >
+					<label>
+						College
+					</label>
+				</h4>
+			</td>
+			<td>
+				<h4 >
+					<label>
+						Final Remarks
+					</label>
+				</h4>
+			</td>
+			<td>
+				<h4 >
+					<label>
+						Dated
+					</label>
+				</h4>
+			</td>
+			<td>
+				<h4 >
+					<label>
+						View Inspection
+					</label>
+				</h4>
+			</td>
+		</tr>
+
+
+		<?php $sr = 1; ?>
+		@foreach($inspections as $inspection)
+		<tr style="line-height:30px;">
+			<td>
+				<label>({{ $sr++ }})</label>
+			</td>
+			<td>
 				<label>
-					S.No.
+					{{ $inspection->college->form->college_name }}
 				</label>
-			</h4>
-		</td>
-		<td>
-			<h4 >
+			</td>
+			<td>
 				<label>
-					College
+					{{ $inspection->final_remarks }}
 				</label>
-			</h4>
-		</td>
-		<td>
-			<h4 >
+			</td>
+			<td>
 				<label>
-					Final Remarks
+					{{ $inspection->created_at->toFormattedDateString() }}
 				</label>
-			</h4>
-		</td>
-		<td>
-			<h4 >
+			</td>
+			<td>
 				<label>
-					Dated
+					<a class="btn btn-primary btn-xs" href="{{ route('teacherviewinspection',$inspection->id) }}">View Inspection</a>
+
 				</label>
-			</h4>
-		</td>
-		<td>
-			<h4 >
-				<label>
-					View Inspection
-				</label>
-			</h4>
-		</td>
-	</tr>
+			</td>
+		</tr>
+		@endforeach
 
+	</table>
 
-	<?php $sr = 1; ?>
-	@foreach($inspections as $inspection)
-	<tr style="line-height:30px;">
-		<td>
-			<label>({{ $sr++ }})</label>
-		</td>
-		<td>
-			<label>
-				{{ $inspection->college->user->fname." ".$inspection->college->user->lname }}
-			</label>
-		</td>
-		<td>
-			<label>
-				{{ $inspection->final_remarks }}
-			</label>
-		</td>
-		<td>
-			<label>
-				{{ $inspection->created_at->toFormattedDateString() }}
-			</label>
-		</td>
-		<td>
-			<label>
-				<a class="btn btn-primary btn-xs" href="{{ route('teacherviewinspection',$inspection->id) }}">View Inspection</a>
+	@endif
 
-			</label>
-		</td>
-	</tr>
-	@endforeach
+	@else
+	<div class="alert alert-info">
+		<p>
+			You Haven't Done Any Inspections Yet
+		</p>
+	</div>
 
-</table>
+	@endif
 
-@endif
-
-@else
-<div class="alert alert-info">
-	<p>
-		You Haven't Done Any Inspections Yet
-	</p>
-</div>
-
-@endif
-
-@endsection
+	@endsection
