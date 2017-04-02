@@ -168,8 +168,8 @@ class AdminController extends Controller
         $input = $request->all();
         $validator = $this->validatoradmin($input);
         if ($validator->passes()){
-            $user = $this->createadmin($input)->toArray();
-            return back()->with('success',$user['fname'].' Created Sucessfully as Admin');
+            $user = $this->createadmin($input);
+            return back()->with('success',$user->fullname().' Created Sucessfully as Admin');
         }
         return back()->with('errors',$validator->errors());
     }
@@ -189,8 +189,8 @@ class AdminController extends Controller
         $input = $request->all();
         $validator = $this->validatorclerk($input);
         if ($validator->passes()){
-            $user = $this->createclerk($input)->toArray();
-            return back()->with('success', $user['fname'].' Created Sucessfully as Clerk');
+            $user = $this->createclerk($input);
+            return back()->with('success', $user->fullname().' Created Sucessfully as Clerk');
         }
         return back()->with('errors',$validator->errors());
     }
@@ -210,8 +210,8 @@ class AdminController extends Controller
         $input = $request->all();
         $validator = $this->validatordean($input);
         if ($validator->passes()){
-            $user = $this->createdean($input)->toArray();
-            return back()->with('success', $user['fname'].' Created Sucessfully as Dean');
+            $user = $this->createdean($input);
+            return back()->with('success', $user->fullname().' Created Sucessfully as Dean');
         }
         return back()->with('errors',$validator->errors());
     }
@@ -231,8 +231,8 @@ class AdminController extends Controller
         $input = $request->all();
         $validator = $this->validatorteacher($input);
         if ($validator->passes()){
-            $user = $this->createteacher($input)->toArray();
-            return back()->with('success', $user['fname'].' Created Sucessfully as Teacher');
+            $user = $this->createteacher($input);
+            return back()->with('success', $user->fullname().' Created Sucessfully as Teacher');
         }
         return back()->with('errors',$validator->errors());
     }
