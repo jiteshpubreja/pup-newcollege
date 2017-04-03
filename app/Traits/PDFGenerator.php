@@ -9,7 +9,7 @@ use view;
 trait PDFGenerator {
 
 
-    public function getPDF($view,$letterexists,$font,$page){
+    public function getPDF($view,$letterexists,$font,$page,$title = "Report"){
 
         $mytime = Carbon::now()->setTimezone('Asia/Kolkata');
         if ($letterexists) {
@@ -69,9 +69,9 @@ trait PDFGenerator {
         }    
 
 
-        PDF::SetAuthor('System');
-        PDF::SetTitle('My Report');
-        PDF::SetSubject('Report of System');       
+        PDF::SetAuthor('Punjabi University');
+        PDF::SetTitle($title);
+        PDF::SetSubject('Punjabi University');       
         PDF::SetFontSubsetting(false);
         PDF::SetFontSize('10px');
         PDF::SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);

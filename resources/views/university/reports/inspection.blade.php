@@ -28,7 +28,7 @@
 	<tr>
 		<td colspan="4">
 			
-				{{ $category->name }}
+			{{ $category->name }}
 			
 		</td>
 	</tr>
@@ -60,19 +60,24 @@
 	@endforeach
 	@endforeach
 	<tr>
-	
-	<td colspan="4">
-		<br/><p style="font-size: 15px">Final Remarks</p>
-	</td>
+
+		<td colspan="4">
+			<br/><p style="font-size: 15px">Final Remarks</p>
+		</td>
 	</tr>
 	<tr>
-	<td colspan="4">
-		<p>
-		{!! nl2br($inspectionid->final_remarks) !!}
-	</p>
-	</td>
+		<td colspan="4">
+			<p>
+				{!! nl2br($inspectionid->final_remarks) !!}
+			</p>
+		</td>
 	</tr>
 </table>
+@if($inspectionid->attachment)
+<p style="text-align: center;">
+	Attachment:- {{ $inspectionid->attachment }}
+</p>
+@endif
 @else
 <p>Nothing To Display</p>
 @endif

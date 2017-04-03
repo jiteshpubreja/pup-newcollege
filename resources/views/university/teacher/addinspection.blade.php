@@ -6,7 +6,7 @@ Add Inspection
 @section('content')
 @if(!empty($categories))
 @if(!empty($assignment))
-<form class="form-horizontal" role="form" method="POST" action="{{ route('teacheraddinspection') }}">
+<form class="form-horizontal" role="form" method="POST" action="{{ route('teacheraddinspection') }}" enctype="multipart/form-data">
 	{{ csrf_field() }}
 
 	@if ($message = Session::get('success'))
@@ -16,11 +16,20 @@ Add Inspection
 		</p>
 	</div>
 	@else
+
+	@if (!$errors->isEmpty())
+	<div class="alert alert-danger">
+		<p>
+			<strong>{{ $errors->first() }}</strong>
+		</p>
+	</div>
+	@else
 	<div class="alert alert-info">
 		<p>
 			Please Select The Correct Options for Inspection of <strong>{{ $assignment->college->form->college_name }}</strong>.
 		</p>
 	</div>
+	@endif
 	@endif
 
 	<?php $count = 0; ?>
@@ -56,26 +65,26 @@ Add Inspection
 	@foreach($category->discrepancies as $discrepancy)
 	<div class="form-group">
 		<input type="hidden" name="count" value="{{ ++$count }}">
-		<input type="hidden" name="discrepancyid{{ $count }}" value="{{ $discrepancy->id }}">
+		<input type="hidden" name="discrepancyid[{{ $count }}]" value="{{ $discrepancy->id }}">
 		<div class="col-sm-1">
 			<label>({{ $sr++ }})</label>
 		</div>
 		<div class="col-sm-5">
-			<label for="isdiscrepancy{{ $count }}" >
+			<label for="isdiscrepancy[{{ $count }}]" >
 				{{ $discrepancy->name }}
 			</label>
 		</div>
 		<div class="col-sm-3">
 			<div class="radio radio-inline">
 
-				<strong><input type="radio" name="isdiscrepancy{{ $count }}" value="1"><label>Yes
+				<strong><input type="radio" name="isdiscrepancy[{{ $count }}]" value="1"><label>Yes
 				</label></strong>
-				<strong><input type="radio" name="isdiscrepancy{{ $count }}" value="0" checked><label>No
+				<strong><input type="radio" name="isdiscrepancy[{{ $count }}]" value="0" checked><label>No
 				</label></strong>
 			</div>
 		</div>
-		<div class="col-sm-2">
-			<input type="text" name="remarks{{$count}}" class="form-control">
+		<div class="col-sm-2{{ $errors->has('remarks.'.$count) ? ' has-error' : '' }}">
+			<input type="text" name="remarks[{{$count}}]" value="{{ old('remarks.'.$count) }}" class="form-control">
 		</div>
 	</div>
 	@endforeach
@@ -92,7 +101,7 @@ Add Inspection
 		</h4>
 
 		<div class="col-md-2">                       
-			<textarea name="finalremarks" cols="93" rows="5" required></textarea>
+			<textarea name="finalremarks" cols="93" rows="5" required>{{ old('finalremarks') }}</textarea>
 			@if ($errors->has('finalremarks'))
 			<span class="help-block">
 				<strong>{{ $errors->first('finalremarks') }}</strong>
@@ -102,8 +111,32 @@ Add Inspection
 	</div>
 
 
+	<hr class="redhr">
 	<div class="form-group">
-		<div class="col-md-6 col-md-offset-9">
+			<h4>
+			<strong>
+				<label for="attachment" class="col-sm-7 control-label">
+					Optionally You Can Also Upload Your Inspection Report in .doc/.docx Format
+				</label>
+			</strong>
+		</h4>
+		<div class="col-sm-4{{ $errors->has('attachment') ? ' has-error' : '' }}">
+			<input type="file" name="attachment" class="form-control">
+			@if ($errors->has('attachment'))
+			<span class="help-block">
+				<strong>{{ $errors->first('attachment') }}</strong>
+			</span>
+			@endif
+		</div>
+	</div>
+	<hr class="redhr">
+
+
+	<div class="form-group">
+		<div class="col-md-6"> 
+			<a class="btn btn-primary" href="{{ route('teacherviewapplication') }}">View Application</a>
+		</div>
+		<div class="col-md-6">
 			<button type="submit" class="btn btn-primary">
 				Submit
 			</button>

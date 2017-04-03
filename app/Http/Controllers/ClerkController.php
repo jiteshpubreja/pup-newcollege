@@ -19,20 +19,20 @@ use Illuminate\Support\Facades\Route;
 
 class ClerkController extends Controller
 {
-   use PDFGenerator;
-   protected $clerk;
+ use PDFGenerator;
+ protected $clerk;
 
-   public function __construct()
-   {
+ public function __construct()
+ {
     $this->middleware('auth');
 }
 
 public function isNotClerk() {
-   $this->clerk = Auth::user()->isClerk();
-   if(!$this->clerk) {
-      return true;
-  }
-  return false;
+ $this->clerk = Auth::user()->isClerk();
+ if(!$this->clerk) {
+  return true;
+}
+return false;
 }
 
 
@@ -157,8 +157,8 @@ public function viewinspectionpdf($inspectionid = null) {
         $page="LEGAL";
         $letterexists=false;
         $font="helvetica";
-
-        $this->getPDF(view('university.reports.inspection',compact('inspections','categories'))->with('inspectionid',$inspectionid)->render(),$letterexists,$font,$page);
+        $title="Inspection Report";
+        $this->getPDF(view('university.reports.inspection',compact('inspections','categories'))->with('inspectionid',$inspectionid)->render(),$letterexists,$font,$page,$title);
     }
     else {
         return abort(404);
@@ -232,7 +232,8 @@ public function viewapplicationpdf($collegeid = null) {
             $page="LEGAL";
             $letterexists=false;
             $font="helvetica";
-            $this->getPDF(view('university.reports.application')->with('form',$collegeid)->render(),$letterexists,$font,$page);
+            $title="College Application";
+            $this->getPDF(view('university.reports.application')->with('form',$collegeid)->render(),$letterexists,$font,$page,$title);
         }
         else {
             return abort(404);

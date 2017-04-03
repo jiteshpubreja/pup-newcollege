@@ -22,8 +22,14 @@ Inspection Message
 	</p>
 </div>
 @endif
+<div class="col-md-12" style="text-align: center;"> 
+	<a class="btn btn-primary" href="{{ route('teacherviewapplication') }}">View Application</a>
+</div>
+<br>
+&nbsp;
+<br>
 @if($assignment->members->count())
-<hr class="redhr" style="width: 100%;">
+<hr class="redhr">
 <div class="row text-justify">
 	<div class="col-md-12">
 		<div class="panel panel-primary">
@@ -114,19 +120,19 @@ Inspection Message
 </div>
 @endif
 @endif
-@if(!empty($member))
+@if(!empty($inspectionmember))
 
 <div class="alert alert-info">
 	<p>
-		You are a member of Inspection Team for Inspection of <strong>{{ $member->assignment->college->form->college_name }}</strong>.
-		@if($member->assignment->schedule)
+		You are a member of Inspection Team for Inspection of <strong>{{ $inspectionmember->assignment->college->form->college_name }}</strong>.
+		@if($inspectionmember->assignment->schedule)
 		<br>
-		It is Scheduled on <strong>{{ $member->assignment->schedule->date->toFormattedDateString() }}</strong>.
+		It is Scheduled on <strong>{{ $inspectionmember->assignment->schedule->date->toFormattedDateString() }}</strong>.
 		@endif
 	</p>
 </div>
-@if($member->assignment->members->count())
-<hr class="redhr" style="width: 100%;">
+@if($inspectionmember->assignment->members->count())
+<hr class="redhr">
 <div class="row text-justify">
 	<div class="col-md-12">
 		<div class="panel panel-primary">
@@ -173,27 +179,27 @@ Inspection Message
 					<tr style="line-height:30px;">
 						<td>
 							<label>
-								{{ $member->assignment->teacher->user->fullname() }}
+								{{ $inspectionmember->assignment->teacher->user->fullname() }}
 							</label>
 						</td>
 						<td>
 							<label>
-								{{ $member->assignment->teacher->designation }}
+								{{ $inspectionmember->assignment->teacher->designation }}
 							</label>
 						</td>
 						<td>
 							<label>
-								{{ $member->assignment->teacher->department->name }}
+								{{ $inspectionmember->assignment->teacher->department->name }}
 							</label>
 						</td>
 						<td>
 							<label>
-								{{ $member->assignment->teacher->user->email }}
+								{{ $inspectionmember->assignment->teacher->user->email }}
 							</label>
 						</td>
 						<td>
 							<label>
-								{{ $member->assignment->teacher->user->mobile }}
+								{{ $inspectionmember->assignment->teacher->user->mobile }}
 							</label>
 						</td>
 					</tr>
@@ -248,7 +254,7 @@ Inspection Message
 						</td>
 					</tr>
 					<?php $sr = 1; ?>
-					@foreach($member->assignment->members as $member)
+					@foreach($inspectionmember->assignment->members as $member)
 					<tr style="line-height:30px;">
 						<td>
 							<label>({{ $sr++ }})</label>
@@ -286,8 +292,6 @@ Inspection Message
 	</div>
 </div>
 @endif
-
-
 @endif
 
 @endsection

@@ -172,6 +172,10 @@ Route::Group(['prefix' => 'teacher'],function(){
 	Route::get('/', 'TeacherController@index')->name('teacherhome');
 	Route::get('/scheduleinspection', 'TeacherController@scheduleinspection');
 	Route::post('/scheduleinspection', 'TeacherController@scheduleinspectionpost')->name('teacherscheduleinspection');
+	Route::put('/scheduleinspection', 'TeacherController@scheduleinspectionput')->name('teacherscheduleinspection');
+	Route::get('/viewapplication', 'TeacherController@viewapplication')->name('teacherviewapplication');
+	Route::get('/viewapplication/docs', 'TeacherController@viewappdocs')->name('teacherviewappdocs');
+	Route::get('/viewapplication/pdf', 'TeacherController@viewapplicationpdf')->name('teacherviewapplicationpdf');
 	Route::get('/addinspection', 'TeacherController@addinspection');
 	Route::post('/addinspection', 'TeacherController@addinspectionpost')->name('teacheraddinspection');
 	Route::get('/viewinspection/{inspectionid?}', 'TeacherController@viewinspection')->name('teacherviewinspection');
@@ -182,5 +186,5 @@ Route::Group(['prefix' => 'teacher'],function(){
 
 
 Route::Group(['middleware' => ['auth']],function(){
-	Route::get('/download/{refid}/{filename}', 'PDFController@download')->name('collegedownload');
+	Route::get('/download/{refid}/{filename}', 'PagesController@download')->name('collegedownload');
 });

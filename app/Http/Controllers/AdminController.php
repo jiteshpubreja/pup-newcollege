@@ -36,6 +36,7 @@ class AdminController extends Controller
     protected function validatoradmin(array $data)
     {
         return Validator::make($data, [
+            'salutation' => 'required|max:255',
             'fname' => 'required|max:255',
             'lname' => 'required|max:255',
             'mobile' => 'required|max:10',
@@ -48,6 +49,7 @@ class AdminController extends Controller
     protected function validatorclerk(array $data)
     {
         return Validator::make($data, [
+            'salutation' => 'required|max:255',
             'fname' => 'required|max:255',
             'lname' => 'required|max:255',
             'mobile' => 'required|max:10',
@@ -62,6 +64,7 @@ class AdminController extends Controller
     protected function validatordean(array $data)
     {
         return Validator::make($data, [
+            'salutation' => 'required|max:255',
             'fname' => 'required|max:255',
             'lname' => 'required|max:255',
             'mobile' => 'required|max:10',
@@ -76,6 +79,7 @@ class AdminController extends Controller
     protected function validatorteacher(array $data)
     {
         return Validator::make($data, [
+            'salutation' => 'required|max:255',
             'fname' => 'required|max:255',
             'lname' => 'required|max:255',
             'mobile' => 'required|max:10',
@@ -91,6 +95,7 @@ class AdminController extends Controller
     protected function create(array $data)
     {
         return User::create([
+            'salutation' => $data['salutation'],
             'fname' => $data['fname'],
             'lname' => $data['lname'],
             'mobile' => $data['mobile'],

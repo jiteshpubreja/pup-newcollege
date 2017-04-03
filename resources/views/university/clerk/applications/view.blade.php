@@ -872,7 +872,7 @@ View Application
 	<div class=" col-md-12" style="text-align: center;"> 
 		<label>Application Submitted on {{ $form->created_at->toFormattedDateString() }}</label>
 	</div>
-	<br/>
+	<hr class="redhr">
 	<div class=" col-md-12" style="text-align: center;"> 
 		<a class="btn btn-primary" href="{{ route('clerkviewappdocs',$form->id) }}">View Documents</a>
 		&nbsp;&nbsp;&nbsp;&nbsp;

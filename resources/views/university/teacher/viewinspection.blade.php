@@ -7,65 +7,63 @@ View Inspection
 @if(!empty($inspections))
 @if(!empty($inspectionid))
 @if(!empty($categories))
-<table width="100%">
-	<tr style="line-height:30px;">
-		<td>
+<form class="form-horizontal">
+
+	<div class="form-group">
+		<div class="col-lg-1">
 			<h4>
 				<label>S.No.</label>
 			</h4>
-
-		</td>
-		<td>
+		</div>
+		<div class="col-lg-6">
 			<h4>
 				<label>Descrepencies</label>
 			</h4>
-		</td>
-		<td>
+		</div>
+		<div class="col-lg-3">
 			<h4>
 				<label>Is Discrepancy?</label>
 			</h4>
-		</td>
-		<td>
+		</div>
+		<div class="col-lg-2">
 			<h4>
 				<label>Remarks</label>
 			</h4>
-		</td>
-	</tr>
+		</div>
+	</div>
 	@foreach($categories as $category)
-	<tr>
-		<td colspan="4">
-			<div class="well well-sm">
-				{{ $category->name }}
-			</div>
-		</td>
-	</tr>
+	<div class="form-group">
+		<div class="well well-sm">
+			{{ $category->name }}
+		</div>
+	</div>
 	<?php $sr = 1; ?>
 	@foreach($inspectionid->discrepancies as $discrepancy)
 	@if($discrepancy->listname->id_discrepancy_category == $category->id)
-	<tr style="line-height:30px;">
-		<td>
+	<div class="form-group">
+		<div class="col-sm-1">
 			<label>({{ $sr++ }})</label>
-		</td>
-		<td>
+		</div>
+		<div class="col-sm-6">
 			<label>
 				{{ $discrepancy->listname->name }}
 			</label>
-		</td>
-		<td>
+		</div>
+		<div class="col-sm-3">
 			<label>
 				{{ $discrepancy->is_discrepancy ? "Yes":"No" }}
 			</label>
-		</td>
-		<td>
+		</div>
+		<div class="col-sm-2">
 			<label>
 				{{ $discrepancy->remarks ? $discrepancy->remarks : "{Not Provided}" }}
 			</label>
-		</td>
-	</tr>
+		</div>
+	</div>
 	@endif
 	@endforeach
 	@endforeach
-</table>
+</form>
 <hr class="style18">
 @if($inspectionid->members->count())
 <div class="row text-justify">
@@ -170,8 +168,13 @@ View Inspection
 <div class=" col-md-12" style="text-align: center;"> 
 	<label>Inspection Submitted on {{ $inspectionid->created_at->toFormattedDateString() }}
 	</div>
+	<hr class="redhr">
 	<div class=" col-md-12" style="text-align: center;"> 
-		<a class="btn btn-primary" href="{{ route('teacherviewinspectionpdf',$inspectionid->id) }}">Download PDF</a>
+		<a class="btn btn-primary" href="{{ route('teacherviewinspectionpdf',$inspectionid->id) }}">Download PDF</a> 
+		@if($inspectionid->attachment)
+		&nbsp;&nbsp;&nbsp;&nbsp;
+		<a class="btn btn-primary" href="{{ $inspectionid->attachment }}">Download Attachment</a>
+		@endif
 	</div>
 
 

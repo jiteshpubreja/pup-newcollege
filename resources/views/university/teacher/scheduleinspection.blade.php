@@ -16,8 +16,43 @@ Schedule Inspection
 <div class="alert alert-info">
 	<p>
 		Your Inspection is Scheduled For <strong>{{ $assignment->college->form->college_name }}</strong> on <strong>{{ $schedule->date->toFormattedDateString() }}</strong>.
+		<br>
+		If You Want To Reschedule, You Can Do So Below.
 	</p>
 </div>
+
+
+<form class="form-horizontal" role="form" method="POST" action="{{ route('teacherscheduleinspection') }}">
+	{{ csrf_field() }}
+	<input type="hidden" name="_method" value="PUT">
+
+	<div class="form-group{{ $errors->has('date') ? ' has-error' : '' }}">
+		<h4 >
+			<strong><label for="date" class="col-md-4 control-label">Tentative Inspection Date</label></strong>
+		</h4>
+
+		<div class="col-md-6">
+			<input id="date" type="date" class="form-control" name="date" value="{{ old('date') }}" required>
+
+			@if ($errors->has('date'))
+			<span class="help-block">
+				<strong>{{ $errors->first('date') }}</strong>
+			</span>
+			@endif
+		</div>
+	</div>
+
+	<div class="form-group">
+		<div class=" col-md-4"> 
+			<a class="btn btn-primary" href="{{ route('teacherviewapplication') }}">View Application</a>
+		</div>
+		<div class="col-md-6">
+			<button type="submit" class="btn btn-primary">
+				Schedule Inspection
+			</button>
+		</div>	
+	</div>
+</form>
 @endif
 @else
 
@@ -38,11 +73,9 @@ Schedule Inspection
 	</div>
 	@endif
 
-
-
 	<div class="form-group{{ $errors->has('date') ? ' has-error' : '' }}">
 		<h4 >
-		<strong><label for="date" class="col-md-4 control-label">Tentative Inspection Date</label></strong>
+			<strong><label for="date" class="col-md-4 control-label">Tentative Inspection Date</label></strong>
 		</h4>
 
 		<div class="col-md-6">
@@ -58,7 +91,10 @@ Schedule Inspection
 
 
 	<div class="form-group">
-		<div class="col-md-6 col-md-offset-4">
+		<div class=" col-md-4"> 
+			<a class="btn btn-primary" href="{{ route('teacherviewapplication') }}">View Application</a>
+		</div>
+		<div class="col-md-6">
 			<button type="submit" class="btn btn-primary">
 				Schedule Inspection
 			</button>
@@ -70,6 +106,7 @@ Schedule Inspection
 @endif
 
 @if($assignment->members->count())
+<hr class="redhr">
 <div class="row text-justify">
 	<div class="col-md-12">
 		<div class="panel panel-primary">

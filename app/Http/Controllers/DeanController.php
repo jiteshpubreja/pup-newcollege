@@ -100,7 +100,8 @@ class DeanController extends Controller
                 $page="LEGAL";
                 $letterexists=false;
                 $font="helvetica";
-                $this->getPDF(view('university.reports.application')->with('form',$collegeid)->render(),$letterexists,$font,$page);
+                $title="College Application";
+                $this->getPDF(view('university.reports.application')->with('form',$collegeid)->render(),$letterexists,$font,$page,$title);
             }
             else {
                 return abort(404);
@@ -324,8 +325,8 @@ class DeanController extends Controller
             $page="LEGAL";
             $letterexists=false;
             $font="helvetica";
-
-            $this->getPDF(view('university.reports.inspection',compact('inspections','categories'))->with('inspectionid',$inspectionid)->render(),$letterexists,$font,$page);
+            $title="Inspection Report";
+            $this->getPDF(view('university.reports.inspection',compact('inspections','categories'))->with('inspectionid',$inspectionid)->render(),$letterexists,$font,$page,$title);
         }
         else {
             return abort(404);

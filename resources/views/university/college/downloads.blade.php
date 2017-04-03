@@ -1,6 +1,6 @@
-@extends('templates.college.main',['title' => 'Apply For New College'])
+@extends('templates.college.main',['title' => 'Downloads'])
 @section('heading')
-Edit Registration Form
+Downloads Section
 @endsection
 @section('content')
 @if(!empty($downloads))

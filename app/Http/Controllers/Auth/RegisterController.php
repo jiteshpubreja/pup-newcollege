@@ -57,6 +57,7 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
+            'salutation' => 'required|max:255',
             'fname' => 'required|max:255',
             'lname' => 'required|max:255',
             'mobile' => 'required|max:10',
@@ -75,6 +76,7 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         return User::create([
+            'salutation' => $data['salutation'],
             'fname' => $data['fname'],
             'lname' => $data['lname'],
             'mobile' => $data['mobile'],

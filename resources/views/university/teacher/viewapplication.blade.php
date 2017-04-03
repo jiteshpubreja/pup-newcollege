@@ -1,17 +1,9 @@
-@extends('templates.dean.main',['title' => 'View Application'])
+@extends('templates.teacher.main',['title' => 'View Application'])
+
 @section('heading')
 View Application
 @endsection
 @section('content')
-@if ($message = Session::get('success'))
-<div class="alert alert-success">
-	<p>
-		{!! $message !!}
-	</p>
-</div>
-@endif
-
-@if(!empty($applications))
 @if(!empty($form))
 <div class="form-horizontal">
 
@@ -874,138 +866,10 @@ View Application
 	</div>
 	<hr class="redhr">
 	<div class=" col-md-12" style="text-align: center;"> 
-		<a class="btn btn-primary" href="{{ route('deanviewappdocs',$form->id) }}">View Documents</a>
+		<a class="btn btn-primary" href="{{ route('teacherviewappdocs') }}">View Documents</a>
 		&nbsp;&nbsp;&nbsp;&nbsp;
-		<a class="btn btn-primary" href="{{ route('deanviewapplicationpdf',$form->id) }}">Download PDF</a>
-		@if(!$form->is_loi_granted)
-		&nbsp;&nbsp;&nbsp;&nbsp;
-		<a class="btn btn-success" href="{{ route('deanviewapplication',$form->id) }}"
-			onclick="event.preventDefault();
-			document.getElementById('grant-loi').submit();">
-			Grant LOI
-		</a>
-
-		<form id="grant-loi" action="{{ route('deanviewapplication',$form->id) }}" method="POST" style="display: none;">
-			<input type="hidden" name="_method" value="PUT">
-			{{ csrf_field() }}
-		</form>
-
-		<form id="reject-application" action="{{ route('clerkrejectapplication',$form->id) }}" method="POST" style="display: none;">
-			<input type="hidden" name="_method" value="PUT">
-			{{ csrf_field() }}
-		</form>
-		@endif
+		<a class="btn btn-primary" href="{{ route('teacherviewapplicationpdf') }}">Download PDF</a>
 	</div>
-	@else
-	<table width="100%" style="text-align: center;">
-		<tr>
-			<td>
-				<h4>
-					<label>
-						S.No.
-					</label>
-				</h4>
-			</td>
-			<td>
-				<h4 >
-					<label>
-						College
-					</label>
-				</h4>
-			</td>
-			<td>
-				<h4 >
-					<label>
-						Reference ID
-					</label>
-				</h4>
-			</td>
-			<td>
-				<h4 >
-					<label>
-						Email ID
-					</label>
-				</h4>
-			</td>
-			<td>
-				<h4 >
-					<label>
-						Dated
-					</label>
-				</h4>
-			</td>
-			<td>
-				<h4 >
-					<label>
-						View Application
-					</label>
-				</h4>
-			</td>
-			<td>
-				<h4 >
-					<label>
-						View Documents
-					</label>
-				</h4>
-			</td>
-			<td>
-				<h4 >
-					<label>
-						Status
-					</label>
-				</h4>
-			</td>
-		</tr>
-
-
-		<?php $sr = 1; ?>
-		@foreach($applications as $application)
-		<tr style="line-height:30px;">
-			<td>
-				<label>({{ $sr++ }})</label>
-			</td>
-			<td>
-				<label>
-					{{ $application->college_name }}
-				</label>
-			</td>
-			<td>
-				<label>
-					{{ $application->ref_id }}
-				</label>
-			</td>
-			<td>
-				<label>
-					{{ $application->college->user->email }}
-				</label>
-			</td>
-			<td>
-				<label>
-					{{ $application->created_at->toFormattedDateString() }}
-
-				</label>
-			</td>
-			<td>
-				<label>
-					<a class="btn btn-primary btn-xs" href="{{ route('deanviewapplication',$application->id) }}">View Application</a>
-
-				</label>
-			</td>
-			<td>
-				<label>
-					<a class="btn btn-primary btn-xs" href="{{ route('deanviewappdocs',$application->id) }}">View Documents</a>
-
-				</label>
-			</td>
-			<td>
-				{!! $application->is_loi_granted ? "<span class='label label-success'>Granted LOI</span>" : ($application->is_seen_by_dean ? "<span class='label label-warning'>Pending</span>" : "<span class='label label-danger'>New</span>") !!}
-			</td>
-		</tr>
-		@endforeach
-
-	</table>
-
-	@endif
 	@else
 	<div class="alert alert-info">
 		<p>
@@ -1013,8 +877,5 @@ View Application
 		</p>
 	</div>
 	@endif
+
 	@endsection
-
-
-
-

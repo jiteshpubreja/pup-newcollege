@@ -155,10 +155,11 @@ class CollegeController extends Controller
             if($form->is_submitted){
 
                 $page="LEGAL";
-            $letterexists=false;
-            $font="helvetica";
-            $this->getPDF(view('university.reports.application')->with('form',$form)->render(),$letterexists,$font,$page);
-        }
+                $letterexists=false;
+                $font="helvetica";
+                $title="College Application";
+                $this->getPDF(view('university.reports.application')->with('form',$form)->render(),$letterexists,$font,$page,$title);
+            }
             else
                 return abort(404);
         }
@@ -200,7 +201,7 @@ class CollegeController extends Controller
             $application = CollegeNewRegistration::create($input)->toArray();
             return back()->with('success',$application['ref_id'].' Generated Sucessfully');
         }
-        return back()->with('errors',$validator->errors());
+        return back()->withInput()->with('errors',$validator->errors());
     }
 
     public function applynewcollegeput(Request $request) {
@@ -484,7 +485,8 @@ public function scheduledinspectionletter() {
                 $page="LEGAL";
                 $letterexists=true;
                 $font="anmollipi";
-                $this->getPDF(view('university.reports.letters.scheduledinspection')->with('assignment',$assignment)->render(),$letterexists,$font,$page);
+                $title="Inspection Letter";
+                $this->getPDF(view('university.reports.letters.scheduledinspection')->with('assignment',$assignment)->render(),$letterexists,$font,$page,$title);
             }
             return abort(404);
         }
@@ -521,18 +523,15 @@ public function downloads() {
     $assignment = $college->inspectionassignment;
     $form = $college->form;
     if($form){
+        $list['Application Form'] = route('collegeviewapplicationpdf');
         if($assignment And $assignment->members->count()){
             if($assignment->schedule){
-                $list['Application Form'] = route('collegeviewapplicationpdf');
                 $list['Inspection Letter'] = route('scheduledinspectionletter');
-
-
-                return view('university.college.downloads')->with('downloads',$list);
             }
-            return view('university.college.downloads');
         }
-        return view('university.college.downloads');
     }
+    if($list)
+        return view('university.college.downloads')->with('downloads',$list);
     return view('university.college.downloads');
 }
 

@@ -16,6 +16,7 @@ class Inspection extends Model
         'is_forwarded_to_dean',
         'is_seen_by_dean',
         'is_approved_by_dean',
+        'attachment',
     ];
 
     public function college(){

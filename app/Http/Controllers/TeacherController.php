@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\College;
+use App\CollegeUploadedFile;
 use App\Discrepancy;
 use App\DiscrepancyCategory;
 use App\Inspection;
@@ -17,13 +18,14 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class TeacherController extends Controller
 {
     use PDFGenerator;
-	protected $teacher;
+    protected $teacher;
 
-	public function __construct()
+    public function __construct()
     {
         $this->middleware('auth');
     }
@@ -38,9 +40,20 @@ class TeacherController extends Controller
 
     protected function validatorinspection(array $data)
     {
-        return Validator::make($data, [
-            'finalremarks' => 'required',
-            ]);
+        $rules = ['finalremarks' => 'required',];
+        $rules = ['attachment' => 'sometimes|file|mimes:doc,docx',];
+        $messages = ['finalremarks.required' => 'Final Remarks Are Required',];
+
+        foreach($data['discrepancyid'] as $key => $val)
+        {
+            $rules['discrepancyid.'.$key] = 'required';
+            $messages['discrepancyid.'.$key.'.required'] = 'Discrepancy ID is Required';
+            $rules['isdiscrepancy.'.$key] = 'required';
+            $messages['isdiscrepancy.'.$key.'.required'] = 'Is Discrepancy is Required';
+            $rules['remarks.'.$key] = 'nullable|max:255';
+            $messages['remarks.'.$key.'.max'] = 'The Remarks may not be greater than :max characters.';
+        }
+        return Validator::make($data, $rules, $messages);
     }
 
 
@@ -74,7 +87,7 @@ class TeacherController extends Controller
         else {
             $assignment = InspectionMember::where('id_teacher',$this->teacher->id)->first();
             if($assignment){
-                return view('university.teacher.inspectionmessages')->with('member',$assignment);
+                return view('university.teacher.inspectionmessages')->with('inspectionmember',$assignment);
             }
             return view('university.teacher.addinspection',compact('categories'));
         }
@@ -86,19 +99,34 @@ class TeacherController extends Controller
         }
         $input = $request->all();
         $validator = $this->validatorinspection($input);
+
         if ($validator->passes()){
+
+            if($request->hasFile('attachment')) {
+                $file = $request->file('attachment');
+                $teacher = Auth::user()->isTeacher();
+                $destination = 'uploads/'.$teacher->user->id.'/';
+                $name = "inspection-report-".mt_rand(1000000, 9999999).'.'.Str::lower($file->getClientOriginalExtension());
+                $file->move($destination,$name);
+                $input['attachment'] = url($destination.$name);
+            }
             $inspection = Inspection::create([
                 'id_college' => $input['collegeid'],
                 'id_teacher' => Auth::user()->isTeacher()->id,
                 'final_remarks' => $input['finalremarks'],
                 ]);
 
-            for ($i=1; $i <= $input['count']; $i++) { 
+            if(array_key_exists('attachment', $input)){
+                $inspection->attachment = $input['attachment'];
+                $inspection->save();
+            }
+
+            for ($i=1; $i <= $input['count']; $i++) {
                 Discrepancy::create([
-                    'id_discrepancy_list' => $input['discrepancyid'.$i],
+                    'id_discrepancy_list' => $input['discrepancyid'][$i],
                     'id_college' => $input['collegeid'],
-                    'is_discrepancy' => $input['isdiscrepancy'.$i],
-                    'remarks' => $input['remarks'.$i],
+                    'is_discrepancy' => $input['isdiscrepancy'][$i],
+                    'remarks' => $input['remarks'][$i],
                     'id_inspection' => $inspection['id'],
                     ]);
             }
@@ -114,7 +142,7 @@ class TeacherController extends Controller
             $assignment->delete();
             return back()->with('success','Inspection Submitted Sucessfully');
         }
-        return back()->with('errors',$validator->errors());
+        return back()->withInput()->with('errors',$validator->errors());
     }
 
 
@@ -135,7 +163,7 @@ class TeacherController extends Controller
         else {
             $assignment = InspectionMember::where('id_teacher',$this->teacher->id)->first();
             if($assignment){
-                return view('university.teacher.inspectionmessages')->with('member',$assignment);
+                return view('university.teacher.inspectionmessages')->with('inspectionmember',$assignment);
             }
             return view('university.teacher.scheduleinspection');
         }
@@ -175,6 +203,26 @@ class TeacherController extends Controller
         return back();
     }
 
+    public function scheduleinspectionput(Request $request) {
+        if($this->isNotTeacher()) {
+            return Redirect::route('home');
+        }
+        $input = $request->all();
+        $assignment = InspectionAssignment::where('id_teacher',$this->teacher->id)->first();
+        if($assignment And $assignment->schedule){
+            $validator = Validator::make($input, ['date' => 'required']);
+            if ($validator->passes()){
+                $date = Carbon::createFromFormat('Y-m-d H', $input['date'].' 18');
+                $schedule = $assignment->schedule;
+                $schedule->date = $date;
+                $schedule->save();
+                return back()->with('success','Inspection Sucessfully Rescheduled on '.$date->toFormattedDateString().' for '.$assignment->college->form->college_name);
+            }
+            return back()->with('errors',$validator->errors());
+        }
+        return back();
+    }
+
     
 
     public function viewinspection($inspectionid = null) {
@@ -191,15 +239,65 @@ class TeacherController extends Controller
                 return view('university.teacher.viewinspection',compact('inspections','categories'))->with('inspectionid',$inspectionid);
             }
             else {
-
                 return view('university.teacher.viewinspection',compact('inspections'));
             }
         }
         else {
             return view('university.teacher.viewinspection');
         }
-        
-        
+    }
+
+    
+
+    public function viewapplication() {
+        if($this->isNotTeacher()) {
+            return Redirect::route('home');
+        }
+        $assignment = InspectionAssignment::where('id_teacher',$this->teacher->id)->first();
+        if($assignment And $assignment->college->form){
+            return view('university.teacher.viewapplication')->with('form',$assignment->college->form);
+        }
+        else {
+            return view('university.teacher.viewapplication');
+        }
+    }
+
+    public function viewapplicationpdf() {
+        if($this->isNotTeacher()) {
+            return Redirect::route('home');
+        }
+        $assignment = InspectionAssignment::where('id_teacher',$this->teacher->id)->first();
+        if($assignment And $assignment->college->form){
+            $page="LEGAL";
+            $letterexists=false;
+            $font="helvetica";
+            $title="College Application";
+            $this->getPDF(view('university.reports.application')->with('form',$assignment->college->form)->render(),$letterexists,$font,$page,$title);
+        }
+        else {
+            return abort(404);
+        }
+    }
+
+    public function viewappdocs() {
+        if($this->isNotTeacher()) {
+            return Redirect::route('home');
+        }
+        $assignment = InspectionAssignment::where('id_teacher',$this->teacher->id)->first();
+        if($assignment And $assignment->college->form){
+            $files = CollegeUploadedFile::where('ref_id',$assignment->college->form->ref_id)->get()->toArray();
+            $list = array();
+            foreach ($files as $file) {
+                $list[$file['filetype']]=$file['path'];
+            }
+            if($files){
+                return view('university.teacher.viewdocuments')->with('form',$assignment->college->form)->with('files',$list);
+            }
+            return view('university.teacher.viewdocuments')->with('form',$assignment->college->form);
+        }
+        else {
+            return view('university.teacher.viewapplication');
+        }
     }
 
     
@@ -214,8 +312,8 @@ class TeacherController extends Controller
             $page="LEGAL";
             $letterexists=false;
             $font="helvetica";
-
-            $this->getPDF(view('university.reports.inspection',compact('inspections','categories'))->with('inspectionid',$inspectionid)->render(),$letterexists,$font,$page);
+            $title="Inspection Report";
+            $this->getPDF(view('university.reports.inspection',compact('inspections','categories'))->with('inspectionid',$inspectionid)->render(),$letterexists,$font,$page,$title);
         }
         else {
             return abort(404);

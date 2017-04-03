@@ -37,6 +37,5 @@ class RedirectController extends Controller
     	else {
     		return view('index');
     	}
-
     }
 }

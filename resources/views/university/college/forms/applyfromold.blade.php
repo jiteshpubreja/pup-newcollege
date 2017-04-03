@@ -186,7 +186,7 @@ Registration Form
 			<label >Telephone of college</label>
 		</div>
 		<div class="col-sm-4">
-			<input type="text" class="form-control" value="{{ $form->college_phone_number }}" required id="college_phone_number" name="college_phone_number" >
+			<input type="text" class="form-control" maxlength="11" value="{{ $form->college_phone_number }}" required id="college_phone_number" name="college_phone_number" >
 			@if ($errors->has('college_phone_number'))
 			<span class="help-block">
 				<strong>{{ $errors->first('college_phone_number') }}</strong>
@@ -206,7 +206,7 @@ Registration Form
 			<label >Telephone of Principal</label>
 		</div>
 		<div class="col-sm-4">
-			<input type="text" class="form-control" value="{{ $form->principal_phone_number }}" required id="principal_phone_number" name="principal_phone_number" >
+			<input type="text" class="form-control" maxlength="11" value="{{ $form->principal_phone_number }}" required id="principal_phone_number" name="principal_phone_number" >
 			@if ($errors->has('principal_phone_number'))
 			<span class="help-block">
 				<strong>{{ $errors->first('principal_phone_number') }}</strong>
@@ -225,7 +225,7 @@ Registration Form
 			<label >Telephone of President of managing comittee of college</label>
 		</div>
 		<div class="col-sm-4">
-			<input type="text" class="form-control" value="{{ $form->president_of_mgmt_committee }}" required id="president_of_mgmt_committee" name="president_of_mgmt_committee" >
+			<input type="text" class="form-control" maxlength="11" value="{{ $form->president_of_mgmt_committee }}" required id="president_of_mgmt_committee" name="president_of_mgmt_committee" >
 			@if ($errors->has('president_of_mgmt_committee'))
 			<span class="help-block">
 				<strong>{{ $errors->first('president_of_mgmt_committee') }}</strong>
@@ -244,7 +244,7 @@ Registration Form
 			<label >Telephone of Secratory office</label>
 		</div>
 		<div class="col-sm-4">
-			<input type="text" class="form-control" value="{{ $form->secretary_office }}" required id="secretary_office" name="secretary_office" >
+			<input type="text" class="form-control" maxlength="11" value="{{ $form->secretary_office }}" required id="secretary_office" name="secretary_office" >
 			@if ($errors->has('secretary_office'))
 			<span class="help-block">
 				<strong>{{ $errors->first('secretary_office') }}</strong>
@@ -263,7 +263,7 @@ Registration Form
 			<label >Telephone of Principal House number</label>
 		</div>
 		<div class="col-sm-4">
-			<input type="text" class="form-control" value="{{ $form->principal_residence_phone }}" required id="principal_residence_phone" name="principal_residence_phone" >
+			<input type="text" class="form-control" maxlength="11" value="{{ $form->principal_residence_phone }}" required id="principal_residence_phone" name="principal_residence_phone" >
 			@if ($errors->has('principal_residence_phone'))
 			<span class="help-block">
 				<strong>{{ $errors->first('principal_residence_phone') }}</strong>

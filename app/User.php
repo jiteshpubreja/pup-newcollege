@@ -20,7 +20,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'fname', 'email', 'password', 'lname','mobile','landline','is_activated',
+        'salutation','fname', 'email', 'password', 'lname','mobile','landline','is_activated',
     ];
 
     /**
@@ -59,7 +59,7 @@ class User extends Authenticatable
 
 
     public function fullname() {
-        return $this->fname." ".$this->lname;
+        return $this->salutation." ".$this->fname." ".$this->lname;
     }
 
 
