@@ -68,7 +68,6 @@ trait PDFGenerator {
             });
         }    
 
-
         PDF::SetAuthor('Punjabi University');
         PDF::SetTitle($title);
         PDF::SetSubject('Punjabi University');       
@@ -81,6 +80,6 @@ trait PDFGenerator {
         
         PDF::writeHTML($view);
         PDF::lastPage();
-        PDF::Output('Report-'.$mytime->toFormattedDateString().'.pdf', 'I');
+        PDF::Output($title.'.pdf', 'I');
     }
 }

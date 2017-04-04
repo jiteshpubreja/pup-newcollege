@@ -11,7 +11,7 @@
 |
 */
 
-
+Route::get('/test', 'RedirectController@test');
 
 
 Route::Group(['middleware' => ['web']],function(){
