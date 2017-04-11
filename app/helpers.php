@@ -16,6 +16,10 @@ function is_active_array($views) {
     return '';
 }
 
+function role($string) {
+    return "[".\Illuminate\Support\Str::ucfirst($string)."]";
+}
+
 function dated_format($date) {
     return \Carbon\Carbon::createFromFormat('Y-m-d', $date)->toFormattedDateString();
 }
@@ -150,6 +154,25 @@ function new_applications() {
 function new_applications_dean() {
 
     $count = \App\CollegeNewRegistration::where('is_forwarded_to_dean',true)->where('is_seen_by_dean',false)->get()->count();
+    if($count)
+        return '<span class="label label-primary">'.$count.'</span>';
+    else
+        return '';
+}
+
+function rejected_applications_dean() {
+
+    $count = \App\CollegeNewRegistration::onlyTrashed()->where('is_seen_by_dean',false)->get()->count();
+    if($count)
+        return '<span class="label label-primary">'.$count.'</span>';
+    else
+        return '';
+}
+
+function new_applications_tab_dean() {
+
+    $count = \App\CollegeNewRegistration::where('is_forwarded_to_dean',true)->where('is_seen_by_dean',false)->get()->count();
+    $count += \App\CollegeNewRegistration::onlyTrashed()->where('is_seen_by_dean',false)->get()->count();
     if($count)
         return '<span class="label label-primary">'.$count.'</span>';
     else

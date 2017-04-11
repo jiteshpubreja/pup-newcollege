@@ -1,4 +1,4 @@
-@extends('templates.clerk.main',['title' => 'View Rejected Application'])
+@extends('templates.dean.main',['title' => 'View Rejected Application'])
 @section('heading')
 View Rejected Application
 @endsection
@@ -894,11 +894,9 @@ View Rejected Application
 	@endif
 	<hr class="redhr">
 	<div class=" col-md-12" style="text-align: center;"> 
-		<a class="btn btn-primary" href="{{ route('clerkviewappdocs',$form->id) }}">View Documents</a>
+		<a class="btn btn-primary" href="{{ route('deanviewappdocs',$form->id) }}">View Documents</a>
 		&nbsp;&nbsp;&nbsp;&nbsp;
-		<a class="btn btn-primary" href="{{ route('clerkviewdrafts',$form->id) }}">View Drafts</a>
-		&nbsp;&nbsp;&nbsp;&nbsp;
-		<a class="btn btn-primary" href="{{ route('clerkviewapplicationpdf',$form->id) }}">Download PDF</a>
+		<a class="btn btn-primary" href="{{ route('deanviewapplicationpdf',$form->id) }}">Download PDF</a>
 	</div>
 	@else
 	<table width="100%" style="text-align: center;">
@@ -984,12 +982,12 @@ View Rejected Application
 			</td>
 			<td>
 				<label>
-					<a class="btn btn-primary btn-xs" href="{{ route('clerkviewapplicationrejects',$application->id) }}">View Application</a>
+					<a class="btn btn-primary btn-xs" href="{{ route('deanviewapplicationrejects',$application->id) }}">View Application</a>
 
 				</label>
 			</td>
 			<td>
-				{!! $application->deleted_at ? "<span class='label label-danger'>Rejected on ".$application->deleted_at->toFormattedDateString()."</span>" : "<span class='label label-warning'>Invalid</span>" !!}
+				{!! $application->deleted_at ? (!$application->is_seen_by_dean ? "<span class='label label-danger'>(New) Rejected on ".$application->deleted_at->toFormattedDateString()."</span>" :"<span class='label label-danger'>Rejected on ".$application->deleted_at->toFormattedDateString()."</span>") : "<span class='label label-warning'>Invalid</span>" !!}
 			</td>
 		</tr>
 		@endforeach

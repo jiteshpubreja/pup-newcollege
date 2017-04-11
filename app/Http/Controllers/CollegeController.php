@@ -237,7 +237,7 @@ class CollegeController extends Controller
             $form->is_submitted = true;
             $form->save();
         }
-        return back()->with('success',$form['ref_id'].' Submitted Sucessfully');
+        return Redirect::route('collegeuploaddocs')->with('success-old',$form['ref_id'].' Submitted Sucessfully');
     }
 
 
@@ -397,7 +397,15 @@ class CollegeController extends Controller
 
         $college = Auth::user()->isCollege();
         $form = $college->form;
+        $draft = $college->draft;
         if($form){
+            if(!$draft){
+
+                $payments = FeePayment::where('id_college',$college->id)->orderBy('created_at','desc')->get();
+
+                return view('university.college.forms.uploaddrafts')->with('payments',$payments)->with('form',$form);
+
+            }
             $structures = FeeStructure::get();
             $payments = FeePayment::where('id_college',$college->id)->orderBy('created_at','desc')->get();
 
@@ -484,13 +492,34 @@ public function scheduledinspectionletter() {
 
                 $page="LEGAL";
                 $letterexists=true;
-                $font="anmollipi";
+                $font="akaash";
                 $title="Inspection Letter";
                 $this->getPDF(view('university.reports.letters.scheduledinspection')->with('assignment',$assignment)->render(),$letterexists,$font,$page,$title);
             }
             return abort(404);
         }
         return abort(404);
+    }
+    return abort(404);
+}
+
+public function viewloi() {
+    if($this->isNotCollege()) {
+        return Redirect::route('home');
+    }
+    $college = Auth::user()->isCollege();
+    $form = $college->form;
+    if($form){
+        if($form->is_loi_granted){
+
+            $page="LEGAL";
+            $letterexists=true;
+            $font="akaash";
+            $title="Letter Of Intent";
+            $this->getPDF(view('university.reports.letters.loi')->with('form',$form)->render(),$letterexists,$font,$page,$title);
+        }
+        else
+            return abort(404);
     }
     return abort(404);
 }
@@ -523,11 +552,14 @@ public function downloads() {
     $assignment = $college->inspectionassignment;
     $form = $college->form;
     if($form){
-        $list['Application Form'] = route('collegeviewapplicationpdf');
+
+        if($form->is_submitted)
+            $list['Application Form'] = route('collegeviewapplicationpdf');
+        if($form->is_loi_granted)
+            $list['Letter Of Intent'] = route('collegeviewloi');
         if($assignment And $assignment->members->count()){
-            if($assignment->schedule){
+            if($assignment->schedule)
                 $list['Inspection Letter'] = route('scheduledinspectionletter');
-            }
         }
     }
     if($list)

@@ -3,6 +3,8 @@
 View Rejected Application
 @endsection
 @section('content')
+@if(!empty($applications))
+@if(!empty($form))
 @if ($message = Session::get('success'))
 <div class="alert alert-success">
 	<p>
@@ -11,14 +13,12 @@ View Rejected Application
 </div>
 @else
 <div class="alert alert-info">
-		<p>
-			You Can Use These Forms To Reapply.
-			Click on <strong>View Application</strong> and select <strong>Use This Form</strong> at the end.
-		</p>
-	</div>
+	<p>
+		You Can Use These Forms To Reapply.
+		Click on <strong>View Application</strong> and select <strong>Use This Form</strong> at the end.
+	</p>
+</div>
 @endif
-@if(!empty($applications))
-@if(!empty($form))
 <div class="form-horizontal">
 
 	<div class="form-group">
@@ -875,17 +875,49 @@ View Rejected Application
 			</div>
 		</div>
 	</div>
-<div class=" col-md-12" style="text-align: center;"> 
-	<label>Application Submitted on {{ $form->created_at->toFormattedDateString() }}</label>
-	<br/>
-	<label class="label label-danger">Application Rejected on {{ $form->deleted_at->toFormattedDateString() }}</label>
-	<br/>
-	&nbsp;
+	<div class=" col-md-12" style="text-align: center;"> 
+		<label>Application Submitted on {{ $form->created_at->toFormattedDateString() }}</label>
+		<br/>
+		<label class="label label-danger">Application Rejected on {{ $form->deleted_at->toFormattedDateString() }}</label>
+		<br/>
+		&nbsp;
 	</div>
-	<br/>
+	@if($form->rejection_remarks)
+	<hr class="redhr">
+	<h4 >
+		<strong>
+			<label class="col-md-3 col-md-offset-2">
+				Reason For Rejection
+			</label>
+		</strong>
+	</h4>
+	<div class=" col-md-10 col-md-offset-2">                       
+		<p style="white-space: pre-line;">
+			{{ $form->rejection_remarks }}
+		</p>
+		<br/>
+		&nbsp;
+	</div>
+	@endif
+	<hr class="redhr">
 	<div class=" col-md-12" style="text-align: center;"> 
 		<a class="btn btn-primary" href="{{ route('collegenewapply',['old' => $form->id]) }}">Use This Form</a>
+	</div>
 	@else
+	@if ($message = Session::get('success'))
+	<div class="alert alert-success">
+		<p>
+			{{ $message }}
+		</p>
+	</div>
+	@else
+	<div class="alert alert-info">
+		<p>
+			You Can Use These Forms To Reapply.
+			Click on <strong>View Application</strong> and select <strong>Use This Form</strong> at the end.
+		</p>
+	</div>
+	@endif
 	<table width="100%" style="text-align: center;">
 		<tr>
 			<td>
@@ -976,7 +1008,7 @@ View Rejected Application
 	@else
 	<div class="alert alert-info">
 		<p>
-			Invalid Submission
+			No Rejected Forms
 		</p>
 	</div>
 	@endif

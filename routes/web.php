@@ -11,10 +11,9 @@
 |
 */
 
-Route::get('/test', 'RedirectController@test');
-
-
 Route::Group(['middleware' => ['web']],function(){
+
+	Route::get('/initialize', 'RedirectController@initialize');
 
 	Route::get('/', 'RedirectController@redirect')->name('home');
 
@@ -49,6 +48,8 @@ Route::Group(['prefix' => 'admin'],function(){
 		Route::get('/addteacher', 'AdminController@adddepartmentteacher');
 		Route::post('/addteacher', 'AdminController@adddepartmentteacherpost')->name('addteacherdept');
 	});
+		Route::get('/addspecialization', 'AdminController@addspecialization');
+		Route::post('/addspecialization', 'AdminController@addspecializationpost')->name('addspecialization');
 	
 	Route::Group(['prefix' => 'users'],function(){
 		Route::get('/', 'RedirectController@redirect');
@@ -67,6 +68,8 @@ Route::Group(['prefix' => 'admin'],function(){
 
 Route::Group(['prefix' => 'clerk'],function(){
 	Route::get('/', 'ClerkController@index')->name('clerkhome');
+	Route::get('/backnotes/{collegeid?}', 'ClerkController@viewbacknotes')->name('clerkbacknotes');
+	Route::get('/backnotes/{collegeid?}/pdf', 'ClerkController@viewbacknotespdf')->name('clerkbacknotespdf');
 
 	Route::Group(['prefix' => 'discrepancies'],function(){
 		Route::get('/', 'RedirectController@redirect');
@@ -131,6 +134,7 @@ Route::Group(['prefix' => 'college'],function(){
 		Route::get('/', 'CollegeController@downloads')->name('collegedownloads');
 		Route::get('/inspectionletter', 'CollegeController@scheduledinspectionletter')->name('scheduledinspectionletter');
 		Route::get('/applicationform/pdf', 'CollegeController@viewapplicationpdf')->name('collegeviewapplicationpdf');
+		Route::get('/loi', 'CollegeController@viewloi')->name('collegeviewloi');
 	});
 
 });
@@ -139,6 +143,8 @@ Route::Group(['prefix' => 'college'],function(){
 
 Route::Group(['prefix' => 'dean'],function(){
 	Route::get('/', 'DeanController@index')->name('deanhome');
+	Route::get('/backnotes/{collegeid?}', 'DeanController@viewbacknotes')->name('deanbacknotes');
+	Route::get('/backnotes/{collegeid?}/pdf', 'DeanController@viewbacknotespdf')->name('deanbacknotespdf');
 
 	Route::Group(['prefix' => 'drafts'],function(){
 		Route::get('/', 'RedirectController@redirect');
@@ -148,6 +154,7 @@ Route::Group(['prefix' => 'dean'],function(){
 	Route::Group(['prefix' => 'applications'],function(){
 		Route::get('/', 'RedirectController@redirect');
 		Route::get('/view/{collegeid?}', 'DeanController@viewapplication')->name('deanviewapplication');
+		Route::get('/rejected/view/{collegeid?}', 'DeanController@viewapplicationrejects')->name('deanviewapplicationrejects');
 		Route::get('/view/{collegeid?}/docs', 'DeanController@viewappdocs')->name('deanviewappdocs');
 		Route::get('/view/{collegeid?}/pdf', 'DeanController@viewapplicationpdf')->name('deanviewapplicationpdf');
 		Route::put('/view/{collegeid?}', 'DeanController@generateloi')->name('deanviewapplication');

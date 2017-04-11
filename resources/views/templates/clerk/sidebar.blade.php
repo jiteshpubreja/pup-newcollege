@@ -39,6 +39,11 @@
                 <li class="{{ is_active('clerkviewrequest') }}"><a href="{{ route('clerkviewrequest') }}"><span class="glyphicon glyphicon-folder-open"></span> View Requests   {!! new_requests() !!}</a></li>
                 <li class="{{ is_active('clerkviewinspection') }}"><a href="{{ route('clerkviewinspection') }}"><span class="glyphicon glyphicon-folder-open"></span> View Inspections   {!! new_inspections() !!}</a></li>
             </ul>
+            <li class="{{ is_active('clerkbacknotes') }}">
+                <a href="{{ route('clerkbacknotes') }}">
+                    <i class="fa fa-pencil-square-o fa-lg"></i> View Backnotes
+                </a>
+            </li>
         </ul>
     </div>
 </div>

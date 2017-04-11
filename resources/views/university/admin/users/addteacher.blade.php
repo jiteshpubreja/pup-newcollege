@@ -21,8 +21,13 @@ Add Teacher
         <strong><label for="salutation" class="col-md-4 control-label">Salutation</label></strong></h4>
 
         <div class="col-md-6">
-        <input id="salutation" placeholder="Dr./Prof./Mr./Mrs./Miss etc" type="text" class="form-control" name="salutation" value="{{ old('salutation') }}" required autofocus>
-
+            <select name="salutation" class=" selectpicker" id="salutation" title="Select Salutation..." required>
+                <option value="Dr.">Dr.</option>
+                <option value="Prof.">Prof.</option>
+                <option value="Mr.">Mr.</option>
+                <option value="Mrs.">Mrs.</option>
+                <option value="Miss">Miss</option>
+            </select>
             @if ($errors->has('salutation'))
             <span class="help-block">
                 <strong>{{ $errors->first('salutation') }}</strong>
@@ -76,22 +81,27 @@ Add Teacher
                 </div>
             </div>
 
+
+
             <div class="form-group{{ $errors->has('specialization') ? ' has-error' : '' }}">
              <h4 >
                 <strong> <label for="specialization" class="col-md-4 control-label">Specialization</label></strong></h4>
 
                 <div class="col-md-6">
-                    <input id="specialization" type="text" class="form-control" name="specialization" value="{{ old('specialization') }}" required>
+                    <select name="specialization" class=" selectpicker" data-live-search="true" id="specialization" title="Select Specialization..." required>
+                        @foreach($specializations as $specialization)
+                        <option value="{{ $specialization['name'] }}">
+                            {{ $specialization['name'] }}</option>
+                            @endforeach
+                        </select>
 
-                    @if ($errors->has('specialization'))
-                    <span class="help-block">
-                        <strong>{{ $errors->first('specialization') }}</strong>
-                    </span>
-                    @endif
+                        @if ($errors->has('specialization'))
+                        <span class="help-block">
+                            <strong>{{ $errors->first('specialization') }}</strong>
+                        </span>
+                        @endif
+                    </div>
                 </div>
-            </div>
-
-
 
             <div class="form-group{{ $errors->has('id_dept') ? ' has-error' : '' }}">
              <h4 >
@@ -147,7 +157,7 @@ Add Teacher
 
                 <div class="form-group{{ $errors->has('landline') ? ' has-error' : '' }}">
                  <h4 >
-                    <strong> <label for="landline" class="col-md-4 control-label">Landline Number</label></strong></h4>
+                    <strong> <label for="landline" class="col-md-4 control-label">Alt. Mobile / Landline Number</label></strong></h4>
 
                     <div class="col-md-6">
                         <input id="landline" type="text" class="form-control" maxlength="11" name="landline" value="{{ old('landline') }}" required>

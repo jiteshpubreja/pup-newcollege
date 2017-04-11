@@ -61,6 +61,13 @@ Inspection Message
 						<td>
 							<h4 >
 								<label>
+									Specialization
+								</label>
+							</h4>
+						</td>
+						<td>
+							<h4 >
+								<label>
 									Department
 								</label>
 							</h4>
@@ -94,6 +101,11 @@ Inspection Message
 						<td>
 							<label>
 								{{ $member->teacher->designation }}
+							</label>
+						</td>
+						<td>
+							<label>
+								{{ $member->teacher->specialization }}
 							</label>
 						</td>
 						<td>
@@ -157,6 +169,13 @@ Inspection Message
 						<td>
 							<h4 >
 								<label>
+									Specialization
+								</label>
+							</h4>
+						</td>
+						<td>
+							<h4 >
+								<label>
 									Department
 								</label>
 							</h4>
@@ -185,6 +204,11 @@ Inspection Message
 						<td>
 							<label>
 								{{ $inspectionmember->assignment->teacher->designation }}
+							</label>
+						</td>
+						<td>
+							<label>
+								{{ $inspectionmember->assignment->teacher->specialization }}
 							</label>
 						</td>
 						<td>
@@ -234,6 +258,13 @@ Inspection Message
 						<td>
 							<h4 >
 								<label>
+									Specialization
+								</label>
+							</h4>
+						</td>
+						<td>
+							<h4 >
+								<label>
 									Department
 								</label>
 							</h4>
@@ -267,6 +298,11 @@ Inspection Message
 						<td>
 							<label>
 								{{ $member->teacher->designation }}
+							</label>
+						</td>
+						<td>
+							<label>
+								{{ $member->teacher->specialization }}
 							</label>
 						</td>
 						<td>

@@ -7,19 +7,20 @@ use App\Clerk;
 use App\College;
 use App\Dean;
 use App\DiscrepancyCategory;
+use App\DiscrepancyList;
 use App\Teacher;
-use App\Traits\PDFGenerator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Schema;
 
 class RedirectController extends Controller
 {
-
-    use PDFGenerator;
-
-
 
     public function redirect() {
         $user = Auth::user();
@@ -45,15 +46,34 @@ class RedirectController extends Controller
         }
     }
 
+    public function initialize(){
 
+        echo 'Install Manager : Begin of installation<br>';
+        $Migrations = Config::get('database.migrations', 'migrations');
 
-    public function test() {
-
-        $page="LEGAL";
-        $letterexists=false;
-        $font="raavi";
-        $title="Testing With Raavi";
-        $this->getPDF(view('temp')->render(),$letterexists,$font,$page,$title);
-
-    }
+        if (Schema::hasTable($Migrations))
+        {
+            if(DiscrepancyList::get()->count()){
+                echo 'Install Manager = Already installed!<br>';
+            }
+            else {
+                echo 'Install Manager : We have migrations, so just do DB seeding.<br>';
+                Artisan::call('db:seed', ['--force'=> true]);
+                echo 'Install Manager = All Done!<br>';   
+            }
+        }
+        else
+        {
+            echo 'Install Manager : running migrate:install<br>';
+            Artisan::call('migrate:install');
+            echo 'Install Manager = Done!<br>';
+            echo 'Install Manager : Start of migrating<br>';
+            Artisan::call('migrate', ['--force'=> true]);
+            echo 'Install Manager = Done!<br>';
+            echo 'Install Manager : Start of DB seeding<br>';
+            Artisan::call('db:seed', ['--force'=> true]);
+            echo 'Install Manager = All Done!<br>';
+        }
+        return Response::make("All installed!", 200);
+    } 
 }

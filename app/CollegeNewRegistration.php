@@ -71,6 +71,7 @@ class CollegeNewRegistration extends Model
         'is_forwarded_to_dean',
         'is_seen_by_dean',
         'is_loi_granted',
+        'rejection_remarks',
     ];
 
     protected $dates = ['deleted_at'];

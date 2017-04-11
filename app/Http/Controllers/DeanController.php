@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Backnote;
+use App\College;
 use App\CollegeNewRegistration;
 use App\CollegeUploadedFile;
 use App\DiscrepancyCategory;
@@ -10,6 +12,7 @@ use App\Inspection;
 use App\InspectionAssignment;
 use App\InspectionMember;
 use App\InspectionRequest;
+use App\Specialization;
 use App\Teacher;
 use App\Traits\PDFGenerator;
 use Illuminate\Http\Request;
@@ -49,6 +52,46 @@ class DeanController extends Controller
         return view('university.dean.index');
     }
 
+    public function viewbacknotespdf($collegeid = null) {
+        if($this->isNotDean()) {
+            return Redirect::route('home');
+        }
+        $collegeid = College::where('id',$collegeid)->first();
+        if($collegeid) {
+            $page="LEGAL";
+            $letterexists=false;
+            $font="helvetica";
+            $title="Backnotes";
+            $this->getPDF(view('university.reports.backnotes')->with('collegeid',$collegeid)->render(),$letterexists,$font,$page,$title);
+        }
+        else {
+
+            return abort(404);
+        }
+    }
+
+    public function viewbacknotes($collegeid = null) {
+        if($this->isNotDean()) {
+            return Redirect::route('home');
+        }
+
+        $colleges = College::get();
+
+        if($colleges->count()){ 
+            $collegeid = College::where('id',$collegeid)->first();
+            if($collegeid) {
+                return view('university.dean.viewbacknotes',compact('colleges'))->with('collegeid',$collegeid);
+            }
+            else {
+
+                return view('university.dean.viewbacknotes',compact('colleges'));
+            }
+        }
+        else {
+            return view('university.dean.viewbacknotes');
+        }
+    }
+
     public function viewdrafts() {
         if($this->isNotDean()) {
             return Redirect::route('home');
@@ -76,7 +119,18 @@ class DeanController extends Controller
                     $collegeid->is_seen_by_dean = true;
                     $collegeid->save();
                 }
-                return view('university.dean.applications.view',compact('applications'))->with('form',$collegeid);
+
+                $backnote = Backnote::where('id_college',$collegeid->college->id)->where('ref_id',$collegeid->ref_id)->where('purpose',"application")->where('user_type',"clerk")->first();
+
+                $files = CollegeUploadedFile::where('ref_id',$collegeid->ref_id)->get()->toArray();
+                $list = array();
+                foreach ($files as $file) {
+                    $list[$file['filetype']]=$file['path'];
+                }
+                if($files){
+                    return view('university.dean.applications.view',compact('applications'))->with('form',$collegeid)->with('files',$list)->with('backnote',$backnote);
+                }
+                return view('university.dean.applications.view',compact('applications'))->with('form',$collegeid)->with('backnote',$backnote);
             }
             else {
                 return view('university.dean.applications.view',compact('applications'));
@@ -88,24 +142,45 @@ class DeanController extends Controller
     }
 
 
+    public function viewapplicationrejects($collegeid = null) {
+        if($this->isNotDean()) {
+            return Redirect::route('home');
+        }
+        $applications = CollegeNewRegistration::onlyTrashed()->orderBy('is_seen_by_dean','asc')->orderBy('deleted_at','desc')->get();
+
+        if($applications->count()){ 
+            $collegeid = CollegeNewRegistration::onlyTrashed()->where('id',$collegeid)->first();
+            if($collegeid) {
+                if(!$collegeid->is_seen_by_dean) {
+                    $collegeid->is_seen_by_dean = true;
+                    $collegeid->save();
+                }
+                return view('university.dean.applications.viewrejected',compact('applications'))->with('form',$collegeid);
+            }
+            else {
+
+                return view('university.dean.applications.viewrejected',compact('applications'));
+            }
+        }
+        else {
+            return view('university.dean.applications.viewrejected');
+        }
+
+
+    }
+
+
     public function viewapplicationpdf($collegeid = null) {
         if($this->isNotDean()) {
             return Redirect::route('home');
         }
-        $applications = CollegeNewRegistration::where('is_forwarded_to_dean',true)->orderBy('is_loi_granted','asc')->orderBy('is_seen_by_dean','asc')->orderBy('created_at','desc')->get();
-        
-        if($applications->count()){ 
-            $collegeid = CollegeNewRegistration::where('id',$collegeid)->where('is_submitted',true)->first();
-            if($collegeid) {
-                $page="LEGAL";
-                $letterexists=false;
-                $font="helvetica";
-                $title="College Application";
-                $this->getPDF(view('university.reports.application')->with('form',$collegeid)->render(),$letterexists,$font,$page,$title);
-            }
-            else {
-                return abort(404);
-            }
+        $collegeid = CollegeNewRegistration::withTrashed()->where('id',$collegeid)->where('is_submitted',true)->first();
+        if($collegeid) {
+            $page="LEGAL";
+            $letterexists=false;
+            $font="helvetica";
+            $title="College Application";
+            $this->getPDF(view('university.reports.application')->with('form',$collegeid)->render(),$letterexists,$font,$page,$title);
         }
         else {
             return abort(404);
@@ -117,7 +192,7 @@ class DeanController extends Controller
         if($this->isNotDean()) {
             return Redirect::route('home');
         }
-        $collegeid = CollegeNewRegistration::where('id',$collegeid)->first();
+        $collegeid = CollegeNewRegistration::withTrashed()->where('id',$collegeid)->first();
 
         if($collegeid){
             $files = CollegeUploadedFile::where('ref_id',$collegeid->ref_id)->get()->toArray();
@@ -138,18 +213,36 @@ class DeanController extends Controller
 
     
 
-    public function generateloi($collegeid = null) {
+    public function generateloi($collegeid = null,Request $request) {
         if($this->isNotDean()) {
             return Redirect::route('home');
         }
+        $input = $request->all();
         if($collegeid) {
             $collegeid = CollegeNewRegistration::where('id',$collegeid)->first();
+            $validator = Validator::make($input, ['remarks' => 'required']);
 
-            if(!$collegeid->is_loi_granted) {
-                $collegeid->is_loi_granted = true;
-                $collegeid->save();
+            if($validator->passes()){
+                if(!$collegeid->is_loi_granted) {
+
+                    Backnote::create([
+                        'id_college' => $collegeid->college->id,
+                        'ref_id' => $collegeid->college->form->ref_id,
+                        'purpose' => "application",
+                        'remarks' => $input['remarks'],
+                        'id_user' => Auth::user()->id,
+                        'user_type' => "dean",
+                        ]);
+
+
+                    $collegeid->is_loi_granted = true;
+                    $collegeid->save();
+                }
+                return back()->with('success', 'Letter of Intent <strong>(LOI)</strong> Granted Sucessfully');
+
             }
-            return back()->with('success', 'Letter of Intent <strong>(LOI)</strong> Granted Sucessfully');
+            else
+                return back()->with('errors',$validator->errors());
         }
         else {
 
@@ -240,6 +333,11 @@ class DeanController extends Controller
                     return view('university.dean.inspections.assignmembers')->with('requestid',$requestid)->with('assignment',$assignment)->with('members',$members);
                 }
                 if($teachers->count()){ 
+                    $specializations = Specialization::get();
+                    if($specializations->count()){
+                        return view('university.dean.inspections.assignmembers',compact('teachers'))->with('requestid',$requestid)->with('assignment',$assignment)->with('specializations',$specializations);
+
+                    }
                     return view('university.dean.inspections.assignmembers',compact('teachers'))->with('requestid',$requestid)->with('assignment',$assignment);
                 }
                 return view('university.dean.inspections.assignmembers')->with('requestid',$requestid)->with('assignment',$assignment);
@@ -255,6 +353,7 @@ class DeanController extends Controller
         if($this->isNotDean()) {
             return Redirect::route('home');
         }
+
         $requestid = InspectionRequest::where('is_forwarded_to_dean',true)->where('id',$requestid)->first();
         if($requestid){
             $assignment = InspectionAssignment::where('id_college',$requestid->college->id)->first();
@@ -301,7 +400,9 @@ class DeanController extends Controller
                     $inspectionid->save();
                 }
                 $categories = DiscrepancyCategory::get();
-                return view('university.dean.inspections.viewinspection',compact('inspections','categories'))->with('inspectionid',$inspectionid);
+                $backnote = Backnote::where('id_inspection',$inspectionid->id)->where('user_type',"clerk")->first();
+
+                return view('university.dean.inspections.viewinspection',compact('inspections','categories'))->with('inspectionid',$inspectionid)->with('backnote',$backnote);
             }
             else {
                 return view('university.dean.inspections.viewinspection',compact('inspections'));
@@ -338,19 +439,39 @@ class DeanController extends Controller
 
     
 
-    public function approveinspection($inspectionid = null) {
+    public function approveinspection($inspectionid = null,Request $request) {
         if($this->isNotDean()) {
             return Redirect::route('home');
         }
+        $input = $request->all();
         if($inspectionid) {
             $inspectionid = Inspection::where('id',$inspectionid)->first();
+            $validator = Validator::make($input, ['remarks' => 'required']);
 
-            if(!$inspectionid->is_approved_by_dean) {
-                $inspectionid->is_approved_by_dean = true;
-                $inspectionid->save();
+            if($validator->passes()){
+                if(!$inspectionid->is_approved_by_dean) {
+
+                    Backnote::create([
+                        'id_college' => $inspectionid->college->id,
+                        'ref_id' => $inspectionid->college->form->ref_id,
+                        'purpose' => "inspection",
+                        'remarks' => $input['remarks'],
+                        'id_inspection' => $inspectionid->id,
+                        'id_user' => Auth::user()->id,
+                        'user_type' => "dean",
+                        ]);
+
+
+                    $inspectionid->is_approved_by_dean = true;
+                    $inspectionid->save();
+                }
+                return back()->with('success', 'Inspection Approved Sucessfully');
+
             }
-            return back()->with('success', 'Inspection Approved Sucessfully');
+            else
+                return back()->with('errors',$validator->errors());
         }
+
         else {
 
             return back();

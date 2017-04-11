@@ -13,16 +13,17 @@ Assign Members
 @endif
 @if(!empty($members))
 <div class="alert alert-info">
-		<p>
-			Inspection Team of {{ $assignment+1 }} members is already assigned to <strong>{{ $requestid->college->form->college_name }}</strong>.
-		</p>
-	</div>
+	<p>
+		Inspection Team of {{ $assignment+1 }} members is already assigned to <strong>{{ $requestid->college->form->college_name }}</strong>.
+	</p>
+</div>
 @else
 
 @if(!empty($requestid))
 
 @if(!empty($assignment))
 @if(!empty($teachers))
+@if(!empty($specializations))
 
 <form class="form-horizontal" role="form" method="POST" action="{{ route('deanassignmembers',$requestid->id) }}">
 	{{ csrf_field() }}
@@ -55,19 +56,23 @@ Assign Members
 		<input type="text" class="form-control" value="{{ $requestid->created_at->toFormattedDateString() }}" disabled="disabled">
 	</div>
 	
+	@foreach($specializations as $specialization)
 	<div class="form-group{{ $errors->has('id_teacher') ? ' has-error' : '' }}">
 		<h4 >
 			<strong>
-				<label class="col-md-4 control-label">Select Members</label>
+				<label class="col-md-4 control-label">Select {{ $specialization->name }} Members</label>
 			</strong>
 		</h4>
 		<div class="col-md-6">
 			<select name="id_teacher[]" class="selectpicker" multiple data-live-search="true" id="id_teacher" title="Select Members..." required>
 				<option value="" disabled selected style="display: none;">Select Members...</option>
 				@foreach($teachers as $teacher)
+				@if($specialization->name == $teacher->specialization)
 				<option value="{{ $teacher->id }}">
 					{{ $teacher->user->fullname() }} - {{ $teacher->department->name }}</option>
+					@endif
 					@endforeach
+
 				</select>
 
 				@if ($errors->has('id_teacher'))
@@ -77,6 +82,7 @@ Assign Members
 				@endif
 			</div>
 		</div>
+		@endforeach
 
 		<div class="form-group">
 			<div class="col-md-6 col-md-offset-4">
@@ -89,6 +95,15 @@ Assign Members
 
 
 
+	@else
+
+	<div class="alert alert-info">
+		<p>
+			No Specializations Added.
+		</p>
+	</div>
+
+	@endif
 	@else
 
 	<div class="alert alert-info">

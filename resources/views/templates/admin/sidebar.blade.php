@@ -26,6 +26,11 @@
                 <li class="{{ is_active('addclerkdept') }}"><a href="{{ route('addclerkdept') }}"><span class="glyphicon glyphicon-plus-sign"></span> Add Clerk Department</a></li>
                 <li class="{{ is_active('adddeandept') }}"><a href="{{ route('adddeandept') }}"><span class="glyphicon glyphicon-plus-sign"></span> Add Dean Department</a></li>
             </ul>
+            <li class="{{ is_active('addspecialization') }}">
+                <a href="{{ route('addspecialization') }}">
+                    <i class="fa fa-pencil-square-o fa-lg"></i> Add Specialization
+                </a>
+            </li>
         </ul>
     </div>
 </div>

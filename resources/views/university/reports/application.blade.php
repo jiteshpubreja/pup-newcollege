@@ -3,7 +3,8 @@
 	<tbody>
 		<tr>
 			<td style="text-align: center;" width="10%">&nbsp;S.no</td>
-			<td style="text-align: center;" width="90%" colspan="2"><h4>Reference ID: {{ $form->ref_id }}</h4></td>
+			<td style="text-align: center;" width="60%"><h4>Reference ID: {{ $form->ref_id }}</h4></td>
+			<td style="text-align: center;" width="30%"><h4>Dated: {{ $form->created_at->toFormattedDateString() }}</h4></td>
 		</tr>
 		<tr>
 			<td style="text-align: center;" width="10%">1.</td>
@@ -256,7 +257,7 @@
 		<tr>
 			<td style="text-align: center;" width="10%">&nbsp;</td>
 			<td width="60%">Details of Endorsement Fund</td>
-			<td width="30%">{{ $form->endorsement_fund_details }}</td>
+			<td width="30%">{!! nl2br($form->endorsement_fund_details)!!}</td>
 		</tr>
 		<tr>
 			<td style="text-align: center;" width="10%">11.</td>
@@ -346,6 +347,24 @@
 				</table>
 			</td>
 		</tr>
+@if($form->deleted_at)
+		@if($form->rejection_remarks)
+		<tr>
+			<td style="text-align: center;" width="10%">&nbsp;</td>
+			<td colspan="2" width="90%">
+				<table width="100%" cellpadding="5">
+					<tbody>
+						<tr>
+							<td width="15%">Rejected:<br>{{ $form->deleted_at->toFormattedDateString() }}</td>
+							<td width="30%">Reason For Rejection</td>
+							<td width="55%">{!! nl2br($form->rejection_remarks)!!}</td>
+						</tr>
+					</tbody>
+				</table>
+			</td>
+		</tr>
+@endif
+		@endif
 	</tbody>
 </table>
 @else

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Backnote;
 use App\College;
 use App\CollegeNewRegistration;
 use App\CollegeUploadedFile;
@@ -16,6 +17,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Validator;
 
 class ClerkController extends Controller
 {
@@ -45,6 +47,43 @@ public function index() {
     } 
     return view('university.clerk.index');
 }
+
+    public function viewbacknotespdf($collegeid = null) {
+        if($this->isNotClerk()) {
+            return Redirect::route('home');
+        }
+        $collegeid = College::where('id',$collegeid)->first();
+        if($collegeid) {
+            $page="LEGAL";
+            $letterexists=false;
+            $font="helvetica";
+            $title="Backnotes";
+            $this->getPDF(view('university.reports.backnotes')->with('collegeid',$collegeid)->render(),$letterexists,$font,$page,$title);
+        }
+        else {
+
+            return abort(404);
+        }
+    }
+
+    public function viewbacknotes($collegeid = null) {
+        if($this->isNotClerk()) {
+            return Redirect::route('home');
+        }
+        $colleges = College::get();
+        if($colleges->count()){ 
+            $collegeid = College::where('id',$collegeid)->first();
+            if($collegeid) {
+                return view('university.clerk.viewbacknotes',compact('colleges'))->with('collegeid',$collegeid);
+            }
+            else {
+                return view('university.clerk.viewbacknotes',compact('colleges'));
+            }
+        }
+        else {
+            return view('university.clerk.viewbacknotes');
+        }
+    }
 
 
 
@@ -170,18 +209,39 @@ public function viewinspectionpdf($inspectionid = null) {
 
 
 
-public function forwardinspection($inspectionid = null) {
+public function forwardinspection($inspectionid = null,Request $request) {
     if($this->isNotClerk()) {
         return Redirect::route('home');
     }
+
+    $input = $request->all();
+
     if($inspectionid) {
         $inspectionid = Inspection::where('id',$inspectionid)->first();
+        $validator = Validator::make($input, ['remarks' => 'required']);
 
-        if(!$inspectionid->is_forwarded_to_dean) {
+        if($validator->passes()){
+            if(!$inspectionid->is_forwarded_to_dean) {
+
+                Backnote::create([
+                    'id_college' => $inspectionid->college->id,
+                    'ref_id' => $inspectionid->college->form->ref_id,
+                    'purpose' => "inspection",
+                    'remarks' => $input['remarks'],
+                    'id_inspection' => $inspectionid->id,
+                    'id_user' => Auth::user()->id,
+                    'user_type' => "clerk",
+                    ]);
+
+
             $inspectionid->is_forwarded_to_dean = true;
             $inspectionid->save();
+            }
+            return back()->with('success', 'Inspection Forwarded Sucessfully');
+
         }
-        return back()->with('success', 'Inspection Forwarded Sucessfully');
+        else
+            return back()->with('errors',$validator->errors());
     }
     else {
 
@@ -207,6 +267,14 @@ public function viewapplication($collegeid = null) {
                 $collegeid->is_seen_by_clerk = true;
                 $collegeid->save();
             }
+            $files = CollegeUploadedFile::where('ref_id',$collegeid->ref_id)->get()->toArray();
+            $list = array();
+            foreach ($files as $file) {
+                $list[$file['filetype']]=$file['path'];
+            }
+            if($files){
+                return view('university.clerk.applications.view',compact('applications'))->with('form',$collegeid)->with('files',$list);
+            }
             return view('university.clerk.applications.view',compact('applications'))->with('form',$collegeid);
         }
         else {
@@ -223,21 +291,15 @@ public function viewapplicationpdf($collegeid = null) {
     if($this->isNotClerk()) {
         return Redirect::route('home');
     }
-    $applications = CollegeNewRegistration::where('is_submitted',true)->orderBy('is_forwarded_to_dean','asc')->orderBy('is_seen_by_clerk','asc')->orderBy('created_at','desc')->get();
     
-    if($applications->count()){ 
-        $collegeid = CollegeNewRegistration::where('id',$collegeid)->where('is_submitted',true)->first();
-        if($collegeid) {
+    $collegeid = CollegeNewRegistration::withTrashed()->where('id',$collegeid)->where('is_submitted',true)->first();
+    if($collegeid) {
 
-            $page="LEGAL";
-            $letterexists=false;
-            $font="helvetica";
-            $title="College Application";
-            $this->getPDF(view('university.reports.application')->with('form',$collegeid)->render(),$letterexists,$font,$page,$title);
-        }
-        else {
-            return abort(404);
-        }
+        $page="LEGAL";
+        $letterexists=false;
+        $font="helvetica";
+        $title="College Application";
+        $this->getPDF(view('university.reports.application')->with('form',$collegeid)->render(),$letterexists,$font,$page,$title);
     }
     else {
         return abort(404);
@@ -273,18 +335,41 @@ public function viewapplicationrejects($collegeid = null) {
 
 
 
-public function forwardapplication($collegeid = null) {
+public function forwardapplication($collegeid = null,Request $request) {
     if($this->isNotClerk()) {
         return Redirect::route('home');
     }
+
+
+    $input = $request->all();
+
+
     if($collegeid) {
         $collegeid = CollegeNewRegistration::where('id',$collegeid)->first();
+        $validator = Validator::make($input, ['remarks' => 'required']);
+        
 
-        if(!$collegeid->is_forwarded_to_dean) {
-            $collegeid->is_forwarded_to_dean = true;
-            $collegeid->save();
+        if($validator->passes()){
+            if(!$collegeid->is_forwarded_to_dean) {
+
+                Backnote::create([
+                    'id_college' => $collegeid->college->id,
+                    'ref_id' => $collegeid->college->form->ref_id,
+                    'purpose' => "application",
+                    'remarks' => $input['remarks'],
+                    'id_user' => Auth::user()->id,
+                    'user_type' => "clerk",
+                    ]);
+
+
+                $collegeid->is_forwarded_to_dean = true;
+                $collegeid->save();
+            }
+            return back()->with('success', 'Application Forwarded Sucessfully');
+
         }
-        return back()->with('success', 'Application Forwarded Sucessfully');
+        else
+            return back()->with('errors',$validator->errors());
     }
     else {
         return back();
@@ -298,15 +383,33 @@ public function forwardapplication($collegeid = null) {
 
 
 
-public function rejectapplication($collegeid = null) {
+public function rejectapplication($collegeid = null,Request $request) {
     if($this->isNotClerk()) {
         return Redirect::route('home');
     }
+
+    $input = $request->all();
     if($collegeid) {
         $collegeid = CollegeNewRegistration::where('id',$collegeid)->first();
 
-        $collegeid->delete();
-        return back()->with('success', 'Application Rejected Sucessfully');
+        $validator = Validator::make($input, ['remarks' => 'required']);
+        if($validator->passes()){
+            $collegeid->rejection_remarks = $input['remarks'];
+            $collegeid->save();
+            Backnote::create([
+                'id_college' => $collegeid->college->id,
+                'ref_id' => $collegeid->college->form->ref_id,
+                'purpose' => "application-reject",
+                'remarks' => $input['remarks'],
+                'id_user' => Auth::user()->id,
+                'user_type' => "clerk",
+                ]);
+            $collegeid->delete();
+            return back()->with('success', 'Application Rejected Sucessfully');
+
+        }
+        else
+            return back()->with('errors',$validator->errors());
     }
     else {
 

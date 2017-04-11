@@ -21,8 +21,13 @@ Add Clerk
         <strong><label for="salutation" class="col-md-4 control-label">Salutation</label></strong></h4>
 
         <div class="col-md-6">
-            <input id="salutation" placeholder="Dr./Prof./Mr./Mrs./Miss etc" type="text" class="form-control" name="salutation" value="{{ old('salutation') }}" required autofocus>
-
+            <select name="salutation" class=" selectpicker" id="salutation" title="Select Salutation..." required>
+                <option value="Dr.">Dr.</option>
+                <option value="Prof.">Prof.</option>
+                <option value="Mr.">Mr.</option>
+                <option value="Mrs.">Mrs.</option>
+                <option value="Miss">Miss</option>
+            </select>
             @if ($errors->has('salutation'))
             <span class="help-block">
                 <strong>{{ $errors->first('salutation') }}</strong>
@@ -138,7 +143,7 @@ Add Clerk
 
         <div class="form-group{{ $errors->has('landline') ? ' has-error' : '' }}">
            <h4 >
-            <strong> <label for="landline" class="col-md-4 control-label">Landline Number</label></strong></h4>
+            <strong> <label for="landline" class="col-md-4 control-label">Alt. Mobile / Landline Number</label></strong></h4>
 
             <div class="col-md-6">
                 <input id="landline" type="text" class="form-control" maxlength="11" name="landline" value="{{ old('landline') }}" required>

@@ -8,9 +8,14 @@ Edit Registration Form
 	{{ csrf_field() }}
 	<input type="hidden" name="_method" value="PUT">
 	@if ($message = Session::get('success'))
-	<div class="alert alert-success">
+	<div class="alert alert-warning">
 		<p>
 			{{ $message }}
+			<br />
+			It is Not Editable Once You Click Submit.
+			So Double Check Before You Click Submit.
+			<br />
+			Please Click Save Before Submitting, Or Else The Changes will <strong>Not</strong> Be Saved.
 		</p>
 	</div>
 	@else

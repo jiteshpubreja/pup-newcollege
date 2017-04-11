@@ -8,11 +8,12 @@
                     <i class="fa fa-dashboard fa-lg"></i> Dashboard
                 </a>
             </li>
-            <li data-toggle="collapse" data-target="#applicationactions" class="collapsed{{ is_active_array(['deanviewapplication']) }}">
-                <a href="#"><i class="fa fa-ticket fa-lg"></i> Applications   {!! new_applications_dean() !!} <span class="arrow"></span></a>
+            <li data-toggle="collapse" data-target="#applicationactions" class="collapsed{{ is_active_array(['deanviewapplication','deanviewapplicationrejects']) }}">
+                <a href="#"><i class="fa fa-ticket fa-lg"></i> Applications   {!! new_applications_tab_dean() !!} <span class="arrow"></span></a>
             </li>
             <ul class="sub-menu collapse" id="applicationactions">
                 <li class="{{ is_active('deanviewapplication') }}"><a href="{{ route('deanviewapplication') }}"><span class="glyphicon glyphicon-folder-open"></span> View Applications   {!! new_applications_dean() !!}</a></li>
+                <li class="{{ is_active('deanviewapplicationrejects') }}"><a href="{{ route('deanviewapplicationrejects') }}"><span class="glyphicon glyphicon-folder-open"></span> Rejected Applications   {!! rejected_applications_dean() !!}</a></li>
             </ul>
 
             <li data-toggle="collapse" data-target="#departmentactions" class="collapsed{{ is_active_array(['deanviewdrafts']) }}">
@@ -30,8 +31,11 @@
                 <li class="{{ is_active('deanviewrequest') }}"><a href="{{ route('deanviewrequest') }}"><span class="glyphicon glyphicon-folder-open"></span> View Requests   {!! new_requests_dean() !!}</a></li>
                 <li class="{{ is_active('deanviewinspection') }}"><a href="{{ route('deanviewinspection') }}"><span class="glyphicon glyphicon-folder-open"></span> View Inspections   {!! new_inspections_dean() !!}</a></li>
             </ul>
-
-
+            <li class="{{ is_active('deanbacknotes') }}">
+                <a href="{{ route('deanbacknotes') }}">
+                    <i class="fa fa-pencil-square-o fa-lg"></i> View Backnotes
+                </a>
+            </li>
         </ul>
     </div>
 </div>

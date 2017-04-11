@@ -8,6 +8,7 @@ use App\Dean;
 use App\DepartmentClerk;
 use App\DepartmentDean;
 use App\DepartmentTeacher;
+use App\Specialization;
 use App\Teacher;
 use App\User;
 use Illuminate\Http\Request;
@@ -227,7 +228,8 @@ class AdminController extends Controller
             return Redirect::route('home');
         }
         $departments = DepartmentTeacher::get()->toArray();
-        return view('university.admin.users.addteacher',compact('departments'));
+        $specializations = Specialization::get()->toArray();
+        return view('university.admin.users.addteacher',compact('departments','specializations'));
     }
     public function addteacherpost(Request $request) {
         if($this->isNotAdmin()) {
@@ -240,6 +242,27 @@ class AdminController extends Controller
             return back()->with('success', $user->fullname().' Created Sucessfully as Teacher');
         }
         return back()->with('errors',$validator->errors());
+    }
+
+
+    public function addspecialization() {
+        if($this->isNotAdmin()) {
+            return Redirect::route('home');
+        }
+        $specializations = Specialization::get()->toArray();
+        return view('university.admin.addspecialization',compact('specializations'));
+    }
+    public function addspecializationpost(Request $request) {
+        if($this->isNotAdmin()) {
+            return Redirect::route('home');
+        }
+        $specialization = (new Specialization)->adddepartment($request->all());
+        if(isset($specialization->id)){
+            return back()->with('success', $specialization->name.' Created Sucessfully as Teacher Specialization');
+        }
+        else{
+            return back()->with('errors',$specialization);
+        }
     }
 
 

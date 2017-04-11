@@ -176,6 +176,13 @@ Add Inspection
 						<td>
 							<h4 >
 								<label>
+									Specialization
+								</label>
+							</h4>
+						</td>
+						<td>
+							<h4 >
+								<label>
 									Department
 								</label>
 							</h4>
@@ -209,6 +216,11 @@ Add Inspection
 						<td>
 							<label>
 								{{ $member->teacher->designation }}
+							</label>
+						</td>
+						<td>
+							<label>
+								{{ $member->teacher->specialization }}
 							</label>
 						</td>
 						<td>

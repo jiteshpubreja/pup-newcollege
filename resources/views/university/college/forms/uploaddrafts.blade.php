@@ -43,6 +43,20 @@ Upload Drafts
 			@endif
 		</div>
 	</div>
+	@if(!empty($form))
+	<div class="form-group{{ $errors->has('purpose') ? ' has-error' : '' }}">
+		<h4 >
+			<strong> <label class="col-md-4 control-label">Purpose Of Draft</label></strong>
+		</h4>
+
+		<h4 >
+			<strong> <label class="col-md-6">New College Form Fees</label></strong>
+		</h4>
+		<input type="hidden" name="purpose" value="{{ $form->ref_id }}">
+	</div>
+
+
+	@else
 	<div class="form-group{{ $errors->has('purpose') ? ' has-error' : '' }}">
 		<h4 >
 			<strong> <label for="purpose" class="col-md-4 control-label">Purpose Of Draft</label></strong>
@@ -82,6 +96,7 @@ Upload Drafts
 				@endif
 			</div>
 		</div>
+		@endif
 		<div class="form-group{{ $errors->has('amount') ? ' has-error' : '' }}">
 			<h4 >
 				<strong><label for="amount" class="col-md-4 control-label">Amount</label></strong>

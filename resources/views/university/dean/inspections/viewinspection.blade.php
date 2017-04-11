@@ -104,6 +104,13 @@ View Inspection
 						<td>
 							<h4 >
 								<label>
+									Specialization
+								</label>
+							</h4>
+						</td>
+						<td>
+							<h4 >
+								<label>
 									Department
 								</label>
 							</h4>
@@ -137,6 +144,11 @@ View Inspection
 						<td>
 							<label>
 								{{ $member->teacher->designation }}
+							</label>
+						</td>
+						<td>
+							<label>
+								{{ $member->teacher->specialization }}
 							</label>
 						</td>
 						<td>
@@ -176,8 +188,57 @@ View Inspection
 <div class=" col-md-12" style="text-align: center;"> 
 	<label>Inspection Submitted on {{ $inspectionid->created_at->toFormattedDateString() }}</label>
 </div>
+
+
+@if(!empty($backnote))
+<hr class="redhr">
+<div style="text-align: center;" class="form-group">
+	<h4>
+		<strong>
+			<label for="remarks" class="col-md-12 control-label">
+				Final Remarks by {{ $backnote->user->fullname() }} (Clerk)
+			</label>
+		</strong>
+	</h4>
+
+	<p style="white-space: pre-line;">
+		{{ $backnote->remarks }}
+	</p>
+</div>
+@endif
+
+@if(!$inspectionid->is_approved_by_dean)
+<hr class="redhr">
+
+
+<form id="approve-by-dean" action="{{ route('deanviewinspection',$inspectionid->id) }}" method="POST">
+	<input type="hidden" name="_method" value="PUT">
+	{{ csrf_field() }}
+	<div style="text-align: center;" class="form-group{{ $errors->has('remarks') ? ' has-error' : '' }}">
+		<h4 >
+			<strong>
+				<label for="remarks" class="col-md-12 control-label">
+					Final Remarks
+				</label>
+			</strong>
+		</h4>
+
+		<div class="col-md-12">                       
+			<textarea name="remarks" oninput="viewbuttons()" onchange="viewbuttons()" id="remarks" cols="92" rows="5" required>{{ old('remarks') }}</textarea>
+			@if ($errors->has('remarks'))
+			<span class="help-block">
+				<strong>{{ $errors->first('remarks') }}</strong>
+			</span>
+			@endif
+		</div>
+	</div>
+</form>
+@endif
+
 <hr class="redhr">
 <div class=" col-md-12" style="text-align: center;"> 
+	<a class="btn btn-primary" href="{{ route('deanbacknotes',$inspectionid->college->id) }}">View Backnotes</a>
+	&nbsp;&nbsp;&nbsp;&nbsp;
 	<a class="btn btn-primary" href="{{ route('deanviewinspectionpdf',$inspectionid->id) }}">Download PDF</a>
 	@if($inspectionid->attachment)
 	&nbsp;&nbsp;&nbsp;&nbsp;
@@ -185,17 +246,26 @@ View Inspection
 	@endif
 	@if(!$inspectionid->is_approved_by_dean)
 	&nbsp;&nbsp;&nbsp;&nbsp;
-	<a class="btn btn-success" href="{{ route('deanviewinspection',$inspectionid->id) }}"
+	<a style="display: none;" id="approvebtn" class="btn btn-success" href="{{ route('deanviewinspection',$inspectionid->id) }}"
 		onclick="event.preventDefault();
 		document.getElementById('approve-by-dean').submit();">
 		Approve
 	</a>
 </div>
+<script type="text/javascript">
 
-<form id="approve-by-dean" action="{{ route('deanviewinspection',$inspectionid->id) }}" method="POST" style="display: none;">
-	<input type="hidden" name="_method" value="PUT">
-	{{ csrf_field() }}
-</form>
+	function viewbuttons() {
+		var remarks = document.getElementById("remarks").value;
+		if (remarks == '') {
+			document.getElementById("approvebtn").style.display = "none";
+		}
+		else {
+			document.getElementById("approvebtn").style.display = "inline";
+		}
+	}
+</script>
+
+
 @else
 </div>
 @endif

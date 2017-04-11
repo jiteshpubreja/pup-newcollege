@@ -10,6 +10,13 @@ Upload Supporting Documents
 
     {!! csrf_field() !!}
 
+    @if ($message = Session::get('success-old'))
+    <div class="alert alert-success">
+        <p>
+            {{ $message }}
+        </p>
+    </div>
+    @endif
     @if ($message = Session::get('success'))
     <div class="alert alert-success">
         <p>
@@ -25,7 +32,7 @@ Upload Supporting Documents
     @else
     <div class="alert alert-info">
         <p>
-            The Documents should be in .pdf form. All related Documents Should Be Merged into one PDF file
+            The Documents should be in .pdf form. All related Documents Should Be Merged into one PDF file.
         </p>
     </div>
     @endif
@@ -44,70 +51,70 @@ Upload Supporting Documents
             </label>
         </div>
         <div class="col-sm-4">
-@if(!array_key_exists("landdetails", $files))
+            @if(!array_key_exists("landdetails", $files))
+
+            <input type="file" accept="application/pdf" id="landdetails" name="landdetails"/>
+            <br />
+            <?php $count++; ?>
+            @else
+            <a class="btn btn-primary btn-xs" href="{{ $files['landdetails'] }}" >Download</a>
+            @endif
+        </div>
+    </div>
+    <br>
     
-          <input type="file" accept="application/pdf" id="landdetails" name="landdetails"/>
-          <br />
-          <?php $count++; ?>
-          @else
-          <a class="btn btn-primary btn-xs" href="{{ $files['landdetails'] }}" >Download</a>
-  @endif
-      </div>
-  </div>
-  <br>
-    
-  <div class="row">
+    <div class="row">
+        <div class="col-sm-1" >
+            <label>
+                ({{ $sr++ }})
+            </label>
+        </div>
+        <div class="col-sm-6" >
+            <label>
+                Building Details
+            </label>
+        </div>
+        <div class="col-sm-4">
+            @if(!array_key_exists("buildingdetails", $files))
+            <input type="file" accept="application/pdf" id="buildingdetails" name="buildingdetails"/>
+            <br />
+            <?php $count++; ?>
+            @else
+            <a class="btn btn-primary btn-xs" href="{{ $files['buildingdetails'] }}" >Download</a>
+            @endif
+        </div>
+    </div>
+    <br>
+
+    @if($form->bank_balance)
+    <div class="row">
+        <div class="col-sm-1" >
+            <label>
+                ({{ $sr++ }})
+            </label>
+        </div>
+        <div class="col-sm-6" >
+            <label>
+                Attach proofs. If bank have any other amount on the name of college?
+            </label>
+        </div>
+        <div class="col-sm-4">
+           @if(!array_key_exists("bankproofs", $files))
+           <input type="file" accept="application/pdf" id="bankproofs" name="bankproofs"/>
+           <br />
+           <?php $count++; ?>
+           @else
+           <a class="btn btn-primary btn-xs" href="{{ $files['bankproofs'] }}" >Download</a>
+           @endif
+       </div>
+   </div>
+   <br>
+   @endif
+
+   <div class="row">
     <div class="col-sm-1" >
         <label>
-                ({{ $sr++ }})
-        </label>
-    </div>
-    <div class="col-sm-6" >
-        <label>
-            Building Details
-        </label>
-    </div>
-    <div class="col-sm-4">
-@if(!array_key_exists("buildingdetails", $files))
-        <input type="file" accept="application/pdf" id="buildingdetails" name="buildingdetails"/>
-        <br />
-          <?php $count++; ?>
-  @else
-          <a class="btn btn-primary btn-xs" href="{{ $files['buildingdetails'] }}" >Download</a>
-  @endif
-    </div>
-</div>
-<br>
-   
-@if($form->bank_balance)
-<div class="row">
-    <div class="col-sm-1" >
-        <label>
-                ({{ $sr++ }})
-        </label>
-    </div>
-    <div class="col-sm-6" >
-        <label>
-            Attach proofs. If bank have any other amount on the name of college?
-        </label>
-    </div>
-    <div class="col-sm-4">
- @if(!array_key_exists("bankproofs", $files))
-        <input type="file" accept="application/pdf" id="bankproofs" name="bankproofs"/>
-        <br />
-          <?php $count++; ?>
-  @else
-          <a class="btn btn-primary btn-xs" href="{{ $files['bankproofs'] }}" >Download</a>
-  @endif
-    </div>
-</div>
-<br>
-@endif
-    
-<div class="row">
-    <div class="col-sm-1" >
-        <label>
-                ({{ $sr++ }})
+            ({{ $sr++ }})
         </label>
     </div>
     <div class="col-sm-6" >
@@ -116,22 +123,22 @@ Upload Supporting Documents
         </label>
     </div>
     <div class="col-sm-4">
-@if(!array_key_exists("permissionletters", $files))
+        @if(!array_key_exists("permissionletters", $files))
         <input type="file" accept="application/pdf" id="permissionletters" name="permissionletters"/>
         <br />
-          <?php $count++; ?>
-  @else
-          <a class="btn btn-primary btn-xs" href="{{ $files['permissionletters'] }}" >Download</a>
-  @endif
+        <?php $count++; ?>
+        @else
+        <a class="btn btn-primary btn-xs" href="{{ $files['permissionletters'] }}" >Download</a>
+        @endif
     </div>
 </div>
 <br>
-    
+
 @if($form->register_committee)
 <div class="row">
     <div class="col-sm-1" >
         <label>
-                ({{ $sr++ }})
+            ({{ $sr++ }})
         </label>
     </div>
     <div class="col-sm-6" >
@@ -140,13 +147,13 @@ Upload Supporting Documents
         </label>
     </div>
     <div class="col-sm-4">
-@if(!array_key_exists("comitteelist", $files))
+        @if(!array_key_exists("comitteelist", $files))
         <input type="file" accept="application/pdf" id="comitteelist" name="comitteelist"/>
         <br />
-          <?php $count++; ?>
-   @else
-          <a class="btn btn-primary btn-xs" href="{{ $files['comitteelist'] }}" >Download</a>
-  @endif
+        <?php $count++; ?>
+        @else
+        <a class="btn btn-primary btn-xs" href="{{ $files['comitteelist'] }}" >Download</a>
+        @endif
     </div>
 </div>
 <br>
@@ -154,7 +161,7 @@ Upload Supporting Documents
 <div class="row">
     <div class="col-sm-1" >
         <label>
-                ({{ $sr++ }})
+            ({{ $sr++ }})
         </label>
     </div>
     <div class="col-sm-6" >
@@ -163,17 +170,17 @@ Upload Supporting Documents
         </label>
     </div>
     <div class="col-sm-4">
-    @if(!array_key_exists("tehsildocuments", $files))
+        @if(!array_key_exists("tehsildocuments", $files))
         <input type="file" accept="application/pdf" id="tehsildocuments" name="tehsildocuments"/>
         <br />
-          <?php $count++; ?>
-  @else
-          <a class="btn btn-primary btn-xs" href="{{ $files['tehsildocuments'] }}" >Download</a>
-  @endif
+        <?php $count++; ?>
+        @else
+        <a class="btn btn-primary btn-xs" href="{{ $files['tehsildocuments'] }}" >Download</a>
+        @endif
     </div>
 </div>
 <br/>
-    @if(!($count==0))
+@if(!($count==0))
 <div class="row">
     <div class="col-sm-1" >
         &nbsp;
@@ -183,16 +190,20 @@ Upload Supporting Documents
     </div>
     <div class="col-sm-4 text-justify" >
         <button type="submit" class="btn btn-primary btn-sm glyphicon glyphicon-send " > SAVE
-        </button>
+        </button> 
+        @if(!$form->college->draft)
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <a class="btn btn-primary btn-sm" href="{{ route('collegeuploaddraft') }}">Upload Supporting Draft</a>
+        @endif
     </div>
 </div>
 @else
 <div class="alert alert-info">
-        <p>
-            All Files Uploaded Sucessfully
-        </p>
-    </div>
-  @endif
+    <p>
+        All Files Uploaded Sucessfully
+    </p>
+</div>
+@endif
 </form>
 @else
 <form method="POST" action="{{route('collegeuploaddocs')}}" class="form-horizontal custm-form" role="form" enctype="multipart/form-data">
@@ -243,7 +254,7 @@ Upload Supporting Documents
   <div class="row">
     <div class="col-sm-1" >
         <label>
-                ({{ $sr++ }})
+            ({{ $sr++ }})
         </label>
     </div>
     <div class="col-sm-6" >
@@ -262,7 +273,7 @@ Upload Supporting Documents
 <div class="row">
     <div class="col-sm-1" >
         <label>
-                ({{ $sr++ }})
+            ({{ $sr++ }})
         </label>
     </div>
     <div class="col-sm-6" >
@@ -281,7 +292,7 @@ Upload Supporting Documents
 <div class="row">
     <div class="col-sm-1" >
         <label>
-                ({{ $sr++ }})
+            ({{ $sr++ }})
         </label>
     </div>
     <div class="col-sm-6" >
@@ -300,7 +311,7 @@ Upload Supporting Documents
 <div class="row">
     <div class="col-sm-1" >
         <label>
-                ({{ $sr++ }})
+            ({{ $sr++ }})
         </label>
     </div>
     <div class="col-sm-6" >
@@ -319,7 +330,7 @@ Upload Supporting Documents
 <div class="row">
     <div class="col-sm-1" >
         <label>
-                ({{ $sr++ }})
+            ({{ $sr++ }})
         </label>
     </div>
     <div class="col-sm-6" >
@@ -343,6 +354,10 @@ Upload Supporting Documents
     <div class="col-sm-4 text-justify" >
         <button type="submit" class="btn btn-primary btn-sm glyphicon glyphicon-send " > SAVE
         </button>
+        @if(!$form->college->draft)
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <a class="btn btn-primary btn-sm" href="{{ route('collegeuploaddraft') }}">Upload Supporting Draft</a>
+        @endif
     </div>
 </div>
 

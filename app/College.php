@@ -28,6 +28,12 @@ class College extends Model
 
 
 
+	public function draft(){
+
+		return $this->hasOne('App\FeePayment','id_college')->where('purpose',$this->form->ref_id);
+	}
+
+
 	public function inspectionrequest(){
 
 		return $this->hasOne('App\InspectionRequest','id_college');
@@ -42,6 +48,11 @@ class College extends Model
 	public function files(){
 
 		return $this->hasMany('App\CollegeUploadedFile','id_college');
+	}
+
+	public function backnotes(){
+
+		return $this->hasMany('App\Backnote','id_college');
 	}
 
 	public function inspections(){
