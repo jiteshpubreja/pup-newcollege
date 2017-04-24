@@ -53,6 +53,12 @@ class PagesController extends Controller
     	return view('contact');
 
     }
+
+    public function reports() {
+        
+        return view('university.clerk.report');
+
+    }
     
     public function download($refid,$filename) {
         $file = public_path().'/uploads/'.$refid.'/'.$filename;

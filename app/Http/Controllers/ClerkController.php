@@ -551,4 +551,31 @@ public function clerkrejectrequest($requestid = null) {
         return back();
     }
 }
+
+
+public function reportgenerate(Request $request) {
+        if($this->isNotClerk()) {
+            return Redirect::route('home');
+        }
+        $request = $request->finalreport;
+        //dd($request);
+        $inspections = Inspection::get(); 
+        $colleges = College::get();
+        $categories = DiscrepancyCategory::get();
+        $categorylist=DiscrepancyList::get();
+       
+        if($colleges->count()){ 
+            
+            $page="LEGAL";
+        $letterexists=false;
+        $font="helvetica";
+        $title="College Application";
+        $this->getPDF(view('university.clerk.report.allcollege')->with('colleges',$colleges)->with('categories',$categories)->with('categorylist',$categorylist)->with('inspections',$inspections)->with('request',$request)->render(),$letterexists,$font,$page,$title);
+    }
+    else {
+        return abort(404);
+    }
+            
+
+}
 }

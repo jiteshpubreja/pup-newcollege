@@ -120,7 +120,7 @@ class DeanController extends Controller
                     $collegeid->save();
                 }
 
-                $backnote = Backnote::where('id_college',$collegeid->college->id)->where('ref_id',$collegeid->ref_id)->where('purpose',"application")->where('user_type',"clerk")->first();
+                $backnote = Backnote::where('id_college',$collegeid->college->id)->where('ref_id',$collegeid->ref_id)->where('purpose',"application")->where('user_type',"clerk")->orderBy('created_at','desc')->first();
 
                 $files = CollegeUploadedFile::where('ref_id',$collegeid->ref_id)->get()->toArray();
                 $list = array();

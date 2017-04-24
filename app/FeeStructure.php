@@ -9,8 +9,8 @@ class FeeStructure extends Model
 {
     protected $table = 'account_fee_structure';
 
-	protected $fillable = [
-        'name', 'amount',
+    protected $fillable = [
+    'name', 'amount',
     ];
 
 
@@ -19,7 +19,7 @@ class FeeStructure extends Model
         return Validator::make($data, [
             'name' => 'required|max:255',
             'amount' => 'required|numeric',
-        ]);
+            ]);
     }
 
     protected function createfeestructure(array $data)
@@ -33,10 +33,10 @@ class FeeStructure extends Model
 
     public function addfeestructure(array $input){
 
-		$validator = $this->validator($input);
-        if ($validator->passes()){
-            return $this->createfeestructure($input);
-        }
-        return $validator->errors();
-	}
+      $validator = $this->validator($input);
+      if ($validator->passes()){
+        return $this->createfeestructure($input);
+    }
+    return $validator->errors();
+}
 }

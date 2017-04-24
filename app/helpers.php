@@ -36,7 +36,7 @@ function punjabi_alternate($string) {
     for ($i=0; $i < $len; $i++) { 
         if( strcmp($sploded[$i], html_entity_decode("&#x0A3C;")) == 0){
             if(strcmp($sploded[$i-1], html_entity_decode("&#x0A40;")) == 0)
-                $offset=2;
+            $offset=2;
             else
                 $offset=1;
             switch ($sploded[$i-$offset]) {

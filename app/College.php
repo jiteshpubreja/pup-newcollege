@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class College extends Model
 {
-    protected $table = 'college_applicants';
+	protected $table = 'college_applicants';
 
 	protected $fillable = [
-        'id_user',
-    ];
+	'id_user',
+	];
 
 
 
@@ -26,6 +26,10 @@ class College extends Model
 		return $this->hasOne('App\CollegeNewRegistration','id_college')->orderBy('created_at','desc');
 	}
 
+	public function latestinspection(){
+
+		return $this->hasOne('App\Inspection','id_college')->orderBy('created_at','desc');
+	}
 
 
 	public function draft(){

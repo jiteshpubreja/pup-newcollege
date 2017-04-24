@@ -9,8 +9,8 @@ class DepartmentClerk extends Model
 {
     protected $table = 'list_of_departments_clerk';
 
-	protected $fillable = [
-        'name',
+    protected $fillable = [
+    'name',
     ];
 
 
@@ -18,7 +18,7 @@ class DepartmentClerk extends Model
     {
         return Validator::make($data, [
             'name' => 'required|max:255|unique:list_of_departments_clerk',
-        ]);
+            ]);
     }
 
     protected function createdepartment(array $data)
@@ -31,13 +31,13 @@ class DepartmentClerk extends Model
 
     public function adddepartment(array $input){
 
-		$validator = $this->validator($input);
-        if ($validator->passes()){
-            return $this->createdepartment($input);
-        }
-        return $validator->errors();
-	}
+      $validator = $this->validator($input);
+      if ($validator->passes()){
+        return $this->createdepartment($input);
+    }
+    return $validator->errors();
+}
 
-	
+
 
 }

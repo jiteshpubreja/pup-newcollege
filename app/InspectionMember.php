@@ -8,9 +8,9 @@ class InspectionMember extends Model
 {
     protected $table = 'inspection_members';
 
-	protected $fillable = [
-        'id_assignment',
-        'id_teacher',
+    protected $fillable = [
+    'id_assignment',
+    'id_teacher',
     ];
 
     public function teacher(){

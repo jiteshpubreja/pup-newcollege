@@ -8,9 +8,9 @@ class InspectionAssignment extends Model
 {
     protected $table = 'inspection_assignments';
 
-	protected $fillable = [
-        'id_college',
-        'id_teacher',
+    protected $fillable = [
+    'id_college',
+    'id_teacher',
     ];
 
     public function college(){

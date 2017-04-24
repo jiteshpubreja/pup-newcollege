@@ -70,6 +70,9 @@ Route::Group(['prefix' => 'clerk'],function(){
 	Route::get('/', 'ClerkController@index')->name('clerkhome');
 	Route::get('/backnotes/{collegeid?}', 'ClerkController@viewbacknotes')->name('clerkbacknotes');
 	Route::get('/backnotes/{collegeid?}/pdf', 'ClerkController@viewbacknotespdf')->name('clerkbacknotespdf');
+	Route::post('/finalreport', 'ClerkController@reportgenerate')->name('finalreport');
+	Route::get('/reports', 'PagesController@reports')->name('finalreports');
+
 
 	Route::Group(['prefix' => 'discrepancies'],function(){
 		Route::get('/', 'RedirectController@redirect');
@@ -84,6 +87,7 @@ Route::Group(['prefix' => 'clerk'],function(){
 		Route::get('/addfeestructure', 'ClerkController@addfeestructure');
 		Route::post('/addfeestructure', 'ClerkController@addfeestructurepost')->name('addfeestructure');
 	});
+
 
 	Route::Group(['prefix' => 'inspections'],function(){
 		Route::get('/', 'RedirectController@redirect');

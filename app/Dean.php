@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Dean extends Model
 {
-    protected $table = 'deans';
+	protected $table = 'deans';
 
 	protected $fillable = [
-        'id_user', 'designation', 'id_dept',
-    ];
+	'id_user', 'designation', 'id_dept',
+	];
 
 
 

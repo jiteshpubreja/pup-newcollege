@@ -8,14 +8,14 @@ class Backnote extends Model
 {
     protected $table = 'office_backnoting';
 
-	protected $fillable = [
-        'id_college',
-        'ref_id',
-        'purpose',
-        'id_inspection',
-        'remarks',
-        'id_user',
-        'user_type',
+    protected $fillable = [
+    'id_college',
+    'ref_id',
+    'purpose',
+    'id_inspection',
+    'remarks',
+    'id_user',
+    'user_type',
     ];
 
     public function college(){

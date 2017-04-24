@@ -10,8 +10,8 @@ class Teacher extends Model
 	protected $table = 'teachers';
 
 	protected $fillable = [
-        'id_user', 'designation', 'specialization', 'id_dept',
-    ];
+	'id_user', 'designation', 'specialization', 'id_dept',
+	];
 
 
 

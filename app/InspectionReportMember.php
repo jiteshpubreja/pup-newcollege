@@ -9,9 +9,9 @@ class InspectionReportMember extends Model
     
     protected $table = 'inspection_report_members';
 
-	protected $fillable = [
-        'id_inspection',
-        'id_teacher',
+    protected $fillable = [
+    'id_inspection',
+    'id_teacher',
     ];
 
     public function teacher(){
@@ -21,6 +21,6 @@ class InspectionReportMember extends Model
 
     public function inspection(){
 
-		return $this->belongsTo('App\Inspection','id_inspection');
-	}
+      return $this->belongsTo('App\Inspection','id_inspection');
+  }
 }

@@ -8,12 +8,12 @@ class Clerk extends Model
 {
 
 	
-    
+	
 	protected $table = 'clerks';
 
 	protected $fillable = [
-        'id_user', 'designation', 'id_dept',
-    ];
+	'id_user', 'designation', 'id_dept',
+	];
 
 
 

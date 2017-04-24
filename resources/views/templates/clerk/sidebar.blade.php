@@ -44,6 +44,11 @@
                     <i class="fa fa-pencil-square-o fa-lg"></i> View Backnotes
                 </a>
             </li>
+            <li class="{{ is_active('finalreports') }}">
+                <a href="{{ route('finalreports') }}">
+                    <i class="fa fa-pencil-square-o fa-lg"></i> View Reports
+                </a>
+            </li>
         </ul>
     </div>
 </div>
