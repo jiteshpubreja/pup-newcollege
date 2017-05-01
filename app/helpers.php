@@ -17,6 +17,8 @@ function is_active_array($views) {
 }
 
 function role($string) {
+    if($string == "clerk")
+        return "[AR]";
     return "[".\Illuminate\Support\Str::ucfirst($string)."]";
 }
 

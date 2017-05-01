@@ -19,7 +19,7 @@
 </td>
 </tr>
 <tr >
-<td >Director Education,<br />Shiromani Gurudwara Prabandhak Committtee,<br />6,Kalgidhar Niwas,<br />Sector 27-B, Chandigarh.<br /><br /></td>
+<td >Director Education,<br />{{ $form->college_name }}.<br /><br /></td>
 </tr>
 <tr >
 <td >

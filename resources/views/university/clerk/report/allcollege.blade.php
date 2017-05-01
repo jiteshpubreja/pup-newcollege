@@ -71,6 +71,39 @@
 		</td>
 	</tr>
 	
+	@elseif( $request=='loinongranted')
+	<tr style="line-height:30px;">
+		<td colspan="4" style="text-align: center;">
+			<h3>List of College Applicants with LOI Non Granted</h3>
+		</td>
+	</tr>
+	<tr style="line-height:30px;">
+		<td width="8%">
+			<h4>
+				<label>S.No.
+				</label>
+			</h4>
+		</td>
+		<td width="30%">
+			<h4 >
+				<label>College
+				</label>
+			</h4>
+		</td>
+		<td width="28%">
+			<h4 >
+				<label>Email
+				</label>
+			</h4>
+		</td>
+		<td width="18%">
+			<h4 >
+				<label>Date (Application)
+				</label>
+			</h4>
+		</td>
+	</tr>
+	
 	
 	@endif
 	<?php $sr = 1; ?>
@@ -121,11 +154,38 @@
 	@endif
 	@endif
 	@endforeach
-	@elseif($request=='discrepancies')
-	<?php $srr = 1; ?>
+	@elseif($request=='loinongranted')
 	@foreach($colleges as $college)
+	@if($college->form)
+	@if(!$college->form->is_loi_granted)
+	<tr style="line-height:20px;">
+		<td>
+			<label>({{ $sr++ }})</label>
+		</td>
+		<td>
+			<label>{{ $college->form->college_name }}
+			</label>
+		</td>
+		<td>
+			<label>{{ $college->user->email }}
+			</label>
+		</td>
+		<td>
+			<label>{{ $college->form->created_at->toFormattedDateString() }}</label>
+		</td>		
+	</tr>	
+	@endif
+	@endif
+	@endforeach
+	@elseif($request=='discrepancies')
+	<?php $clg = 1;?>
+	@foreach($colleges as $college)
+	<?php $srr = 1;?>
+	@if($college->form)
 	@if($college->latestinspection)
-	
+	@if($clg++>1)
+	<br pagebreak="true"/>
+	@endif
 	<tr style="line-height:30px;">
 		<td colspan="3">
 			<h3>Latest Inspection Report for {{ $college->form->college_name }}(College)</h3>
@@ -181,7 +241,7 @@
 		</td>
 		<td style="text-align: left;">
 			
-				{{ $list->listname->name }}
+			{{ $list->listname->name }}
 			
 		</td>
 		<td>
@@ -194,6 +254,7 @@
 		</td>
 	</tr>
 	@endif
+
 	@endforeach
 	
 	@endforeach
@@ -214,7 +275,7 @@
 			</p>
 		</td>
 	</tr>
-	<br pagebreak="true"/>
+	@endif
 	@endif
 	@endforeach
 	

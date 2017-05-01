@@ -35,7 +35,7 @@ View Backnotes
 				<span class='label label-success'>{{ $backnote->ref_id }}</span>
 				<br/>
 				<br/>
-				<a class="btn btn-success btn-xs" href="{{ route('deanviewinspection',$backnote->id_inspection) }}" target="_blank">View Inspection</a>
+				<a class="btn btn-success btn-xs" href="{{ route('deanviewinspection',$backnote->id_inspection) }}" target="_blank">View Inspection no. {{ $backnote->id_inspection }}</a>
 				@endif
 				<br/>
 				<br/>

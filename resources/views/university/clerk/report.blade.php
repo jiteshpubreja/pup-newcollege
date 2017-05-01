@@ -26,7 +26,10 @@ Generate Report
                 All College list
             </option>
             <option value="loigranted">
-                Loi Granted College 
+                Loi Granted Colleges
+            </option>
+            <option value="loinongranted">
+                Non Loi Granted Colleges 
             </option>
             <option value="discrepancies">
                 Inspections done
@@ -34,29 +37,12 @@ Generate Report
         </select>
     </div>
 </div>
-<!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog  modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-      </div> 
-      <div class="modal-body">
-        Are You Sure you want.......
-    </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </div>
-</div>
-</div>
-</div>
-</form>
-<!-- Button trigger modal -->
 <div class="form-group">
     <div class="col-md-6 col-md-offset-4">
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+        <button type="submit" class="btn btn-primary">
             Generate Report
         </button>
     </div>
 </div>
+</form>
 @endsection

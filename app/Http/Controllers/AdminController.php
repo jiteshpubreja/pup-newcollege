@@ -196,7 +196,7 @@ class AdminController extends Controller
         $validator = $this->validatorclerk($input);
         if ($validator->passes()){
             $user = $this->createclerk($input);
-            return back()->with('success', $user->fullname().' Created Sucessfully as Clerk');
+            return back()->with('success', $user->fullname().' Created Sucessfully as AR');
         }
         return back()->with('errors',$validator->errors());
     }
@@ -279,7 +279,7 @@ class AdminController extends Controller
         }
         $department = (new DepartmentClerk)->adddepartment($request->all());
         if(isset($department->id)){
-            return back()->with('success', $department->name.' Created Sucessfully as Clerk Department');
+            return back()->with('success', $department->name.' Created Sucessfully as AR Department');
         }
         else{
             return back()->with('errors',$department);

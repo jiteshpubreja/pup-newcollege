@@ -1,7 +1,7 @@
-@extends('templates.admin.main',['title' => 'Add Clerk Department'])
+@extends('templates.admin.main',['title' => 'Add AR Department'])
 
 @section('heading')
-Add Clerk Department
+Add AR Department
 @endsection
 @section('content')
 

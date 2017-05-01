@@ -13,7 +13,7 @@
             </li>
             <ul class="sub-menu collapse" id="useractions">
                 <li class="{{ is_active('addteacher') }}"><a href="{{ route('addteacher') }}"><span class="glyphicon glyphicon-plus-sign"></span> Add Teacher</a></li>
-                <li class="{{ is_active('addclerk') }}"><a href="{{ route('addclerk') }}"><span class="glyphicon glyphicon-plus-sign"></span> Add Clerk</a></li>
+                <li class="{{ is_active('addclerk') }}"><a href="{{ route('addclerk') }}"><span class="glyphicon glyphicon-plus-sign"></span> Add AR</a></li>
                 <li class="{{ is_active('adddean') }}"><a href="{{ route('adddean') }}"><span class="glyphicon glyphicon-plus-sign"></span> Add Dean</a></li>
                 <li class="{{ is_active('addadmin') }}"><a href="{{ route('addadmin') }}"><span class="glyphicon glyphicon-plus-sign"></span> Add Admin</a></li>
             </ul>
@@ -23,7 +23,7 @@
             </li>
             <ul class="sub-menu collapse" id="departmentactions">
                 <li class="{{ is_active('addteacherdept') }}"><a href="{{ route('addteacherdept') }}"><span class="glyphicon glyphicon-plus-sign"></span> Add Teacher Department</a></li>
-                <li class="{{ is_active('addclerkdept') }}"><a href="{{ route('addclerkdept') }}"><span class="glyphicon glyphicon-plus-sign"></span> Add Clerk Department</a></li>
+                <li class="{{ is_active('addclerkdept') }}"><a href="{{ route('addclerkdept') }}"><span class="glyphicon glyphicon-plus-sign"></span> Add AR Department</a></li>
                 <li class="{{ is_active('adddeandept') }}"><a href="{{ route('adddeandept') }}"><span class="glyphicon glyphicon-plus-sign"></span> Add Dean Department</a></li>
             </ul>
             <li class="{{ is_active('addspecialization') }}">

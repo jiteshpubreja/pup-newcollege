@@ -400,7 +400,7 @@ class DeanController extends Controller
                     $inspectionid->save();
                 }
                 $categories = DiscrepancyCategory::get();
-                $backnote = Backnote::where('id_inspection',$inspectionid->id)->where('user_type',"clerk")->first();
+                $backnote = Backnote::where('id_inspection',$inspectionid->id)->where('user_type',"clerk")->orderBy('created_at','desc')->first();
 
                 return view('university.dean.inspections.viewinspection',compact('inspections','categories'))->with('inspectionid',$inspectionid)->with('backnote',$backnote);
             }

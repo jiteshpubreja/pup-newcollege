@@ -191,7 +191,24 @@ View Inspection
 
 
 
-@if(!$inspectionid->is_approved_by_dean)
+@if(!empty($backnote))
+<hr class="redhr">
+<div style="text-align: center;" class="form-group">
+	<h4>
+		<strong>
+			<label for="remarks" class="col-md-12 control-label">
+				Latest Remarks by {{ $backnote->user->fullname() }} (Dean)
+			</label>
+		</strong>
+	</h4>
+</div>
+
+<p style="white-space: pre-line;">
+	{{ $backnote->remarks }}
+</p>
+@endif
+
+@if(!$inspectionid->is_forwarded_to_dean)
 <hr class="redhr">
 
 
@@ -232,11 +249,28 @@ View Inspection
 	@endif
 	@if(!$inspectionid->is_forwarded_to_dean)
 	&nbsp;&nbsp;&nbsp;&nbsp;
-	<a style="display: none;" id="forwardbtn" class="btn btn-success" href="{{ route('clerkviewinspection',$inspectionid->id) }}"
-		onclick="event.preventDefault();
-		document.getElementById('forward-to-dean').submit();">
+	<button type="button" style="display: none;" id="forwardbtn" class="btn btn-success" data-toggle="modal" data-target="#myModal">
 		Forward To Dean
-	</a>
+	</button>
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog  modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+				</div> 
+				<div class="modal-body">
+					Are You Sure You Want To Forward This Inspection?
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<a class="btn btn-success" href="{{ route('clerkviewinspection',$inspectionid->id) }}"
+						onclick="event.preventDefault();
+						document.getElementById('forward-to-dean').submit();">
+						Forward To Dean
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 <script type="text/javascript">
 	

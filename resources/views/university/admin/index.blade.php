@@ -15,14 +15,14 @@ Admin Section
 				<h3 class="text-left"><strong>Step-1:- NEW USER ALLOTMENT PERMISSIONS</strong></h3>
 				<ol>
 					<li>Teacher</li>
-					<li>Clerk </li>
+					<li>AR </li>
 					<li>Dean<br/></li>
 					<li>Admin</li>
 				</ol>
 				<hr class="redhr" />
 				<h3 class="text-uppercase"><strong>Step-2:- NEW DEPARTMENT ALLOTMENT PERMISSIONS</strong> </h3>
 				<ol class="ulstyle">
-					<li>In this you can add departments of <b>TEACHER</b>, <b>CLERK</b> AND <b>DEAN </b></li>
+					<li>In this you can add departments of <b>TEACHER</b>, <b>AR</b> AND <b>DEAN </b></li>
 				</ol>
 				<hr class="redhr" />
 			</div>

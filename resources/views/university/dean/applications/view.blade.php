@@ -1095,15 +1095,15 @@ View Application
 		<h4>
 			<strong>
 				<label for="remarks" class="col-md-12 control-label">
-					Final Remarks by {{ $backnote->user->fullname() }} (Clerk)
+					Final Remarks by {{ $backnote->user->fullname() }} (AR)
 				</label>
 			</strong>
 		</h4>
-
-		<p style="white-space: pre-line;">
-			{{ $backnote->remarks }}
-		</p>
 	</div>
+
+	<p style="white-space: pre-line;">
+		{{ $backnote->remarks }}
+	</p>
 	@endif
 
 	@if(!$form->is_loi_granted)
@@ -1143,11 +1143,28 @@ View Application
 		<a class="btn btn-primary" href="{{ route('deanviewapplicationpdf',$form->id) }}">Download PDF</a>
 		@if(!$form->is_loi_granted)
 		&nbsp;&nbsp;&nbsp;&nbsp;
-		<a style="display: none;" id="loibtn" class="btn btn-success" href="{{ route('deanviewapplication',$form->id) }}"
-			onclick="event.preventDefault();
-			document.getElementById('grant-loi').submit();">
+		<button type="button" style="display: none;" id="loibtn" class="btn btn-success" data-toggle="modal" data-target="#myModal">
 			Grant LOI
-		</a>
+		</button>
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			<div class="modal-dialog  modal-lg" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+					</div> 
+					<div class="modal-body">
+						Are You Sure You Want To Grant LOI To This Application?
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						<a class="btn btn-success" href="{{ route('deanviewapplication',$form->id) }}"
+							onclick="event.preventDefault();
+							document.getElementById('grant-loi').submit();">
+							Grant LOI
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
 		<script type="text/javascript">
 			
 			function viewbuttons() {

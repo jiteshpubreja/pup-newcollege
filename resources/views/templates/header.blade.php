@@ -1,7 +1,7 @@
 <div class="navbar navbar-inverse navbar-fixed-top hidden-print">
     <div class="container">
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#topnavbar">
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
@@ -12,8 +12,8 @@
               </li>
           </ul>
       </div>
-      <div class="navbar-collapse collapse">
-        <ul class="nav navbar-nav">
+      <div class="navbar-collapse collapse" id="topnavbar">
+        <ul class="nav navbar-nav " id="topnavbar">
             <li class="{{ is_active('home') }}"><a href="{{ route('home') }}"><span class="glyphicon glyphicon-home"></span> Home</a></li>
             <li class="{{ is_active('applynewcollege') }}"><a href="{{ route('applynewcollege') }}"><span class="glyphicon glyphicon-plus-sign"></span> Apply New College</a></li>
 
@@ -45,12 +45,9 @@
 </div>
 </div>
 </div>
-
-
-
 <div class="container body-content hidden-print">
-
   <div class="row" style="background-color: #4b6c9e;">
+  <br>
     <div class="col-sm-6 text-left">
         <img src="{{ asset('images/logo.png') }}" alt="{{ config('app.name', '') }}" class="img-responsive">
     </div>

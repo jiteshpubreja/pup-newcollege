@@ -851,225 +851,240 @@ View Application
 			</div>
 		</div>
 	</div>
-		<br>
-		<div class="form-group"><!--{{ $errors->has('name') ? ' has-error' : '' }}">-->
-			<div class="well well-sm">Uploaded Documents:</div>
+	<br>
+	<div class="form-group"><!--{{ $errors->has('name') ? ' has-error' : '' }}">-->
+		<div class="well well-sm">Uploaded Documents:</div>
+	</div>
+	@if(!empty($files))
+	<?php $sr = 1; ?>
+	@if(array_key_exists("landdetails", $files))
+	<div class="row">
+		<div class="col-sm-1" >
+			<label>
+				({{ $sr++ }})
+			</label>
 		</div>
-		@if(!empty($files))
-		<?php $sr = 1; ?>
-		@if(array_key_exists("landdetails", $files))
-		<div class="row">
-			<div class="col-sm-1" >
-				<label>
-					({{ $sr++ }})
-				</label>
-			</div>
-			<div class="col-sm-6" >
-				<label>
-					Land Details
-				</label>
-			</div>
-			<div class="col-sm-4">
-				<a class="btn btn-primary btn-xs" href="{{ $files['landdetails'] }}" >Download</a>
-			</div>
+		<div class="col-sm-6" >
+			<label>
+				Land Details
+			</label>
 		</div>
-		<br>
-		@endif
-		@if(array_key_exists("buildingdetails", $files))
-		<div class="row">
-			<div class="col-sm-1" >
-				<label>
-					({{ $sr++ }})
-				</label>
-			</div>
-			<div class="col-sm-6" >
-				<label>
-					Building Details
-				</label>
-			</div>
-			<div class="col-sm-4">
-				<a class="btn btn-primary btn-xs" href="{{ $files['buildingdetails'] }}" >Download</a>
-			</div>
+		<div class="col-sm-4">
+			<a class="btn btn-primary btn-xs" href="{{ $files['landdetails'] }}" >Download</a>
 		</div>
-		<br>
-		@endif
-		@if(array_key_exists("bankproofs", $files))
-		<div class="row">
-			<div class="col-sm-1" >
-				<label>
-					({{ $sr++ }})
-				</label>
-			</div>
-			<div class="col-sm-6" >
-				<label>
-					Attach proofs. If bank have any other amount on the name of college?
-				</label>
-			</div>
-			<div class="col-sm-4">
-				<a class="btn btn-primary btn-xs" href="{{ $files['bankproofs'] }}" >Download</a>
-			</div>
+	</div>
+	<br>
+	@endif
+	@if(array_key_exists("buildingdetails", $files))
+	<div class="row">
+		<div class="col-sm-1" >
+			<label>
+				({{ $sr++ }})
+			</label>
 		</div>
-		<br>
-		@endif
+		<div class="col-sm-6" >
+			<label>
+				Building Details
+			</label>
+		</div>
+		<div class="col-sm-4">
+			<a class="btn btn-primary btn-xs" href="{{ $files['buildingdetails'] }}" >Download</a>
+		</div>
+	</div>
+	<br>
+	@endif
+	@if(array_key_exists("bankproofs", $files))
+	<div class="row">
+		<div class="col-sm-1" >
+			<label>
+				({{ $sr++ }})
+			</label>
+		</div>
+		<div class="col-sm-6" >
+			<label>
+				Attach proofs. If bank have any other amount on the name of college?
+			</label>
+		</div>
+		<div class="col-sm-4">
+			<a class="btn btn-primary btn-xs" href="{{ $files['bankproofs'] }}" >Download</a>
+		</div>
+	</div>
+	<br>
+	@endif
 
-		@if(array_key_exists("permissionletters", $files))
-		<div class="row">
-			<div class="col-sm-1" >
-				<label>
-					({{ $sr++ }})
-				</label>
-			</div>
-			<div class="col-sm-6" >
-				<label>
-					Permisstions from : (NCTE, AICTE, PB.GOVT.etc) upload the permission letter
-				</label>
-			</div>
-			<div class="col-sm-4">
-				<a class="btn btn-primary btn-xs" href="{{ $files['permissionletters'] }}" >Download</a>
-			</div>
+	@if(array_key_exists("permissionletters", $files))
+	<div class="row">
+		<div class="col-sm-1" >
+			<label>
+				({{ $sr++ }})
+			</label>
 		</div>
-		<br>
-		@endif
+		<div class="col-sm-6" >
+			<label>
+				Permisstions from : (NCTE, AICTE, PB.GOVT.etc) upload the permission letter
+			</label>
+		</div>
+		<div class="col-sm-4">
+			<a class="btn btn-primary btn-xs" href="{{ $files['permissionletters'] }}" >Download</a>
+		</div>
+	</div>
+	<br>
+	@endif
 
-		@if(array_key_exists("comitteelist", $files))
-		<div class="row">
-			<div class="col-sm-1" >
-				<label>
-					({{ $sr++ }})
-				</label>
-			</div>
-			<div class="col-sm-6" >
-				<label>
-					The list of members. (For number of Members of Managing Comittee see Paragarph-3 of Application Letter.) Send the copy of Registration.
-				</label>
-			</div>
-			<div class="col-sm-4">
-				<a class="btn btn-primary btn-xs" href="{{ $files['comitteelist'] }}" >Download</a>
-			</div>
+	@if(array_key_exists("comitteelist", $files))
+	<div class="row">
+		<div class="col-sm-1" >
+			<label>
+				({{ $sr++ }})
+			</label>
 		</div>
-		<br>
-		@endif
-		@if(array_key_exists("tehsildocuments", $files))
-		<div class="row">
-			<div class="col-sm-1" >
-				<label>
-					({{ $sr++ }})
-				</label>
-			</div>
-			<div class="col-sm-6" >
-				<label>
-					Attach a document from Tehsil for every college mentioned above the land is single piece and interest less.
-				</label>
-			</div>
-			<div class="col-sm-4">
-				<a class="btn btn-primary btn-xs" href="{{ $files['tehsildocuments'] }}" >Download</a>
-			</div>
+		<div class="col-sm-6" >
+			<label>
+				The list of members. (For number of Members of Managing Comittee see Paragarph-3 of Application Letter.) Send the copy of Registration.
+			</label>
 		</div>
-		<br/>
-		@endif
-		@else
-		<div class="alert alert-info">
-			<p>
-				No Supporting Documents Found.
-			</p>
+		<div class="col-sm-4">
+			<a class="btn btn-primary btn-xs" href="{{ $files['comitteelist'] }}" >Download</a>
 		</div>
-		@endif
-		<br>
-		<div class="form-group"><!--{{ $errors->has('name') ? ' has-error' : '' }}">-->
-			<div class="well well-sm">Draft Details:</div>
+	</div>
+	<br>
+	@endif
+	@if(array_key_exists("tehsildocuments", $files))
+	<div class="row">
+		<div class="col-sm-1" >
+			<label>
+				({{ $sr++ }})
+			</label>
 		</div>
-		@if($form->college->draft)
-		<div class="row">
-				<label class="col-sm-3 control-label">
-					Name of The President:
-				</label>
-				<label class="col-sm-5">
-					{{$form->college->draft->president_name}}
-				</label>
+		<div class="col-sm-6" >
+			<label>
+				Attach a document from Tehsil for every college mentioned above the land is single piece and interest less.
+			</label>
 		</div>
-		<div class="row">
-				<label class="col-sm-3 control-label">
-					Email:
-				</label>
-				<label class="col-sm-5">
-					{{$form->college->user->email}}
-				</label>
+		<div class="col-sm-4">
+			<a class="btn btn-primary btn-xs" href="{{ $files['tehsildocuments'] }}" >Download</a>
 		</div>
-		<div class="row">
-				<label class="col-sm-3 control-label">
-					Amount:
-				</label>
-				<label class="col-sm-5">
-					{{$form->college->draft->amount}}
-				</label>
-		</div>
-		<div class="row">
-				<label class="col-sm-3 control-label">
-					Draft/University Reciept No.:
-				</label>
-				<label class="col-sm-5">
-					{{$form->college->draft->draft_no}}
-				</label>
-		</div>
-		<div class="row">
-				<label class="col-sm-3 control-label">
-					Name of The Bank:
-				</label>
-				<label class="col-sm-5">
-					{{$form->college->draft->bank_name}}
-				</label>
-		</div>
-		<div class="row">
-				<label class="col-sm-3 control-label">
-					Dated:
-				</label>
-				<label class="col-sm-5">
-					{{dated_format($form->college->draft->dated)}}
-				</label>
-		</div>
-		<div class="row">
-				<label class="col-sm-3 control-label">
-					Scanned Copy:
-				</label>
-				<label class="col-sm-5">
-					<a class="btn btn-primary btn-xs" href="{{ $form->college->draft->draft_image }}" >Download</a>
-				</label>
-		</div>
-		<br>
-		@if($form->college->draft->is_verified)
-		<div class="row">
-				<label class="col-sm-3 control-label">
-					Verified By:
-				</label>
-				<strong>
-				<label class="col-sm-5">
-					{{ \App\Clerk::find($form->college->draft->verified_by)->user->fullname() }}
-				</label>
-				</strong>
-		</div>
-		@else
-		<div class="row">
-				<strong>
-				<label class="col-sm-3 control-label">
-					Not Yet Verified
-				</label>
-				</strong>
-		</div>
-		@endif
-		@else
-		<div class="alert alert-info">
-			<p>
-				No Draft Submitted Yet.
-			</p>
-		</div>
-		@endif
+	</div>
+	<br/>
+	@endif
+	@else
+	<div class="alert alert-info">
+		<p>
+			No Supporting Documents Found.
+		</p>
+	</div>
+	@endif
+	<br>
+	<div class="form-group"><!--{{ $errors->has('name') ? ' has-error' : '' }}">-->
+		<div class="well well-sm">Draft Details:</div>
+	</div>
+	@if($form->college->draft)
+	<div class="row">
+		<label class="col-sm-3 control-label">
+			Name of The President:
+		</label>
+		<label class="col-sm-5">
+			{{$form->college->draft->president_name}}
+		</label>
+	</div>
+	<div class="row">
+		<label class="col-sm-3 control-label">
+			Email:
+		</label>
+		<label class="col-sm-5">
+			{{$form->college->user->email}}
+		</label>
+	</div>
+	<div class="row">
+		<label class="col-sm-3 control-label">
+			Amount:
+		</label>
+		<label class="col-sm-5">
+			{{$form->college->draft->amount}}
+		</label>
+	</div>
+	<div class="row">
+		<label class="col-sm-3 control-label">
+			Draft/University Reciept No.:
+		</label>
+		<label class="col-sm-5">
+			{{$form->college->draft->draft_no}}
+		</label>
+	</div>
+	<div class="row">
+		<label class="col-sm-3 control-label">
+			Name of The Bank:
+		</label>
+		<label class="col-sm-5">
+			{{$form->college->draft->bank_name}}
+		</label>
+	</div>
+	<div class="row">
+		<label class="col-sm-3 control-label">
+			Dated:
+		</label>
+		<label class="col-sm-5">
+			{{dated_format($form->college->draft->dated)}}
+		</label>
+	</div>
+	<div class="row">
+		<label class="col-sm-3 control-label">
+			Scanned Copy:
+		</label>
+		<label class="col-sm-5">
+			<a class="btn btn-primary btn-xs" href="{{ $form->college->draft->draft_image }}" >Download</a>
+		</label>
+	</div>
+	<br>
+	@if($form->college->draft->is_verified)
+	<div class="row">
+		<label class="col-sm-3 control-label">
+			Verified By:
+		</label>
+		<strong>
+			<label class="col-sm-5">
+				{{ \App\Clerk::find($form->college->draft->verified_by)->user->fullname() }}
+			</label>
+		</strong>
+	</div>
+	@else
+	<div class="row">
+		<strong>
+			<label class="col-sm-3 control-label">
+				Not Yet Verified
+			</label>
+		</strong>
+	</div>
+	@endif
+	@else
+	<div class="alert alert-info">
+		<p>
+			No Draft Submitted Yet.
+		</p>
+	</div>
+	@endif
 	<hr class="redhr">
 
 	<div class=" col-md-12" style="text-align: center;"> 
 		<label>Application Submitted on {{ $form->created_at->toFormattedDateString() }}</label>
 	</div>
 
+@if(!empty($backnote))
+	<hr class="redhr">
+	<div style="text-align: center;" class="form-group">
+		<h4>
+			<strong>
+				<label for="remarks" class="col-md-12 control-label">
+					Latest Remarks by {{ $backnote->user->fullname() }} (Dean)
+				</label>
+			</strong>
+		</h4>
+	</div>
 
+		<p style="white-space: pre-line;">
+			{{ $backnote->remarks }}
+		</p>
+	@endif
 
 	@if(!$form->is_forwarded_to_dean)
 	<hr class="redhr">
@@ -1105,15 +1120,49 @@ View Application
 		<a class="btn btn-primary" href="{{ route('clerkviewapplicationpdf',$form->id) }}">Download PDF</a>
 		@if(!$form->is_forwarded_to_dean)
 		&nbsp;&nbsp;&nbsp;&nbsp;
-		<a style="display: none;" id="sucessbtn" class="btn btn-success" href="{{ route('clerkviewapplication',$form->id) }}"
-			onclick="event.preventDefault();forwarddean();">
-			Forward To Dean
-		</a>
+		<button type="button" style="display: none;" id="sucessbtn" class="btn btn-success" data-toggle="modal" data-target="#myModal">
+            Forward To Dean
+        </button>
 		&nbsp;&nbsp;&nbsp;&nbsp;
-		<a style="display: none;" id="rejectbtn" class="btn btn-danger" href="{{ route('clerkrejectapplication',$form->id) }}"
-			onclick="event.preventDefault();rejectapplication();">
-			<i class="fa fa-times fa-lg"></i> Reject
-		</a>
+		<button type="button" style="display: none;" id="rejectbtn" class="btn btn-danger" data-toggle="modal" data-target="#myModal2">
+            <i class="fa fa-times fa-lg"></i> Reject
+        </button>
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			<div class="modal-dialog  modal-lg" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+					</div> 
+					<div class="modal-body">
+						Are You Sure You Want To Forward This Application?
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						<a class="btn btn-success" href="{{ route('clerkviewapplication',$form->id) }}"
+							onclick="event.preventDefault();forwarddean();">
+							Forward To Dean
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			<div class="modal-dialog  modal-lg" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+					</div> 
+					<div class="modal-body">
+						Are You Sure You Want To Reject This Application?
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						<a class="btn btn-danger" href="{{ route('clerkrejectapplication',$form->id) }}"
+							onclick="event.preventDefault();rejectapplication();">
+							<i class="fa fa-times fa-lg"></i> Reject
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
 		<script type="text/javascript">
 			
 			function viewbuttons() {

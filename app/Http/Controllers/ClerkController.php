@@ -48,42 +48,42 @@ public function index() {
     return view('university.clerk.index');
 }
 
-    public function viewbacknotespdf($collegeid = null) {
-        if($this->isNotClerk()) {
-            return Redirect::route('home');
-        }
+public function viewbacknotespdf($collegeid = null) {
+    if($this->isNotClerk()) {
+        return Redirect::route('home');
+    }
+    $collegeid = College::where('id',$collegeid)->first();
+    if($collegeid) {
+        $page="LEGAL";
+        $letterexists=false;
+        $font="helvetica";
+        $title="Backnotes";
+        $this->getPDF(view('university.reports.backnotes')->with('collegeid',$collegeid)->render(),$letterexists,$font,$page,$title);
+    }
+    else {
+
+        return abort(404);
+    }
+}
+
+public function viewbacknotes($collegeid = null) {
+    if($this->isNotClerk()) {
+        return Redirect::route('home');
+    }
+    $colleges = College::get();
+    if($colleges->count()){ 
         $collegeid = College::where('id',$collegeid)->first();
         if($collegeid) {
-            $page="LEGAL";
-            $letterexists=false;
-            $font="helvetica";
-            $title="Backnotes";
-            $this->getPDF(view('university.reports.backnotes')->with('collegeid',$collegeid)->render(),$letterexists,$font,$page,$title);
+            return view('university.clerk.viewbacknotes',compact('colleges'))->with('collegeid',$collegeid);
         }
         else {
-
-            return abort(404);
+            return view('university.clerk.viewbacknotes',compact('colleges'));
         }
     }
-
-    public function viewbacknotes($collegeid = null) {
-        if($this->isNotClerk()) {
-            return Redirect::route('home');
-        }
-        $colleges = College::get();
-        if($colleges->count()){ 
-            $collegeid = College::where('id',$collegeid)->first();
-            if($collegeid) {
-                return view('university.clerk.viewbacknotes',compact('colleges'))->with('collegeid',$collegeid);
-            }
-            else {
-                return view('university.clerk.viewbacknotes',compact('colleges'));
-            }
-        }
-        else {
-            return view('university.clerk.viewbacknotes');
-        }
+    else {
+        return view('university.clerk.viewbacknotes');
     }
+}
 
 
 
@@ -174,7 +174,8 @@ public function viewinspection($inspectionid = null) {
                 $inspectionid->save();
             }
             $categories = DiscrepancyCategory::get();
-            return view('university.clerk.inspections.viewinspection',compact('inspections','categories'))->with('inspectionid',$inspectionid);
+            $backnote = Backnote::where('id_inspection',$inspectionid->id)->where('user_type',"dean")->orderBy('created_at','desc')->first();
+            return view('university.clerk.inspections.viewinspection',compact('inspections','categories'))->with('inspectionid',$inspectionid)->with('backnote',$backnote);
         }
         else {
             return view('university.clerk.inspections.viewinspection',compact('inspections'));
@@ -234,8 +235,8 @@ public function forwardinspection($inspectionid = null,Request $request) {
                     ]);
 
 
-            $inspectionid->is_forwarded_to_dean = true;
-            $inspectionid->save();
+                $inspectionid->is_forwarded_to_dean = true;
+                $inspectionid->save();
             }
             return back()->with('success', 'Inspection Forwarded Sucessfully');
 
@@ -267,15 +268,18 @@ public function viewapplication($collegeid = null) {
                 $collegeid->is_seen_by_clerk = true;
                 $collegeid->save();
             }
+
+            $backnote = Backnote::where('id_college',$collegeid->college->id)->where('ref_id',$collegeid->ref_id)->where('purpose',"application")->where('user_type',"dean")->orderBy('created_at','desc')->first();
+
             $files = CollegeUploadedFile::where('ref_id',$collegeid->ref_id)->get()->toArray();
             $list = array();
             foreach ($files as $file) {
                 $list[$file['filetype']]=$file['path'];
             }
             if($files){
-                return view('university.clerk.applications.view',compact('applications'))->with('form',$collegeid)->with('files',$list);
+                return view('university.clerk.applications.view',compact('applications'))->with('form',$collegeid)->with('files',$list)->with('backnote',$backnote);
             }
-            return view('university.clerk.applications.view',compact('applications'))->with('form',$collegeid);
+            return view('university.clerk.applications.view',compact('applications'))->with('form',$collegeid)->with('backnote',$backnote);
         }
         else {
             return view('university.clerk.applications.view',compact('applications'));
@@ -554,28 +558,37 @@ public function clerkrejectrequest($requestid = null) {
 
 
 public function reportgenerate(Request $request) {
-        if($this->isNotClerk()) {
-            return Redirect::route('home');
-        }
-        $request = $request->finalreport;
-        //dd($request);
-        $inspections = Inspection::get(); 
-        $colleges = College::get();
-        $categories = DiscrepancyCategory::get();
-        $categorylist=DiscrepancyList::get();
-       
-        if($colleges->count()){ 
-            
-            $page="LEGAL";
+    if($this->isNotClerk()) {
+        return Redirect::route('home');
+    }
+    $request = $request->finalreport;
+    $inspections = Inspection::get(); 
+    $colleges = College::get();
+    $categories = DiscrepancyCategory::get();
+    $categorylist=DiscrepancyList::get();
+
+    if($colleges->count()){ 
+
+        if($request == "allcollege")
+            $title="List of All Colleges";
+        else if($request == "loigranted")
+            $title="List of LOI Granted Colleges";
+        else if($request == "loinongranted")
+            $title="List of Non LOI Granted Colleges";
+        else if($request == "discrepancies")
+            $title="List of Latest Inspection of All Colleges";
+        else
+            $title="Report";
+
+        $page="LEGAL";
         $letterexists=false;
         $font="helvetica";
-        $title="College Application";
         $this->getPDF(view('university.clerk.report.allcollege')->with('colleges',$colleges)->with('categories',$categories)->with('categorylist',$categorylist)->with('inspections',$inspections)->with('request',$request)->render(),$letterexists,$font,$page,$title);
     }
     else {
         return abort(404);
     }
-            
+
 
 }
 }
