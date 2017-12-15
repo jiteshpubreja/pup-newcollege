@@ -1,40 +1,53 @@
-<p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
+# About PUP New College
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+PUP New College is a web application developed over [Laravel](https://laravel.com/) framework for [PHP](http://www.php.net/). This project was developed as a Semester work for the College Section of Punjabi University, Patiala to Digitize the process of Registration and Management of Colleges Affiliated with the University.
 
-## About Laravel
+##### The following Requirements were kept in mind while creating the project:
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as:
+- Easy to use Interface
+- Roles Management
+- Registration and Application process.
+- Uploading of Necessary documents.
+- Layers of Communication between Clerical staff and Dean before the Rejection or Approval for a new College.
+- Notification by Mail to concerned user for any action required. (More Gateways like SMS, Push Notifications etc. could be added without much changes to the code.)
+- Download section for Downloading Documents generated on the fly.
+- Formation of Inspection Team.
+- Scheduling of Inspections.
+- Dynamic checklist of inspections.
+- Submission and Approval of Inspections.
+- Further steps to be taken after an Inspection.
+- Report Generation for various aspects.
+- Downloadable PDFs Generation on the fly.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Tools Used
 
-Laravel is accessible, yet powerful, providing tools needed for large, robust applications. A superb combination of simplicity, elegance, and innovation give you tools you need to build any application with which you are tasked.
+##### The following tools were used for the development of this project:
 
-## Learning Laravel
+| Name | Description |
+| ---- | ----------- |
+| [PHP](http://www.php.net/) | Platform/Programming Language for this Site. |
+| [MySQL](https://www.mysql.com/) | Database Server for this site. |
+| [Laravel](https://laravel.com/) | Web Framework for PHP. |
+| [Eloquent](https://laravel.com/docs/eloquent) | ORM for working with the Database. |
+| [TCPDF](https://tcpdf.org/) | PDF library for on the fly PDF generation. |
+| [elibyy/tcpdf-laravel](https://github.com/elibyy/tcpdf-laravel) | TCPDF Service provider for Laravel. |
 
-Laravel has the most extensive and thorough documentation and video tutorial library of any modern web application framework. The [Laravel documentation](https://laravel.com/docs) is thorough, complete, and makes it a breeze to get started learning the framework.
+**Note: Due to policy changes within the university, This project was benched for future use.
+The [online demo](http://pupclg.vidyapublications.com) is still available, Courtesy of our Mentor [Dr. Vishal Goyal](https://scholar.google.co.in/citations?user=KJbVNt8AAAAJ&hl=en).**
 
-If you're not in the mood to read, [Laracasts](https://laracasts.com) contains over 900 video tutorials on a range of topics including Laravel, modern PHP, unit testing, JavaScript, and more. Boost the skill level of yourself and your entire team by digging into our comprehensive video library.
 
-## Contributing
+## Authors
+- **Jitesh Pubreja** - _Initial Work / Integration / Core Development_
+- **Cherry Mangla** - _Frontend Development / Designing_
+- **Pardeep Singh** - _Various Module Creations / PDF integration_
+- **Deepanshu Sharma** - _Various Module Creations_
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](http://laravel.com/docs/contributions).
 
-## Security Vulnerabilities
+### Security Vulnerabilities
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
+If you discover a vulnerability within PUP New College, please raise an issue.
+All vulnerabilities will be promptly addressed.
 
-## License
+#### License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
+The PUP New College is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).

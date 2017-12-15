@@ -2,8 +2,13 @@
 
 namespace App;
 
-use Illuminate\Notifications\Notifiable;
+use App\Admin;
+use App\Clerk;
+use App\College;
+use App\Dean;
+use App\Teacher;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
@@ -15,7 +20,14 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+    'salutation',
+    'fname',
+    'email',
+    'password',
+    'lname',
+    'mobile',
+    'landline',
+    'is_activated',
     ];
 
     /**
@@ -24,6 +36,38 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+    'password', 'remember_token','is_activated',
     ];
+
+
+    public function isAdmin() {
+        return Admin::where('id_user',$this->id)->first();
+    }
+
+
+    public function isClerk() {
+        return Clerk::where('id_user',$this->id)->first();
+    }
+
+
+    public function isCollege() {
+        return College::where('id_user',$this->id)->first();
+    }
+
+
+    public function isDean() {
+        return Dean::where('id_user',$this->id)->first();
+    }
+
+
+    public function isTeacher() {
+        return Teacher::where('id_user',$this->id)->first();
+    }
+
+
+    public function fullname() {
+        return $this->salutation." ".$this->fname." ".$this->lname;
+    }
+
+
 }
